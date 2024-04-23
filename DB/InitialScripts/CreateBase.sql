@@ -6,6 +6,7 @@ GO
 CREATE TABLE Usuario(
     cedula NUMERIC(10) NOT NULL,
     correo NVARCHAR(50) NOT NULL,
+	contrasena NVARCHAR(20) NOT NULL,
     carnet NUMERIC(12),
     p_nombre NVARCHAR(20) NOT NULL,
     s_nombre NVARCHAR(20),
@@ -48,7 +49,7 @@ CREATE TABLE Laboratorio(
 );
 
 CREATE TABLE Lab_Facilidad(
-    descripcion NVARCHAR(30) NOT NULL,
+    descripcion NVARCHAR(50) NOT NULL,
     lab_nombre VARCHAR(6) NOT NULL,
     PRIMARY KEY(lab_nombre, descripcion),
     CONSTRAINT FK_Lab_Facilidad FOREIGN KEY (lab_nombre) REFERENCES Laboratorio(nombre)
