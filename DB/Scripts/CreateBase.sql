@@ -15,7 +15,8 @@ CREATE TABLE Usuario(
     f_nacim DATE NOT NULL,
     activo BIT NOT NULL,
     rol_id NUMERIC(1) NOT NULL,
-    PRIMARY KEY(cedula)
+    PRIMARY KEY(cedula),
+	UNIQUE(correo)
 );
 
 CREATE TABLE Rol(
