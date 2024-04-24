@@ -1,4 +1,7 @@
 --Insert Roles a la Base
+USE OperaCE; 
+GO
+
 INSERT INTO Rol (id, descripcion)
 VALUES (1, 'Administrador');
 
