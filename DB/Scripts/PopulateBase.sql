@@ -24,8 +24,6 @@ VALUES ('F2-09', 25, 25);
 INSERT INTO Laboratorio (nombre, computadoras, capacidad)
 VALUES ('F2-10', 13, 25);
 
-SELECT * from Lab_Facilidad;
-
 --Insert Facilidades de los Laboratorios a la Base
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee 2 Proyectores','F2-07');
@@ -146,3 +144,5 @@ VALUES ('PRJ003', 'Proyector', 'ViewSonic', '2023-09-25', 0, 1234567890);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, 1234567890);
+
+
