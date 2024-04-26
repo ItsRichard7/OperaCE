@@ -41,6 +41,7 @@ export const RegisterPage = () => {
       fechaNacimiento,
       carnet,
       rol: "operador",
+      aprobado: false,
     };
     localStorage.setItem("userData", JSON.stringify(newUser));
     console.log("Contraseña cifrada:", hashedPassword);

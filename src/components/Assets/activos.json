@@ -4,27 +4,35 @@
       "Tipo": "Computadora",
       "Marca": "Dell",
       "Fecha_de_Compra": "2023-01-15",
-      "Préstamo_requiere_aprobador": false
+      "Préstamo_requiere_aprobador": false,
+      "prestado": true,
+      "aprob_ced": null 
     },
     {
       "Placa": "CD5678",
       "Tipo": "Proyector",
       "Marca": "Epson",
       "Fecha_de_Compra": "2022-09-20",
-      "Préstamo_requiere_aprobador": true
+      "Préstamo_requiere_aprobador": true,
+      "prestado": false,
+      "aprob_ced": null 
     },
     {
       "Placa": "EF9012",
       "Tipo": "Pantalla",
       "Marca": "Samsung",
       "Fecha_de_Compra": null,
-      "Préstamo_requiere_aprobador": false
+      "Préstamo_requiere_aprobador": false,
+      "prestado": false,
+      "aprob_ced": null 
     },
     {
       "Placa": "GH3456",
       "Tipo": "Impresora",
       "Marca": "HP",
       "Fecha_de_Compra": "2024-02-28",
-      "Préstamo_requiere_aprobador": true
+      "Préstamo_requiere_aprobador": true,
+      "prestado": false,
+      "aprob_ced": null 
     }
 ]

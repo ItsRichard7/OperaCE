@@ -8,7 +8,8 @@
     "apellido2": "AdminApellido2",
     "fecha_nacimiento": "1990-01-01",
     "rol": "administrador",
-    "carnet": null
+    "carnet": null,
+    "aprobado": true
   },
   {
     "correo": "admin2@example.com",
@@ -19,7 +20,8 @@
     "apellido2": "Admin2Apellido2",
     "fecha_nacimiento": "1985-05-15",
     "rol": "administrador",
-    "carnet": null
+    "carnet": null,
+    "aprobado": true
   },
   {
     "correo": "profesor1@example.com",
@@ -30,7 +32,8 @@
     "apellido2": "ProfesorApellido2",
     "fecha_nacimiento": "1982-11-20",
     "rol": "profesor",
-    "carnet": null
+    "carnet": null,
+    "aprobado": true
   },
   {
     "correo": "profesor2@example.com",
@@ -41,7 +44,8 @@
     "apellido2": "Profesor2Apellido2",
     "fecha_nacimiento": "1975-07-10",
     "rol": "profesor",
-    "carnet": null
+    "carnet": null,
+    "aprobado": true
   },
   {
     "correo": "operador1@example.com",
@@ -52,7 +56,8 @@
     "apellido2": "OperadorApellido2",
     "fecha_nacimiento": "1995-03-25",
     "rol": "operador",
-    "carnet": "123456"
+    "carnet": "123456",
+    "aprobado": true
   },
   {
     "correo": "operador2@example.com",
@@ -63,6 +68,7 @@
     "apellido2": "Operador2Apellido2",
     "fecha_nacimiento": "1988-09-05",
     "rol": "operador",
-    "carnet": "789012"
+    "carnet": "789012",
+    "aprobado": false
   }
 ]

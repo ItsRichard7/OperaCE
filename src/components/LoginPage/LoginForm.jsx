@@ -26,12 +26,15 @@ export const LoginForm = () => {
     if (usuarioEncontrado) {
       localStorage.setItem("authenticated", JSON.stringify(true));
 
-      if (usuarioEncontrado.rol === "operador") {
-        Navigate("/op", { state: { usuario: usuarioEncontrado } });
+      if (usuarioEncontrado.aprobado === false) {
+        setError("Espere a que un administrador le acepte la solicitud");
+        Navigate("/");
       } else if (usuarioEncontrado.rol === "administrador") {
         Navigate("/admin", { state: { usuario: usuarioEncontrado } });
       } else if (usuarioEncontrado.rol === "profesor") {
         Navigate("/pro", { state: { usuario: usuarioEncontrado } });
+      } else if (usuarioEncontrado.rol === "operador") {
+        Navigate("/op", { state: { usuario: usuarioEncontrado } });
       }
     } else {
       setError("Credenciales incorrectas");
