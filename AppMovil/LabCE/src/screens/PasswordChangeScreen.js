@@ -11,7 +11,8 @@ import {
   ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-//import {setClientId} from '../globalVariables/clientID';
+import {getClientId} from '../globalVariables/clientID';
+import { db } from '../DB/updateDB.js';
 
 // @ts-ignore
 export default function PasswordChangeScreen() {
@@ -20,41 +21,44 @@ export default function PasswordChangeScreen() {
   const [confirmnewpassword, confirmSetNewPassword] = useState('');
   const navigation = useNavigation();
 
-/*
-  const handleLogin = () => {
-    // Prepare user data
-    const userData = {
-      correo: email,
-      contrasena: password,
-    };
+  const handlePasswordChange = () => {
+    const clientId = getClientId();
 
-    // Send POST request to Flask server for login
-    fetch('http://10.0.2.2:5274/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(data => {
-            const {client_id} = data;
-            // Set client ID in the global variable
-            setClientId(client_id);
-            Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
-            navigation.navigate('HomeScreen');
-          });
-        } else {
-          Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT contrasena FROM Usuario WHERE cedula = ?`,
+        [clientId],
+        (tx, results) => {
+          const rows = results.rows.raw();
+          if (rows.length > 0) {
+            const user = rows[0];
+            if (user.contrasena !== currentPassword) {
+              Alert.alert('Error', 'Contraseña actual esta incorrecta');
+            } else if (newPassword !== confirmNewPassword) {
+              Alert.alert('Error', 'Las contraseñas no coinciden');
+            } else {
+              tx.executeSql(
+                `UPDATE Usuario SET contrasena = ? WHERE cedula = ?`,
+                [newPassword, clientId],
+                () => {
+                  Alert.alert('Success', 'Password changed successfully');
+                  navigation.goBack();
+                },
+                (tx, error) => {
+                  console.error('Failed to update password:', error);
+                }
+              );
+            }
+          } else {
+            console.error('No user found with the provided client ID');
+          }
+        },
+        (tx, error) => {
+          console.error('Failed to fetch user data:', error);
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
-      });
+      );
+    });
   };
-*/
 
   return (
     <ImageBackground
@@ -90,7 +94,7 @@ export default function PasswordChangeScreen() {
           <View style={styles.buttonContainer}>
             <Button
               title="Cambiar contraseña"
-              //onPress={handleLogin}
+              onPress={handlePasswordChange}
               color="#841584"
             />
           </View>

@@ -1,28 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import moment from 'moment'; // Make sure to install moment.js with `npm install moment`
+import { db } from '../DB/updateDB.js'; 
 
-// Generate dummy data representing 3 weeks of lab availability
-const generateDummyData = (weeks) => {
-  const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-  return Array.from({ length: weeks }, (_, weekIndex) =>
-    days.map(day => ({
-      week: weekIndex,
-      day: day,
-      slots: Array.from({ length: 10 }, () => Math.random() > 0.5) // Randomly generate availability
-    }))
-  ).flat();
-};
-
-const availabilityData = generateDummyData(3);
+const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
 // Hours of operation
 const hours = [
-  '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', 
-  '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'
+   '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', 
+   '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', 
+   '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', 
+   '9:00 PM', '10:00 PM', '11:00 PM', '12:00 PM'
 ];
 
 export default function LabAvailabilityScreen({ route, navigation }) {
+  const [labName] = route.params.labName;
   const [currentWeek, setCurrentWeek] = useState(0); // Index of the current week
 
    // Assuming currentWeek is a number representing the week of the year
@@ -34,30 +26,67 @@ export default function LabAvailabilityScreen({ route, navigation }) {
      // Assuming currentWeek is a number representing the week of the year
   const endDateOfWeek = moment().week(currentWeek).endOf('week');
 
+  useEffect(() => {
+    fetchReservations(labName);
+  }, []);
+
+  const fetchReservations = (labName) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre = ?`, //cant_horas aun no existe
+      [labName],
+      (tx, results) => {
+        const rows = results.rows.raw();
+        updateAvailabilityData(rows);
+      },
+      (tx, error) => {
+        console.error('Failed to fetch reservations:', error);
+      }
+    );
+  });
+};
+
+const updateAvailabilityData = (reservations) => {
+  const newAvailabilityData = [...availabilityData];
+  reservations.forEach((reservation) => {
+    const date = moment(reservation.fecha);
+    const week = date.week();
+    const dayIndex = date.day();
+    const hourIndex = moment(reservation.hora, 'HH:mm').hour();
+    const duration = reservation.cant_horas;
+    for (let i = 0; i < duration; i++) {
+      const dayData = newAvailabilityData.find(day => day.week === week && dayIndex === newAvailabilityData.indexOf(day));
+      if (dayData) {
+        dayData.slots[hourIndex + i] = false;
+      }
+    }
+  });
+  setAvailabilityData(newAvailabilityData);
+};
 
  
-  // Function to handle navigation to view availability for the next week
-  const onNextWeek = () => {
-    if (currentWeek < 2) { // Allow navigation up to 3 weeks ahead
-      setCurrentWeek(currentWeek + 1);
-    } else {
-      Alert.alert('Error', 'No data available for the next week.');
-    }
-  };
+// Function to handle navigation to view availability for the next week
+const onNextWeek = () => {
+  if (currentWeek < 2) { // Allow navigation up to 3 weeks ahead
+    setCurrentWeek(currentWeek + 1);
+  } else {
+    Alert.alert('Error', 'No data available for the next week.');
+  }
+};
 
-    // Function to handle navigation to view availability for the next week
-    const onPastWeek = () => {
-        if (currentWeek > 0) { // Allow navigation up to 3 weeks ahead
-          setCurrentWeek(currentWeek - 1);
-        } else {
-          Alert.alert('Error', 'No data available for the next week.');
-        }
-      };
+// Function to handle navigation to view availability for the previous week
+const onPastWeek = () => {
+  if (currentWeek > 0) { // Allow navigation up to 3 weeks ahead
+    setCurrentWeek(currentWeek - 1);
+  } else {
+    Alert.alert('Error', 'No data available for the previous week.');
+  }
+};
 
 // Function to handle reserving a time slot
 const reserveSlot = (dayIndex, hourIndex) => {
   const dayData = availabilityData.find(day => day.week === currentWeek && dayIndex === availabilityData.indexOf(day));
-  if (!dayData.slots[hourIndex]) {
+  if (!dayData || !dayData.slots[hourIndex] || moment().isAfter(moment(dayData.date).hour(hourIndex))) {
     Alert.alert('Error', 'This slot is not available for reservation.');
     return;
   }
@@ -65,6 +94,7 @@ const reserveSlot = (dayIndex, hourIndex) => {
   const selectedDate = datesOfWeek[dayIndex].format('MMMM D, YYYY');
   const selectedHour = hours[hourIndex];
   navigation.navigate('ReservationScreen', {
+    selectedLab: labName,
     selectedDate: selectedDate,
     selectedHour: selectedHour,
   });
@@ -75,7 +105,7 @@ const reserveSlot = (dayIndex, hourIndex) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Disponibilidad del laboratorio</Text>
+      <Text style={styles.title}>Disponibilidad del laboratorio {lab.nombre}</Text>
       {/* Month display */}
       <View style={styles.monthContainer}>
             <Text style={styles.monthText}>
@@ -119,7 +149,6 @@ const reserveSlot = (dayIndex, hourIndex) => {
   );
 }
 
-
 const styles = StyleSheet.create({
     labTitle: {
       fontSize: 24,
@@ -160,7 +189,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   hourColumn: {
-    marginTop: 25, // Adjust this value as needed
+    marginTop: 25,
     width: 80,
     paddingBottom: 10,
   },
@@ -208,5 +237,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-  // ... (add any additional styles you may need)
+
 });

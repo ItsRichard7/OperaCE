@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Alert, ImageBackground, TouchableOpacity } from 'react-native';
+import { db } from '../DB/updateDB.js'; 
 
 export default function LaboratoriesScreen({ navigation }) {
 
-//const [laboratories, setLaboratories] = useState([]);
-  const [laboratories, setLaboratories] = useState([
-    {
-      name: 'Laboratorio 1',
-      capacity: 30,
-      facilities: 'Equipos de última generación',
-      assets: ['Computadoras', 'Proyectores', 'Pizarras interactivas'],
-    },
-    {
-      name: 'Laboratorio 2',
-      capacity: 25,
-      facilities: 'Conexión a internet de alta velocidad',
-      assets: ['Computadoras', 'Impresoras'],
-    },
-    // Add more laboratories as needed
-  ]);
+  const [laboratories, setLaboratories] = useState([]);    
 
-  /*
+  useEffect(() => {
+    fetchLaboratories();
+  }, []);
+
   const navigateToLabsSchedule = (lab) => {
     // Navigate to lab schedule screen passing lab as parameter
-    navigation.navigate('LaboratorySchedule', { lab });
+    navigation.navigate('LabAvailabilityScreen', { labName: lab.nombre });
   };
-  */
+
+  const fetchLaboratories = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT nombre, computadoras, capacidad FROM Laboratorio`,
+        [],
+        (tx, results) => {
+          const rows = results.rows.raw();
+          setLaboratories(rows);
+        },
+        (tx, error) => {
+          console.error('Failed to fetch laboratories:', error);
+        }
+      );
+    });
+  };
+
 
   return (
     <ImageBackground
@@ -39,14 +44,13 @@ export default function LaboratoriesScreen({ navigation }) {
           {laboratories.map((lab, index) => (
             <TouchableOpacity 
               key={index} 
-              onPress={() => navigateToLabDetails(lab)} 
+              onPress={() => navigateToLabsSchedule(lab)} 
               style={styles.labTouchable}
             >
               <View style={styles.labContainer}>
-                <Text style={styles.labName}>{lab.name}</Text>
-                <Text style={styles.labSummary}>Capacidad: {lab.capacity}</Text>
-                <Text style={styles.labSummary}>Facilidades: {lab.facilities}</Text>
-                <Text style={styles.labSummary}>Activos: {lab.assets.join(', ')}</Text>
+              <Text style={styles.labName}>{lab.nombre}</Text>
+              <Text style={styles.labSummary}>Capacidad: {lab.capacidad}</Text>
+              <Text style={styles.labSummary}>Computadoras: {lab.computadoras}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -54,6 +58,7 @@ export default function LaboratoriesScreen({ navigation }) {
       </ScrollView>
     </ImageBackground>
   );
+
 }
 
 const styles = StyleSheet.create({

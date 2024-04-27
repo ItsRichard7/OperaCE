@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\API.csproj": {}
+    "C:\\Users\\alero\\Documents\\GitHub\\OperaCE\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\API.csproj": {
+    "C:\\Users\\alero\\Documents\\GitHub\\OperaCE\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\alero\\Documents\\GitHub\\OperaCE\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\maest\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\obj\\",
+        "projectPath": "C:\\Users\\alero\\Documents\\GitHub\\OperaCE\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\alero\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alero\\Documents\\GitHub\\OperaCE\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maest\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\alero\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -77,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\alero\\.dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

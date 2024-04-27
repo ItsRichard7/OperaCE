@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,10 @@ import {
   ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-//import {setClientId} from '../globalVariables/clientID';
+import { db } from '../DB/updateDB.js'; 
+import {getClientId, setClientId} from '../globalVariables/clientID';
+
+
 
 // @ts-ignore
 export default function LoginScreen() {
@@ -19,41 +22,47 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-/*
+  useEffect(() => {
+    const checkClientId = async () => {
+      const clientId = await getClientId();
+      if (clientId != null) {
+        navigation.navigate('HomeScreen');
+      }
+    };
+
+    checkClientId();
+  }, [navigation]);
+
   const handleLogin = () => {
     // Prepare user data
     const userData = {
       correo: email,
       contrasena: password,
     };
-
-    // Send POST request to Flask server for login
-    fetch('http://10.0.2.2:5274/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(data => {
-            const {client_id} = data;
-            // Set client ID in the global variable
-            setClientId(client_id);
+  
+    // Check if the user is in the database
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM Usuario WHERE correo = ? AND contrasena = ?',
+        [userData.correo, userData.contrasena],
+        (tx, results) => {
+          if (results.rows.length > 0) {
             Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
+            setClientId(results.rows.item(0).cedula);
             navigation.navigate('HomeScreen');
-          });
-        } else {
-          Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
+          } else {
+            console.error('Error:', error);
+          Alert.alert('Error', 'El usuario o la contrasena son incorrectos.');
+          }
+        },
+        (tx, error) => {
+          // Handle the error
+          console.error('Failed to check user:', error);
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
-      });
+      );
+    });
   };
-*/
+  
 
   return (
     <ImageBackground
@@ -81,7 +90,7 @@ export default function LoginScreen() {
           <View style={styles.buttonContainer}>
             <Button
               title="Iniciar Sesión"
-              //onPress={handleLogin}
+              onPress={handleLogin}
               color="#841584"
             />
           </View>
@@ -104,14 +113,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    //marginTop: 10,
 
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     marginTop: 225,
-    //marginBottom: 10,
     color: '#fff',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},

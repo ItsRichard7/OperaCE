@@ -1,16 +1,74 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; //npm install @react-native-picker/picker
+import { db } from '../DB/updateDB.js'; 
+import { getClientId } from '../globalVariables/clientID.js';
+
 
 const ReservationScreen = ({ route, navigation }) => {
-  const { selectedDate, selectedHour } = route.params;
+  const { selectedLab, selectedDate, selectedHour } = route.params;
   const [duration, setDuration] = useState(1); // Default duration is 1 hour
+  const [userData, setUserData] = useState(null);
+
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      confirmReservation();
+    }
+  }, [userData]);
+
+  const fetchUserData = () => {
+    const clientId = getClientId();
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM Usuario WHERE cedula = ?`,
+        [clientId],
+        (tx, results) => {
+          const rows = results.rows.raw();
+          if (rows.length > 0) {
+            setUserData(rows[0]);
+          } else {
+            console.error('No user found with the provided client ID');
+          }
+        },
+        (tx, error) => {
+          console.error('Failed to fetch user data:', error);
+        }
+      );
+    });
+  };
 
   const confirmReservation = () => {
-    // Logic to handle the reservation confirmation
-    // This could involve updating state, sending data to a server, etc.
-    console.log(`Lab reserved on ${selectedDate} at ${selectedHour} for ${duration} hour(s).`);
-    // Navigate to a confirmation screen or alert the user of the successful reservation
+    db.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO Soli_Lab (correo_soli, fecha, hora, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userData.correo, selectedDate, selectedHour, userData.p_nombre, userData.s_nombre, userData.p_apellido, userData.s_apellido, duration, selectedLab, userData.cedula],
+        (tx, results) => {
+          console.log('Results', results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            Alert.alert(
+              'Success',
+              'Se ha creado la solicitud con exito',
+              [
+                {
+                  text: 'Ok',
+                },
+              ],
+              { cancelable: false }
+            );
+          } else {
+            alert('Reservation Failed');
+          }
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+    });
   };
 
   return (

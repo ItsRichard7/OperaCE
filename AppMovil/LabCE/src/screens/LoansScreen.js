@@ -8,46 +8,78 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
+import { db } from '../DB/updateDB.js'; 
+
 
 export default function LoansScreen({navigation}) {
-  //const [loans, setLoans] = useState([]);
+  const [loans, setLoans] = useState([]);
 
-  const [loans, setLoans] = useState([
-    {
-      date: '2022-01-01',
-      nombre_operador: 'John Doe',
-      activo: 'Active',
-      estudiante: 'Student 1',
-    },
-    {
-      date: '2022-01-02',
-      nombre_operador: 'Jane Doe',
-      activo: 'Inactive',
-      estudiante: 'Student 2',
-    },
-    // Add more loans as needed
-  ]);
-  /*
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-  
-  const fetchMenu = () => {
-    fetch('http://10.0.2.2:5274/dishes')
-      .then(response => response.json())
-      .then(data => {
-        const mergedData = data.dishes.map((dish, index) => {
-          return {...dish, ...data.platos[index]};
-        });
-        setDishes(mergedData);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Alert.alert('Error', 'Failed to fetch menu.');
-      });
-  };
+useEffect(() => {
+  fetchLoans();
+}, []);
 
-  */
+const fetchLoans = () => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      `SELECT 
+        Soli_Act.fecha_ent AS date, 
+        Soli_Act.act_placa AS placa, 
+        Activo.tipo AS type, 
+        Soli_Act.p_nombre || ' ' || Soli_Act.s_nombre || ' ' || Soli_Act.p_apellido || ' ' || Soli_Act.s_apellido AS nombre_solicitante, 
+        Usuario.p_nombre || ' ' || Usuario.s_nombre || ' ' || Usuario.p_apellido || ' ' || Usuario.s_apellido AS op_name 
+      FROM Soli_Act 
+      JOIN Activo ON Soli_Act.act_placa = Activo.placa
+      JOIN Usuario ON Soli_Act.user_ced = Usuario.cedula`,
+      [],
+      (tx, results) => {
+        const rows = results.rows.raw();
+        setLoans(rows);
+      },
+      (tx, error) => {
+        console.error('Failed to fetch loans:', error);
+      }
+    );
+  });
+};
+
+const approveLoan = (correo_soli, fecha_ent, hora_ent) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      `UPDATE Soli_Act SET approved = 1 WHERE correo_soli = ? AND fecha_ent = ? AND hora_ent = ?`,
+      [correo_soli, fecha_ent, hora_ent],
+      (tx, results) => {
+        if (results.rowsAffected > 0) {
+          console.log('Loan approved');
+        } else {
+          console.log('Failed to approve loan');
+        }
+      },
+      (tx, error) => {
+        console.error('Failed to approve loan:', error);
+      }
+    );
+  });
+};
+
+const rejectLoan = (correo_soli, fecha_ent, hora_ent) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      `UPDATE Soli_Act SET approved = 0 WHERE correo_soli = ? AND fecha_ent = ? AND hora_ent = ?`,
+      [correo_soli, fecha_ent, hora_ent],
+      (tx, results) => {
+        if (results.rowsAffected > 0) {
+          console.log('Loan rejected');
+        } else {
+          console.log('Failed to reject loan');
+        }
+      },
+      (tx, error) => {
+        console.error('Failed to reject loan:', error);
+      }
+    );
+  });
+};
+
   return (
     <ImageBackground
     source={require('../Images/circuits.png')}
@@ -59,26 +91,23 @@ export default function LoansScreen({navigation}) {
     {loans.map((loan, index) => (
       <View key={index} style={styles.loanContainer}>
         <Text style={styles.loanDetail}>Fecha: {loan.date}</Text>
-        <Text style={styles.loanDetail}>Operador: {loan.nombre_operador}</Text>
-        <Text style={styles.loanDetail}>Activo: {loan.activo}</Text>
-        <Text style={styles.loanDetail}>Estudiante: {loan.estudiante}</Text>
+        <Text style={styles.loanDetail}>Placa activo: {loan.placa}</Text>
+        <Text style={styles.loanDetail}>Tipo activo: {loan.type}</Text>
+        <Text style={styles.loanDetail}>Solicitante: {loan.nombre_solicitante}</Text>
+        <Text style={styles.loanDetail}>Operador: {loan.op_name}</Text>
 
         <View style={styles.buttonContainer}>
           <Button
             title="Aprobar"
             color="#6E8B3D" // Dark olive green
-            //onPress={() =>
-              //Aprobacion prestamo
-           // }
+            onPress={() => approveLoan(loan.correo_soli, loan.fecha_ent, loan.hora_ent)}
           />
         </View>
         <View style={styles.buttonContainer}>
           <Button
             title="Rechazar"
             color="#8B0000" // Dark red
-            //onPress={() =>
-              //Rechazar prestamo
-            //}
+            onPress={() => rejectLoan(loan.correo_soli, loan.fecha_ent, loan.hora_ent)}
           />
         </View>
       </View>
@@ -100,8 +129,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 70, // Add top padding here
-    paddingBottom: 110, // Add bottom padding here
+    paddingTop: 70, 
+    paddingBottom: 110, 
   },
   title: {
     fontSize: 30,

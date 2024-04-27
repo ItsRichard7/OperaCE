@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, ImageBackground} from 'react-native';
+import {cleanClientId} from '../globalVariables/clientID';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -30,8 +31,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.buttonContainer}>
           <Button
             title="Cerrar sesión"
-            onPress={() => navigation.navigate('LoginScreen')}
-
+            onPress={() => [cleanClientId(), navigation.navigate('LoginScreen')]}
           />
         </View>
       </View>
