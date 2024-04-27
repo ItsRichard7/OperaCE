@@ -1,6 +1,54 @@
 USE OperaCE;
 GO
 
+-- Obtener Tabla de Usuarios
+CREATE PROCEDURE obt_tabla_usuario
+AS
+BEGIN
+    SELECT * FROM Usuario;
+END
+GO
+
+-- Obtener Tabla de Laboratorios
+CREATE PROCEDURE obt_tabla_laboratorio
+AS
+BEGIN
+    SELECT * FROM Laboratorio;
+END
+GO
+
+-- Obtener Tabla de Facilidades de los Laboratorios
+CREATE PROCEDURE obt_tabla_lab_facilidad
+AS
+BEGIN
+    SELECT * FROM Lab_Facilidad;
+END
+GO
+
+-- Obtener Tabla de Activos
+CREATE PROCEDURE obt_tabla_activo
+AS
+BEGIN
+    SELECT * FROM Activo;
+END
+GO
+
+-- Obtener Tabla de Usuarios
+CREATE PROCEDURE obt_tabla_soli_lab
+AS
+BEGIN
+    SELECT * FROM Soli_Lab;
+END
+GO
+
+-- Obtener Tabla de Usuarios
+CREATE PROCEDURE obt_tabla_soli_act
+AS
+BEGIN
+    SELECT * FROM Soli_Act;
+END
+GO
+
 -- Registrar un nuevo operador en la Base de Datos 
 CREATE PROCEDURE insertar_usuario (@cedula NUMERIC(10),@correo NVARCHAR(50),@contrasena NVARCHAR(20), @carnet NUMERIC(12), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
 AS
@@ -51,6 +99,12 @@ END
 GO
 
 /* Eliminar todos los store procedure
+DROP PROCEDURE obt_tabla_usuario;
+DROP PROCEDURE obt_tabla_laboratorio;
+DROP PROCEDURE obt_tabla_lab_facilidad;
+DROP PROCEDURE obt_tabla_activo; 
+DROP PROCEDURE obt_tabla_soli_lab;
+DROP PROCEDURE obt_tabla_soli_act;
 DROP PROCEDURE insertar_usuario;
 DROP PROCEDURE verificar_inicio;
 DROP PROCEDURE obt_operadores_no_aprob;
