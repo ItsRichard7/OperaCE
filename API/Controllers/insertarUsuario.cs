@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Recursos;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -46,18 +47,5 @@ namespace API.Controllers
                 return StatusCode(500, $"Error al insertar usuario: {ex.Message}");
             }
         }
-    }
-
-    public class UsuarioModel
-    {
-        public decimal Cedula { get; set; }
-        public string Correo { get; set; }
-        public string Contrasena { get; set; }
-        public decimal Carnet { get; set; }
-        public string PrimerNombre { get; set; }
-        public string? SegundoNombre { get; set; }
-        public string PrimerApellido { get; set; }
-        public string? SegundoApellido { get; set; }
-        public DateTime FechaNacimiento { get; set; }
     }
 }
