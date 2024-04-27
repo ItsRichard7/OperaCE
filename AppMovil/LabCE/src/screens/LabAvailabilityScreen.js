@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import moment from 'moment'; // Make sure to install moment.js with `npm install moment`
 
 // Generate dummy data representing 3 weeks of lab availability
 const generateDummyData = (weeks) => {
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   return Array.from({ length: weeks }, (_, weekIndex) =>
     days.map(day => ({
       week: weekIndex,
@@ -24,6 +25,17 @@ const hours = [
 export default function LabAvailabilityScreen({ route, navigation }) {
   const [currentWeek, setCurrentWeek] = useState(0); // Index of the current week
 
+   // Assuming currentWeek is a number representing the week of the year
+   const startDateOfWeek = moment().week(currentWeek).startOf('week');
+
+   // Generate the dates for the current week
+   const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+
+     // Assuming currentWeek is a number representing the week of the year
+  const endDateOfWeek = moment().week(currentWeek).endOf('week');
+
+
+ 
   // Function to handle navigation to view availability for the next week
   const onNextWeek = () => {
     if (currentWeek < 2) { // Allow navigation up to 3 weeks ahead
@@ -33,23 +45,43 @@ export default function LabAvailabilityScreen({ route, navigation }) {
     }
   };
 
-  // Function to handle reserving a time slot
-  const reserveSlot = (dayIndex, hourIndex) => {
-    const dayData = availabilityData.find(day => day.week === currentWeek && dayIndex === availabilityData.indexOf(day));
-    if (!dayData.slots[hourIndex]) {
-      Alert.alert('Error', 'This slot is not available for reservation.');
-      return;
-    }
-    // Implement your reservation logic here
-    // For example, navigate to a reservation screen with the selected time slot
-  };
+    // Function to handle navigation to view availability for the next week
+    const onPastWeek = () => {
+        if (currentWeek > 0) { // Allow navigation up to 3 weeks ahead
+          setCurrentWeek(currentWeek - 1);
+        } else {
+          Alert.alert('Error', 'No data available for the next week.');
+        }
+      };
+
+// Function to handle reserving a time slot
+const reserveSlot = (dayIndex, hourIndex) => {
+  const dayData = availabilityData.find(day => day.week === currentWeek && dayIndex === availabilityData.indexOf(day));
+  if (!dayData.slots[hourIndex]) {
+    Alert.alert('Error', 'This slot is not available for reservation.');
+    return;
+  }
+  // Navigate to the ReservationScreen with the selected date and hour
+  const selectedDate = datesOfWeek[dayIndex].format('MMMM D, YYYY');
+  const selectedHour = hours[hourIndex];
+  navigation.navigate('ReservationScreen', {
+    selectedDate: selectedDate,
+    selectedHour: selectedHour,
+  });
+};
 
   // Filter the data to show only the current week
   const currentWeekData = availabilityData.filter(day => day.week === currentWeek);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Laboratory Availability</Text>
+      <Text style={styles.title}>Disponibilidad del laboratorio</Text>
+      {/* Month display */}
+      <View style={styles.monthContainer}>
+            <Text style={styles.monthText}>
+              {startDateOfWeek.format('MMMM D')} - {endDateOfWeek.format('MMMM D YYYY')}
+            </Text>
+          </View>
       <ScrollView horizontal={true}>
         <View style={styles.weekContainer}>
           {/* Hour headers */}
@@ -61,39 +93,66 @@ export default function LabAvailabilityScreen({ route, navigation }) {
           {/* Availability data for the current week */}
           {currentWeekData.map((day, dayIndex) => (
             <View key={dayIndex} style={styles.dayColumn}>
-              <Text style={styles.dayHeaderText}>{day.day}</Text>
+              <Text style={styles.dayHeaderText}>
+              {day.day} {datesOfWeek[dayIndex].format('D')} {/* Day and date */}
+                </Text>
               {day.slots.map((slot, slotIndex) => (
                 <TouchableOpacity 
                   key={slotIndex} 
                   style={[styles.timeSlot, slot ? styles.available : styles.unavailable]} 
                   onPress={() => reserveSlot(dayIndex, slotIndex)}
                 >
-                  <Text>{slot ? 'Available' : 'Unavailable'}</Text>
+                  <Text style={styles.slotText}>{slot ? 'Disponible' : 'Reservado'}</Text>
                 </TouchableOpacity>
               ))}
             </View>
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.nextWeekButton} onPress={onNextWeek}>
-        <Text style={styles.nextWeekButtonText}>Next Week</Text>
+      <TouchableOpacity style={styles.button} onPress={onNextWeek}>
+        <Text style={styles.buttonText}>Siguiente semana</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={onPastWeek}>
+        <Text style={styles.buttonText}>Semana anterior</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-// ... (styles remain unchanged)
 
 const styles = StyleSheet.create({
+    labTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginVertical: 10,
+    },
+    monthContainer: {
+      paddingHorizontal: 10,
+      marginBottom: 50,
+    },
+    monthText: {
+      fontSize: 18,
+      textAlign: 'center',
+    },
+    dayHeaderText: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 5,
+    },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
+    paddingTop: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  scheduleContainer: {
+    flex: 1,
     marginBottom: 20,
   },
   weekContainer: {
@@ -101,46 +160,53 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   hourColumn: {
-    marginRight: 10,
+    marginTop: 25, // Adjust this value as needed
     width: 80,
-  },
-  hourHeader: {
-    fontSize: 14,
-    marginBottom: 5,
-    textAlign: 'center',
+    paddingBottom: 10,
   },
   dayColumn: {
+    flexDirection: 'column',
+    alignItems: 'center',
     marginRight: 10,
   },
   dayHeaderText: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 4,
+  },
+
+  hourHeader: {
+    fontSize: 16,
+    height: 40,
+    lineHeight: 40,
+    textAlign: 'right',
+    paddingRight: 10,
   },
   timeSlot: {
-    width: 60,
-    height: 60,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 10,
-    alignItems: 'center',
+    height: 40,
+    width: 80,
     justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   available: {
-    backgroundColor: 'lightgreen',
+    backgroundColor: '#c8e6c9',
   },
   unavailable: {
-    backgroundColor: 'lightcoral',
+    backgroundColor: '#ffcdd2',
   },
-  nextWeekButton: {
-    backgroundColor: 'blue',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 20,
+  slotText: {
+    fontSize: 12,
   },
-  nextWeekButtonText: {
+  button: {
+    padding: 10,
+    backgroundColor: '#2196f3',
+    alignItems: 'center',
+  },
+  buttonText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 16,
   },
+  // ... (add any additional styles you may need)
 });

@@ -14,9 +14,10 @@ import {useNavigation} from '@react-navigation/native';
 //import {setClientId} from '../globalVariables/clientID';
 
 // @ts-ignore
-export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function PasswordChangeScreen() {
+  const [currentpassword, setCurrentPassword] = useState('');
+  const [newpassword, setNewPassword] = useState('');
+  const [confirmnewpassword, confirmSetNewPassword] = useState('');
   const navigation = useNavigation();
 
 /*
@@ -60,27 +61,35 @@ export default function LoginScreen() {
     source={require('../Images/circuits.png')}
       style={styles.background}
       resizeMode="cover">
-        <Text style={styles.title}>Inicio de Sesión</Text>
+        <Text style={styles.title}>Cambiar contraseña</Text>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Correo electrónico"
-            onChangeText={text => setEmail(text)}
-            value={email}
+            placeholder="Contraseña actual"
+            onChangeText={text => setCurrentPassword(text)}
+            value={currentpassword}
             placeholderTextColor="#666"
           />
           <TextInput
             style={styles.input}
-            placeholder="Contraseña"
-            onChangeText={text => setPassword(text)}
-            value={password}
+            placeholder="Nueva contraseña"
+            onChangeText={text => setNewPassword(text)}
+            value={newpassword}
+            secureTextEntry={true}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirmar nueva contraseña"
+            onChangeText={text => confirmSetNewPassword(text)}
+            value={confirmnewpassword}
             secureTextEntry={true}
             placeholderTextColor="#666"
           />
           <View style={styles.buttonContainer}>
             <Button
-              title="Iniciar Sesión"
+              title="Cambiar contraseña"
               //onPress={handleLogin}
               color="#841584"
             />
