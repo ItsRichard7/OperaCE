@@ -7,6 +7,7 @@ AS
 BEGIN
     INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
 	VALUES (@cedula, @correo, @contrasena, @carnet, @p_nombre, @s_nombre, @p_apellido, @s_apellido, @f_nacim, 0, 3);
+	SELECT * FROM Usuario;
 END
 GO
 

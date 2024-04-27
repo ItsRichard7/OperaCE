@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\obt_laboratorios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\obt_laboratorios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\dbdatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\dbdatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,8 +15,8 @@
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\insertar_usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\parametro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\parametro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,47 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DBDatos.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\DBDatos.cs",
-              "RelativeDocumentMoniker": "Recursos\\DBDatos.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\DBDatos.cs",
-              "RelativeToolTip": "Recursos\\DBDatos.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAowFUAAAAuAAAA",
+              "DocumentIndex": 3,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Usuario.cs",
+              "RelativeDocumentMoniker": "Recursos\\Usuario.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Usuario.cs",
+              "RelativeToolTip": "Recursos\\Usuario.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAmwBIAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-24T20:10:23.811Z",
-              "IsPinned": true,
+              "WhenOpened": "2024-04-25T16:46:40.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "obt_laboratorios.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\obt_laboratorios.cs",
+              "RelativeDocumentMoniker": "Controllers\\obt_laboratorios.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\obt_laboratorios.cs",
+              "RelativeToolTip": "Controllers\\obt_laboratorios.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABYAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-25T16:36:27.547Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "insertar_usuarioController.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\insertar_usuarioController.cs",
-              "RelativeDocumentMoniker": "Controllers\\insertar_usuarioController.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\insertar_usuarioController.cs",
-              "RelativeToolTip": "Controllers\\insertar_usuarioController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAkwAwAAAAJAAAA",
+              "Title": "DBDatos.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\DBDatos.cs",
+              "RelativeDocumentMoniker": "Recursos\\DBDatos.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\DBDatos.cs",
+              "RelativeToolTip": "Recursos\\DBDatos.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABrAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-24T20:03:01.747Z",
-              "IsPinned": true,
+              "WhenOpened": "2024-04-24T20:10:23.811Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Parametro.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Parametro.cs",
-              "RelativeDocumentMoniker": "Recursos\\Parametro.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Parametro.cs",
-              "RelativeToolTip": "Recursos\\Parametro.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAJAAAA",
+              "Title": "insertar_usuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\insertar_usuarioController.cs",
+              "RelativeDocumentMoniker": "Controllers\\insertar_usuarioController.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\insertar_usuarioController.cs",
+              "RelativeToolTip": "Controllers\\insertar_usuarioController.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-24T20:18:53.375Z",
+              "WhenOpened": "2024-04-24T20:03:01.747Z",
               "EditorCaption": ""
             }
           ]

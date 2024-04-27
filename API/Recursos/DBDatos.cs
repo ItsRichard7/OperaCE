@@ -6,7 +6,7 @@ namespace API.Recursos
 {
 public class DBDatos
     {
-        public static string cadenaConexion = "Data Source= DYLAN;Initial Catalog=OperaCE.";
+        public static string cadenaConexion = "Server= DYLAN; Database= OperaCE; Integrated Security=True;";
         public static DataSet ListarTablas(string nombreProcedimiento, List<Parametro> parametros = null)
         {
             SqlConnection conexion = new SqlConnection(cadenaConexion);
@@ -74,38 +74,5 @@ public class DBDatos
                 conexion.Close();
             }
         }
-
-        public static bool Ejecutar(string nombreProcedimiento, List<Parametro> parametros = null)
-        {
-            SqlConnection conexion = new SqlConnection(cadenaConexion);
-
-            try
-            {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand(nombreProcedimiento, conexion);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                if (parametros != null)
-                {
-                    foreach (var parametro in parametros)
-                    {
-                        cmd.Parameters.AddWithValue(parametro.Nombre, parametro.Valor);
-                    }
-                }
-
-                int i = cmd.ExecuteNonQuery();
-
-                return (i > 0) ? true : false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            finally
-            {
-                conexion.Close();
-            }
-        }
     }
-
 }
