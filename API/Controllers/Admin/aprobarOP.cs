@@ -10,7 +10,7 @@ namespace API.Controllers
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        [HttpPost]
+        [HttpPost("{cedula}")]
         public IActionResult AprobarOperador(string cedula)
         {
             try
@@ -28,7 +28,7 @@ namespace API.Controllers
 
                         if (rowsAffected > 0)
                         {
-                            return Ok("Operador aprobado exitosamente.");
+                            return Ok(true);
                         }
                         else
                         {

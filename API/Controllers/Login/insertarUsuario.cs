@@ -4,7 +4,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace API.Controllers
+namespace API.Controllers.Login
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -40,7 +40,7 @@ namespace API.Controllers
                     }
                 }
 
-                return Ok("Usuario insertado correctamente.");
+                return Ok(true);
             }
             catch (Exception ex)
             {

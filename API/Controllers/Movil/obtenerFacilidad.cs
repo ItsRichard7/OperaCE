@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using API.Recursos;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class opt_laboratorios : Controller
+    public class obtenerFacilidad : Controller
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
         [HttpGet]
-
-        public IActionResult ObtenerLaboratorios()
+        public IActionResult obtFacilidad()
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand command = new SqlCommand("obt_laboratorios", connection))
+                    using (SqlCommand command = new SqlCommand("obt_tabla_lab_facilidad", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -26,28 +26,27 @@ namespace API.Controllers
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            List<Laboratorio> laboratorios = new List<Laboratorio>();
+                            List<Facilidad> usuarios = new List<Facilidad>();
 
                             while (reader.Read())
                             {
-                                Laboratorio laboratorio = new Laboratorio
+                                Facilidad usuario = new Facilidad
                                 {
-                                    Nombre = reader["nombre"].ToString(),
-                                    Computadoras = Convert.ToDecimal(reader["computadoras"]),
-                                    Capacidad = Convert.ToDecimal(reader["capacidad"])
+                                    Lab_nombre = reader["lab_nombre"].ToString(),
+                                    Descripcion = reader["descripcion"].ToString(),
                                 };
 
-                                laboratorios.Add(laboratorio);
+                                usuarios.Add(usuario);
                             }
 
-                            return Ok(laboratorios);
+                            return Ok(usuarios);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener laboratorios: {ex.Message}");
+                return StatusCode(500, $"Error al obtener la tabla de usuarios: {ex.Message}");
             }
         }
     }

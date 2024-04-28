@@ -4,7 +4,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace API.Controllers
+namespace API.Controllers.Login
 {
     [Route("api/[controller]")]
     [ApiController]

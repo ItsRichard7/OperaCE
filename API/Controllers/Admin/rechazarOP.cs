@@ -10,7 +10,7 @@ namespace API.Controllers
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        [HttpDelete]
+        [HttpDelete("{cedula}")]
         public IActionResult RechazarOperador(string cedula)
         {
             try
@@ -28,7 +28,7 @@ namespace API.Controllers
 
                         if (rowsAffected > 0)
                         {
-                            return Ok("Operador rechazado exitosamente.");
+                            return Ok(true);
                         }
                         else
                         {

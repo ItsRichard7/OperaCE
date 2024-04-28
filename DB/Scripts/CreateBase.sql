@@ -75,6 +75,7 @@ CREATE TABLE Soli_Lab(
 
 CREATE TABLE Soli_Act(
     correo_soli NVARCHAR(50) NOT NULL,
+	aprobado BIT NOT NULL,
     fecha_ent DATE NOT NULL,
     hora_ent TIME NOT NULL,
     p_nombre NVARCHAR(20) NOT NULL,
