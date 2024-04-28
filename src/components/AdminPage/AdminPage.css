@@ -1,0 +1,164 @@
+.mt-4 {
+  margin-top: 0;
+}
+
+.nav-pills .nav-link {
+  border-radius: 0;
+  color: #000000;
+  background-color: black;
+}
+
+.nav-pills .nav-item:hover .nav-link {
+  background-color: rgb(219, 170, 79);
+  text-decoration-color: #000000;
+}
+
+.nav-pills .nav-item .nav-link {
+  border-radius: 10%;
+  margin-left: 5px;
+  margin-right: 10px;
+  min-height: 8cap;
+}
+
+.nav-pills .nav-item .nav-link {
+  background-color: rgb(85, 196, 233); /* Fondo de tabs */
+}
+
+.nav-pills .nav-item .nav-link.active {
+  background-color: orange;
+}
+
+.tab-content {
+  background-color: #ffffff;
+  border: 1px solid #00000000;
+}
+
+.py-4 h1 {
+  color: orange;
+  text-align: center;
+}
+
+.table-wrapper {
+  width: 100%;
+}
+
+.table {
+  display: block;
+  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-shadow: 0px 10px 10px #ccc;
+  border-radius: 10px;
+  white-space: nowrap;
+  width: 100em;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+.table thead th {
+  background-color: #ccc;
+  color: #222;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody tr:hover td {
+  background-color: #eee;
+}
+
+.expand {
+  width: 100%;
+}
+
+.label {
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: white;
+}
+
+.label-draft {
+  background-color: #777;
+}
+
+.label-live {
+  background-color: #42a942;
+}
+
+.label-error {
+  background-color: #d9534f;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions svg {
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #e10d05;
+}
+
+.add-btn {
+  color: #01ff0e;
+}
+
+.sr-only {
+  position: absolute;
+  top: -30em;
+}
+
+.geeksContainer {
+  text-align: center;
+  margin: auto;
+  padding: 20px;
+  width: 400px;
+}
+
+.geeksHeading {
+  font-size: 34px;
+  margin-bottom: 10px;
+  color: green;
+  border-bottom: 3px solid crimson;
+  padding-bottom: 20px;
+  border-radius: 8px;
+}
+
+.geeksBtn {
+  background-color: green;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 0px 10px 0px grey;
+}
+.geeksInput {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none; /* Elimina el borde */
+  border-radius: 5px;
+  width: 300px;
+}
+
+@media print {
+  .no-print {
+    display: none !important; /* Oculta el contenido con la clase 'no-print' */
+  }
+}
