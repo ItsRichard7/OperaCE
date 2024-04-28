@@ -7,7 +7,7 @@
 USE OperaCE;
 GO
 
--- Obtener Lista de los Laboratorios y Facilidades (Vista Admin)
+-- Obtener Lista de los Laboratorios y Facilidades (Vista Admin - Labs)
 CREATE PROCEDURE obt_laboratorios
 AS
 BEGIN
@@ -17,7 +17,7 @@ BEGIN
 END
 GO
 
--- Obtener Lista de los Laboratorios y Facilidades (Vista Admin)
+-- Obtener Lista de los Laboratorios y Facilidades (Vista Admin - Labs)
 CREATE PROCEDURE editar_laboratorio (@nombre VARCHAR(6), @computadoras NUMERIC(2), @capacidad NUMERIC(2))
 AS
 BEGIN
@@ -25,7 +25,7 @@ BEGIN
 END
 GO
 
--- Eliminar facilidades de un laboratorio en específico
+-- Eliminar facilidades de un laboratorio en específico (Vista Admin - Labs)
 CREATE PROCEDURE eliminar_facilidades (@lab_nombre VARCHAR(6))
 AS
 BEGIN
@@ -33,7 +33,7 @@ BEGIN
 END
 GO
 
--- Insertar facilidad para un laboratorio
+-- Insertar facilidad para un laboratorio (Vista Admin - Labs)
 CREATE PROCEDURE insertar_facilidad (@lab_nombre VARCHAR(6), @descripcion NVARCHAR(50))
 AS
 BEGIN
@@ -41,7 +41,7 @@ BEGIN
 END
 GO
 
--- Obtener Lista de Operadores que no han sido aprobados
+-- Obtener Lista de Operadores que no han sido aprobados (Vista Admin - Operadores)
 CREATE PROCEDURE obt_operadores_no_aprob
 AS
 BEGIN
@@ -49,7 +49,7 @@ BEGIN
 END
 GO
 
--- Aprobar un operador (Marcarlo como activo)
+-- Aprobar un operador (Marcarlo como activo) (Vista Admin - Operadores) 
 CREATE PROCEDURE aprobar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -57,7 +57,7 @@ BEGIN
 END
 GO
 
--- Rechazar un operador (Elimina de Registros)
+-- Rechazar un operador (Elimina de Registros) (Vista Admin - Operadores)
 CREATE PROCEDURE rechazar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -85,5 +85,3 @@ EXEC editar_laboratorio 'F2-06', 2, 3;
 EXEC eliminar_facilidades 'F2-06';
 EXEC insertar_facilidad 'F2-06', 'Se puede coger... depresión';
 */
-
-select * from Laboratorio;

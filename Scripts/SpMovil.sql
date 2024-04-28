@@ -8,7 +8,7 @@ USE OperaCE;
 GO
 
 /*-------------- Sección de Gets --------------*/
--- Obtener Tabla de Usuarios
+-- Obtener Tabla de Usuarios (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_usuario
 AS
 BEGIN
@@ -16,7 +16,7 @@ BEGIN
 END
 GO
 
--- Obtener Tabla de Laboratorios
+-- Obtener Tabla de Laboratorios (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_laboratorio
 AS
 BEGIN
@@ -24,7 +24,7 @@ BEGIN
 END
 GO
 
--- Obtener Tabla de Facilidades de los Laboratorios
+-- Obtener Tabla de Facilidades de los Laboratorios (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_lab_facilidad
 AS
 BEGIN
@@ -32,7 +32,7 @@ BEGIN
 END
 GO
 
--- Obtener Tabla de Activos
+-- Obtener Tabla de Activos (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_activo
 AS
 BEGIN
@@ -40,7 +40,7 @@ BEGIN
 END
 GO
 
--- Obtener Tabla de Usuarios
+-- Obtener Tabla de Usuarios (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_soli_lab
 AS
 BEGIN
@@ -48,7 +48,7 @@ BEGIN
 END
 GO
 
--- Obtener Tabla de Usuarios
+-- Obtener Tabla de Usuarios (Info para Base SQL lite)
 CREATE PROCEDURE obt_tabla_soli_act
 AS
 BEGIN
