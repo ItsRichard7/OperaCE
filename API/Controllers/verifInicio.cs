@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Recursos;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,9 +12,12 @@ namespace API.Controllers
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        [HttpGet]
-        public IActionResult VerificarInicio(string correo, string contrasena)
+        [HttpPost]
+        public IActionResult VerificarInicio([FromBody] Credenciales credenciales)
         {
+            string correo = credenciales.Correo;
+            string contrasena = credenciales.Contrasena;
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -21,7 +25,6 @@ namespace API.Controllers
                     using (SqlCommand command = new SqlCommand("verificar_inicio", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
                         command.Parameters.AddWithValue("@correo", correo);
 
                         connection.Open();
@@ -35,7 +38,7 @@ namespace API.Controllers
 
                                 if (!activo)
                                 {
-                                    return Ok("Cuenta no activada");
+                                    return BadRequest("Cuenta no activada");
                                 }
                                 else if (contrasena == contrasenaDB)
                                 {
@@ -43,7 +46,7 @@ namespace API.Controllers
                                 }
                                 else
                                 {
-                                    return Ok("Contraseña incorrecta");
+                                    return BadRequest("Contraseña incorrecta");
                                 }
                             }
                             else

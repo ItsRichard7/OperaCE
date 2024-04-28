@@ -1,0 +1,74 @@
+[
+  {
+    "correo": "admin1@example.com",
+    "contrasena": "admin123",
+    "cedula": "1234567890",
+    "nombre": "Admin",
+    "apellido1": "AdminApellido1",
+    "apellido2": "AdminApellido2",
+    "fecha_nacimiento": "1990-01-01",
+    "rol": "administrador",
+    "carnet": null,
+    "aprobado": true
+  },
+  {
+    "correo": "admin2@example.com",
+    "contrasena": "admin456",
+    "cedula": "0987654321",
+    "nombre": "Admin2",
+    "apellido1": "Admin2Apellido1",
+    "apellido2": "Admin2Apellido2",
+    "fecha_nacimiento": "1985-05-15",
+    "rol": "administrador",
+    "carnet": null,
+    "aprobado": true
+  },
+  {
+    "correo": "profesor1@example.com",
+    "contrasena": "prof123",
+    "cedula": "1357924680",
+    "nombre": "Profesor Jason",
+    "apellido1": "ProfesorApellido1",
+    "apellido2": "ProfesorApellido2",
+    "fecha_nacimiento": "1982-11-20",
+    "rol": "profesor",
+    "carnet": null,
+    "aprobado": true
+  },
+  {
+    "correo": "profesor2@example.com",
+    "contrasena": "prof456",
+    "cedula": "2468013579",
+    "nombre": "Profesor2",
+    "apellido1": "Profesor2Apellido1",
+    "apellido2": "Profesor2Apellido2",
+    "fecha_nacimiento": "1975-07-10",
+    "rol": "profesor",
+    "carnet": null,
+    "aprobado": true
+  },
+  {
+    "correo": "operador1@example.com",
+    "contrasena": "oper123",
+    "cedula": "9876543210",
+    "nombre": "Guapo",
+    "apellido1": "OperadorApellido1",
+    "apellido2": "OperadorApellido2",
+    "fecha_nacimiento": "1995-03-25",
+    "rol": "operador",
+    "carnet": "123456",
+    "aprobado": true
+  },
+  {
+    "correo": "operador2@example.com",
+    "contrasena": "oper456",
+    "cedula": "0123456789",
+    "nombre": "Operador2",
+    "apellido1": "Operador2Apellido1",
+    "apellido2": "Operador2Apellido2",
+    "fecha_nacimiento": "1988-09-05",
+    "rol": "operador",
+    "carnet": "789012",
+    "aprobado": false
+  }
+]

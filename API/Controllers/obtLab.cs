@@ -1,40 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
-using System.Collections.Generic;
 
-namespace ContosoUniversity.Controllers
+namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class opt_laboratorios : Controller
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        public IActionResult Index()
+        [HttpGet]
+
+        public IActionResult ObtenerLaboratorios()
         {
-            var laboratorios = new List<Laboratorio>();
-
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                var command = new SqlCommand("obt_laboratorios", connection);
-                command.CommandType = CommandType.StoredProcedure;
-
-                connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    while (reader.Read())
+                    using (SqlCommand command = new SqlCommand("obt_laboratorios", connection))
                     {
-                        laboratorios.Add(new Laboratorio
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            Nombre = reader["nombre"].ToString(),
-                            Computadoras = reader.GetInt32(1),
-                            Capacidad = reader.GetInt32(2)
-                        });
+                            List<Laboratorio> laboratorios = new List<Laboratorio>();
+
+                            while (reader.Read())
+                            {
+                                Laboratorio laboratorio = new Laboratorio
+                                {
+                                    Nombre = reader["nombre"].ToString(),
+                                    Computadoras = Convert.ToDecimal(reader["computadoras"]),
+                                    Capacidad = Convert.ToDecimal(reader["capacidad"])
+                                };
+
+                                laboratorios.Add(laboratorio);
+                            }
+
+                            return Ok(laboratorios);
+                        }
                     }
                 }
             }
-
-            return View(laboratorios);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al obtener laboratorios: {ex.Message}");
+            }
         }
     }
 }

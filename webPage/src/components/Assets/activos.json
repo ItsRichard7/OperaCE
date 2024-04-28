@@ -1,0 +1,37 @@
+[
+    {
+      "Placa": "AB1234",
+      "Tipo": "Computadora",
+      "Marca": "Dell",
+      "Fecha_de_Compra": "2023-01-15",
+
+      "prestado": true,
+      "aprob_ced": null 
+    },
+    {
+      "Placa": "CD5678",
+      "Tipo": "Proyector",
+      "Marca": "Epson",
+      "Fecha_de_Compra": "2022-09-20",
+
+      "prestado": false,
+      "aprob_ced": null 
+    },
+    {
+      "Placa": "EF9012",
+      "Tipo": "Pantalla",
+      "Marca": "Samsung",
+      "Fecha_de_Compra": null,
+
+      "prestado": false,
+      "aprob_ced": null 
+    },
+    {
+      "Placa": "GH3456",
+      "Tipo": "Impresora",
+      "Marca": "HP",
+      "Fecha_de_Compra": "2024-02-28",
+      "prestado": false,
+      "aprob_ced": null 
+    }
+]
