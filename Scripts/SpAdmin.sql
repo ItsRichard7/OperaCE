@@ -82,7 +82,7 @@ BEGIN
 END
 GO
 
--- Obtener la lista de activos de CE (Vista de Profesores)
+-- Obtener la lista de profesores (Vista de Profesores)
 CREATE PROCEDURE obt_profesores
 AS
 BEGIN
