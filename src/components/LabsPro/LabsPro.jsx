@@ -24,6 +24,11 @@ export const LabsPro = () => {
       return;
     }
 
+    if (parseInt(cantidadHoras) <= 0) {
+      setError("La cantidad de horas debe ser mayor que cero");
+      return;
+    }
+
     // Guardar la información
     const reserva = {
       correo: usuario.correo,
@@ -75,15 +80,26 @@ export const LabsPro = () => {
               placeholder="Cantidad de horas"
               required
               value={cantidadHoras}
-              onChange={(e) => setCantidadHoras(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (parseInt(value) <= 0) {
+                  setError("La cantidad de horas debe ser mayor que cero");
+                } else {
+                  setCantidadHoras(value);
+                  setError("");
+                }
+              }}
             />
           </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit">Registrar Laboratorio</button>
         </div>
       </form>
-      <button className="see" onClick={() => console.log("ver horarios")}>
-        Ver Horarios del Laboratorio
+      <button
+        className="see"
+        onClick={() => console.log("ver horarios del lab + " + { laboratorio })}
+      >
+        Ver Horarios del Laboratorio {laboratorio.Laboratorio}
       </button>
     </div>
   );

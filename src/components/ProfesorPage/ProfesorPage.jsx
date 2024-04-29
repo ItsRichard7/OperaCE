@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import labData from "../Assets/laboratorios.json";
 import activoData from "../Assets/activos.json";
 import usuariosData from "../Assets/usuarios.json";
+import actSolData from "../Assets/actSol.json";
 
 export const ProfesorPage = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ export const ProfesorPage = () => {
   const [lab, setLab] = useState(labData || []);
   const [activo, setActivo] = useState(activoData || []);
   const [usuarios, setUsuarios] = useState(usuariosData || []);
+  const [actSol, setActSol] = useState(actSolData || []);
   const profesores = usuarios.filter((usuario) => usuario.rol === "profesor");
   const operadores = usuarios.filter((usuario) => usuario.rol === "operador");
   const activosPrestados = activo.filter((activo) => activo.prestado === true);
@@ -28,7 +30,14 @@ export const ProfesorPage = () => {
 
   // funciones para solicitud de prestamos
 
-  // funciones para Prestamos que aprobé
+  const actSolNecesitanApro = actSol.filter((item) => item.aprobado === false);
+
+  const aprobar = (idx) => {
+    console.log(
+      "placa del activo al que hay que cambiarle el aprobado: " +
+        actSolNecesitanApro[idx].placa
+    );
+  };
 
   // Reservación de laboratorios
 
@@ -50,12 +59,39 @@ export const ProfesorPage = () => {
           className="mb-1 p-0"
         >
           <Tab eventKey="tab-1" title="Solicitud de prestamos">
-            <div>Salen los prestamos, y un botón de aceptar</div>
-          </Tab>
-          <Tab eventKey="tab-2" title="Prestamos que aprobé">
-            <div>
-              Lista de prestamos que aprobó el profesor, mostrar horas, por
-              siaca
+            <div className="table-wrapper">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Placa</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Decha de entrega</th>
+                    <th>hora de entrega</th>
+                    <th>Correo del solicitante</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {actSolNecesitanApro.map((sols, idx) => (
+                    <tr key={idx}>
+                      <td>{sols.placa}</td>
+                      <td>{sols.nombre}</td>
+                      <td>{sols.apellido1}</td>
+                      <td>{sols.apellido2}</td>
+                      <td>{sols.fecha}</td>
+                      <td>{sols.hora}</td>
+                      <td className="expand"> {sols.correo}</td>
+                      <td className="fit">
+                        <Button onClick={() => aprobar(idx)}>
+                          Confirmar Entrega
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </Tab>
           <Tab eventKey="tab-3" title="Reservación de Laboratorios">

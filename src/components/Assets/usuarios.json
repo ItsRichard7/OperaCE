@@ -3,7 +3,7 @@
     "correo": "admin1@example.com",
     "contrasena": "admin123",
     "cedula": "1234567890",
-    "nombre": "Admin",
+    "nombre": "Betico",
     "apellido1": "AdminApellido1",
     "apellido2": "AdminApellido2",
     "fecha_nacimiento": "1990-01-01",
@@ -62,7 +62,7 @@
   {
     "correo": "operador2@example.com",
     "contrasena": "oper456",
-    "cedula": "0123456789",
+    "cedula": "1123456789",
     "nombre": "Operador2",
     "apellido1": "Operador2Apellido1",
     "apellido2": "Operador2Apellido2",

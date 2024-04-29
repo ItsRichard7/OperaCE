@@ -7,6 +7,7 @@ import { OperatorPage } from './components/OperatorPage/OperatorPage';
 import { ProfesorPage } from './components/ProfesorPage/ProfesorPage';
 import { RegisterPage } from './components/RegisterPage/RegisterPage';
 import { LabsPro } from './components/LabsPro/LabsPro';
+import { LabsEst } from './components/LabsEst/LabsEst';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/pro" element={<ProfesorPage />} />
           <Route path="/reg" element={<RegisterPage />} />
           <Route path="/labsPro" element={<LabsPro />} />
+          <Route path="/LabsEst" element={<LabsEst />} />
         </Routes>
       </div>
     </Router>

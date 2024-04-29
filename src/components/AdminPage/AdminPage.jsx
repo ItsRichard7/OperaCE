@@ -22,6 +22,7 @@ import { FaPlus, FaUserCheck } from "react-icons/fa";
 import labData from "../Assets/laboratorios.json";
 import activoData from "../Assets/activos.json";
 import usuariosData from "../Assets/usuarios.json";
+import regHorasData from "../Assets/Reg_horas.json";
 
 // modals
 
@@ -53,7 +54,6 @@ export const AdminPage = () => {
   const [labDataToEdit, setLabDataToEdit] = useState(null);
 
   const handleOpenEditLabsModal = (idx) => {
-    console.log(lab[idx]);
     setLabDataToEdit(lab[idx]);
     setShowEditLabsModal(true);
   };
@@ -75,7 +75,6 @@ export const AdminPage = () => {
   const [ActivosDataToEdit, setActivosDataToEdit] = useState(null);
 
   const handleOpenEditActivosModal = (idx) => {
-    console.log(activo[idx]);
     setActivosDataToEdit(activo[idx]);
     setShowEditActivosModal(true);
   };
@@ -99,7 +98,6 @@ export const AdminPage = () => {
   const [profesorDataToEdit, setProfesorDataToEdit] = useState(null);
 
   const handleOpenEditProfModal = (idx) => {
-    console.log(profesores[idx]);
     setProfesorDataToEdit(profesores[idx]);
     setShowEditProfModal(true);
   };
@@ -152,6 +150,34 @@ export const AdminPage = () => {
 
   const handlePrintTable = () => {
     window.print();
+  };
+
+  // horario operadores
+  const [cedula, setCedula] = useState("");
+  const [historialHoras, setHistorialHoras] = useState([]);
+  const [horasTotales, setHorasTotales] = useState(0);
+
+  const handleBuscarReporte = () => {
+    // Filtrar el historial de horas por la cédula ingresada
+    const historialFiltrado = regHorasData.filter(
+      (registro) => registro.user_ced === cedula
+    );
+
+    // Calcular las horas totales trabajadas por el operador
+    const horasTotalesCalculadas = historialFiltrado.reduce(
+      (totalHoras, registro) => {
+        const horaEntrada = new Date("2000-01-01 " + registro.hora_entr);
+        const horaSalida = new Date("2000-01-01 " + registro.hora_sal);
+        const horasTrabajadas =
+          (horaSalida.getTime() - horaEntrada.getTime()) / (1000 * 60 * 60);
+        return totalHoras + horasTrabajadas;
+      },
+      0
+    );
+
+    // Actualizar el estado con el historial de horas y las horas totales
+    setHistorialHoras(historialFiltrado);
+    setHorasTotales(horasTotalesCalculadas);
   };
 
   return (
@@ -380,17 +406,55 @@ export const AdminPage = () => {
                 <input
                   type="text"
                   id="emailInput"
-                  placeholder="Ingrese el correo electrónico"
+                  placeholder="Ingrese la cedula"
                   className="geeksInput"
+                  value={cedula}
+                  onChange={(e) => setCedula(e.target.value)}
                 />
                 <h1 className="geeksHeading"></h1>
-                <button onClick={handleResetPassword} className="geeksBtn">
+                <button onClick={handleBuscarReporte} className="geeksBtn">
                   Buscar Reporte
                 </button>
               </div>
-              Colocar correo, mostrar todo el historial del operador Mostrar
-              apellidos, nombre, Fecha, ingreso, salida, horas totales. Esto
-              está complejo
+              {historialHoras.length > 0 ? (
+                <div>
+                  <h2>Historial de Horas del Operador</h2>
+                  <p>Cédula: {cedula}</p>
+                  <p>Horas Totales: {horasTotales}</p>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Fecha de Entrada</th>
+                        <th>Fecha de Salida</th>
+                        <th>Horas Trabajadas</th>
+                        <th>Cantidad de Horas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {historialHoras.map((registro, idx) => (
+                        <tr key={idx}>
+                          <td>{registro.fecha}</td>
+                          <td>{registro.hora_entr}</td>
+                          <td>{registro.hora_sal}</td>
+                          <td className="expand">
+                            {(
+                              (new Date(
+                                "2000-01-01 " + registro.hora_sal
+                              ).getTime() -
+                                new Date(
+                                  "2000-01-01 " + registro.hora_entr
+                                ).getTime()) /
+                              (1000 * 60 * 60)
+                            ).toFixed(2)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No se encontraron registros de horas para el operador.</p>
+              )}
             </div>
           </Tab>
         </Tabs>
