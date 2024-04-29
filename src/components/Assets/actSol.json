@@ -1,0 +1,57 @@
+[
+    {
+      "placa": "EF9012",
+      "nombre": "Carlos",
+      "apellido1": "Mendez",
+      "apellido2": "Mendez",
+      "correo": "carlitospro777@epico.com",
+      "fecha": "28/4/2024",
+      "hora": "17:57:33",
+      "aprobado": false,
+      "entregado": false
+    },
+    {
+      "placa": "AB1234",
+      "nombre": "Ana",
+      "apellido1": "López",
+      "apellido2": "Pérez",
+      "correo": "anita.lopez@example.com",
+      "fecha": "28/4/2024",
+      "hora": "18:30:45",
+      "aprobado": false,
+      "entregado": false
+    },
+    {
+      "placa": "CD5678",
+      "nombre": "Juan",
+      "apellido1": "Martínez",
+      "apellido2": "Gómez",
+      "correo": "juanito99@example.com",
+      "fecha": "28/4/2024",
+      "hora": "19:15:22",
+      "aprobado": false,
+      "entregado": false
+    },
+    {
+      "placa": "GH3456",
+      "nombre": "María",
+      "apellido1": "García",
+      "apellido2": "Pérez",
+      "correo": "maria.garcia@example.com",
+      "fecha": "28/4/2024",
+      "hora": "20:05:10",
+      "aprobado": true,
+      "entregado": false
+    },
+    {
+      "placa": "JK7890",
+      "nombre": "Pedro",
+      "apellido1": "Rodríguez",
+      "apellido2": "Sánchez",
+      "correo": "pedrito123@example.com",
+      "fecha": "28/4/2024",
+      "hora": "21:20:55",
+      "aprobado": true,
+      "entregado": true
+    }
+  ]

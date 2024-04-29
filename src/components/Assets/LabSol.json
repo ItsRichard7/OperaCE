@@ -1,0 +1,135 @@
+[
+    {
+      "correo_soli": "usuario5@example.com",
+      "fecha": "2024-04-29",
+      "hora": "11:30:00",
+      "user_ced": "13579246",
+      "lab": "F209",
+      "p_nombre": "Laura",
+      "p_apellido": "Gómez",
+      "s_apellido": "Martínez",
+      "cant_horas": 2
+    },
+    {
+      "correo_soli": "usuario6@example.com",
+      "fecha": "2024-04-30",
+      "hora": "08:00:00",
+      "user_ced": "98765432",
+      "lab": "F209",
+      "p_nombre": "Pedro",
+      "p_apellido": "Fernández",
+      "s_apellido": "López",
+      "cant_horas": 3
+    },
+    {
+      "correo_soli": "usuario7@example.com",
+      "fecha": "2024-05-01",
+      "hora": "13:00:00",
+      "user_ced": "65432198",
+      "lab": "F209",
+      "p_nombre": "Lucía",
+      "p_apellido": "Hernández",
+      "s_apellido": "Díaz",
+      "cant_horas": 1.5
+    },
+    {
+      "correo_soli": "usuario8@example.com",
+      "fecha": "2024-04-30",
+      "hora": "10:30:00",
+      "user_ced": "24681357",
+      "lab": "F208",
+      "p_nombre": "David",
+      "p_apellido": "Martínez",
+      "s_apellido": "González",
+      "cant_horas": 2.5
+    },
+    {
+      "correo_soli": "usuario9@example.com",
+      "fecha": "2024-05-01",
+      "hora": "14:00:00",
+      "user_ced": "13579135",
+      "lab": "F208",
+      "p_nombre": "Sofía",
+      "p_apellido": "Díaz",
+      "s_apellido": "Rodríguez",
+      "cant_horas": 1.5
+    },
+    {
+      "correo_soli": "usuario10@example.com",
+      "fecha": "2024-05-02",
+      "hora": "09:00:00",
+      "user_ced": "57913579",
+      "lab": "F208",
+      "p_nombre": "Javier",
+      "p_apellido": "López",
+      "s_apellido": "Fernández",
+      "cant_horas": 2
+    },
+    {
+      "correo_soli": "usuario11@example.com",
+      "fecha": "2024-04-30",
+      "hora": "12:00:00",
+      "user_ced": "79246813",
+      "lab": "F207",
+      "p_nombre": "Elena",
+      "p_apellido": "González",
+      "s_apellido": "Martínez",
+      "cant_horas": 1
+    },
+    {
+      "correo_soli": "usuario12@example.com",
+      "fecha": "2024-05-01",
+      "hora": "11:00:00",
+      "user_ced": "91357924",
+      "lab": "F207",
+      "p_nombre": "Gabriel",
+      "p_apellido": "Pérez",
+      "s_apellido": "López",
+      "cant_horas": 2.5
+    },
+    {
+      "correo_soli": "usuario13@example.com",
+      "fecha": "2024-05-02",
+      "hora": "15:00:00",
+      "user_ced": "35792468",
+      "lab": "F207",
+      "p_nombre": "Marina",
+      "p_apellido": "Hernández",
+      "s_apellido": "Gómez",
+      "cant_horas": 1.5
+    },
+    {
+      "correo_soli": "usuario14@example.com",
+      "fecha": "2024-05-01",
+      "hora": "08:30:00",
+      "user_ced": "24681357",
+      "lab": "F210",
+      "p_nombre": "Diego",
+      "p_apellido": "Sánchez",
+      "s_apellido": "Pérez",
+      "cant_horas": 3
+    },
+    {
+      "correo_soli": "usuario15@example.com",
+      "fecha": "2024-05-02",
+      "hora": "13:30:00",
+      "user_ced": "13579135",
+      "lab": "F210",
+      "p_nombre": "Marta",
+      "p_apellido": "Gómez",
+      "s_apellido": "Martínez",
+      "cant_horas": 2.5
+    },
+    {
+      "correo_soli": "usuario16@example.com",
+      "fecha": "2024-05-03",
+      "hora": "10:00:00",
+      "user_ced": "57913579",
+      "lab": "F210",
+      "p_nombre": "Hugo",
+      "p_apellido": "López",
+      "s_apellido": "Fernández",
+      "cant_horas": 1.5
+    }
+]
+  

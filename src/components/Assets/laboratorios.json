@@ -1,0 +1,30 @@
+[
+    {
+      "Laboratorio": "F207",
+      "Capacidad": 25,
+      "Computadoras": 15,
+      "Activos": "proyector",
+      "Facilidades": "proyector a la pared posterior"
+    },
+    {
+      "Laboratorio": "F208",
+      "Capacidad": 30,
+      "Computadoras": 20,
+      "Activos": "pantalla",
+      "Facilidades": "pantalla al centro de la clase"
+    },
+    {
+      "Laboratorio": "F209",
+      "Capacidad": 20,
+      "Computadoras": 12,
+      "Activos": "proyector",
+      "Facilidades": "proyector a la pared posterior"
+    },
+    {
+      "Laboratorio": "F210",
+      "Capacidad": 30,
+      "Computadoras": 18,
+      "Activos": "pantalla",
+      "Facilidades": "pantalla al centro de la clase"
+    }
+  ]
