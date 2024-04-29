@@ -32,6 +32,7 @@ namespace API.Controllers.Login
                         command.Parameters.AddWithValue("@p_apellido", usuario.PrimerApellido);
                         command.Parameters.AddWithValue("@s_apellido", (object)usuario.SegundoApellido ?? DBNull.Value); // Manejar explícitamente el valor nulo
                         command.Parameters.AddWithValue("@f_nacim", usuario.FechaNacimiento);
+                        command.Parameters.AddWithValue("@rol_id", usuario.RolId);
 
 
                         connection.Open();

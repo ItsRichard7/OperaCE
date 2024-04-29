@@ -6,19 +6,19 @@ namespace API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class opt_laboratorios : Controller
+    public class obtenerLaboratorios : Controller
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
         [HttpGet]
 
-        public IActionResult ObtenerLaboratorios()
+        public IActionResult obtLaboratorios()
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand command = new SqlCommand("obt_laboratorios", connection))
+                    using (SqlCommand command = new SqlCommand("obt_tabla_laboratorio", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -26,16 +26,15 @@ namespace API.Controllers.Admin
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            List<Laboratorio> laboratorios = new List<Laboratorio>();
+                            List<Labs> laboratorios = new List<Labs>();
 
                             while (reader.Read())
                             {
-                                Laboratorio laboratorio = new Laboratorio
+                                Labs laboratorio = new Labs
                                 {
                                     Nombre = reader["nombre"].ToString(),
                                     Computadoras = Convert.ToDecimal(reader["computadoras"]),
                                     Capacidad = Convert.ToDecimal(reader["capacidad"]),
-                                    Descripcion = reader["facilidades"].ToString()
                                 };
 
                                 laboratorios.Add(laboratorio);

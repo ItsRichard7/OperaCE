@@ -18,7 +18,7 @@ END
 GO
 
 -- Obtener Lista de los Laboratorios y Facilidades (Vista Admin - Labs)
-CREATE PROCEDURE editar_laboratorio (@nombre VARCHAR(6), @computadoras DECIMAL(2), @capacidad DECIMAL(2))
+CREATE PROCEDURE editar_laboratorio (@nombre VARCHAR(6), @computadoras NUMERIC(2), @capacidad NUMERIC(2))
 AS
 BEGIN
     UPDATE Laboratorio SET capacidad = @capacidad, computadoras = @computadoras WHERE nombre = @nombre;
@@ -65,7 +65,6 @@ BEGIN
 END
 GO
 
-SELECT * FROM Laboratorio
 
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_laboratorios;
