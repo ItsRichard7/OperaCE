@@ -3,24 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\labs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\labs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\editaractivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\editaractivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\movil\\obtenerlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\movil\\obtenerlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\editarprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\editarprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\laboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\laboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obtenerprofesores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obtenerprofesores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obtlab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obtlab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\registrohorasop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\registrohorasop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\login\\insertarusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\login\\insertarusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\registrohoras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\registrohoras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obteneroperadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obteneroperadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obteneractadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obteneractadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\operadoradmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\operadoradmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\operador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\operador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\eliminarprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\eliminarprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,71 +54,149 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Laboratorio.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Laboratorio.cs",
-              "RelativeDocumentMoniker": "Recursos\\Laboratorio.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Laboratorio.cs",
-              "RelativeToolTip": "Recursos\\Laboratorio.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T00:39:18.597Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "insertarUsuario.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\insertarUsuario.cs",
-              "RelativeDocumentMoniker": "Controllers\\Login\\insertarUsuario.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\insertarUsuario.cs",
-              "RelativeToolTip": "Controllers\\Login\\insertarUsuario.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAgwCUAAAAqAAAA",
+              "Title": "RegistroHoras.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\RegistroHoras.cs",
+              "RelativeDocumentMoniker": "Recursos\\RegistroHoras.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\RegistroHoras.cs",
+              "RelativeToolTip": "Recursos\\RegistroHoras.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T00:27:55.641Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Labs.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Labs.cs",
-              "RelativeDocumentMoniker": "Recursos\\Labs.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Labs.cs",
-              "RelativeToolTip": "Recursos\\Labs.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T00:14:45.101Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "obtenerLaboratorio.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\obtenerLaboratorio.cs",
-              "RelativeDocumentMoniker": "Controllers\\Movil\\obtenerLaboratorio.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\obtenerLaboratorio.cs",
-              "RelativeToolTip": "Controllers\\Movil\\obtenerLaboratorio.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAcwBwAAABHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T00:14:11.551Z",
+              "WhenOpened": "2024-04-29T17:40:21.364Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "obtLab.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtLab.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\obtLab.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtLab.cs",
-              "RelativeToolTip": "Controllers\\Admin\\obtLab.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAA4wDYAAAABAAAA",
+              "Title": "registroHorasOP.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\registroHorasOP.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\registroHorasOP.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\registroHorasOP.cs",
+              "RelativeToolTip": "Controllers\\Admin\\registroHorasOP.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABMAAABWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T00:10:12.739Z",
+              "WhenOpened": "2024-04-29T17:40:12.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "obtenerOperadores.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerOperadores.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\obtenerOperadores.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerOperadores.cs",
+              "RelativeToolTip": "Controllers\\Admin\\obtenerOperadores.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwCoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:37:28.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "OperadorAdmin.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\OperadorAdmin.cs",
+              "RelativeDocumentMoniker": "Recursos\\OperadorAdmin.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\OperadorAdmin.cs",
+              "RelativeToolTip": "Recursos\\OperadorAdmin.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:35:14.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Operador.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Operador.cs",
+              "RelativeDocumentMoniker": "Recursos\\Operador.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Operador.cs",
+              "RelativeToolTip": "Recursos\\Operador.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:34:53.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "eliminarProfesor.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\eliminarProfesor.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\eliminarProfesor.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\eliminarProfesor.cs",
+              "RelativeToolTip": "Controllers\\Admin\\eliminarProfesor.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:29:28.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "editarProfesor.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarProfesor.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\editarProfesor.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarProfesor.cs",
+              "RelativeToolTip": "Controllers\\Admin\\editarProfesor.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:24:01.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Profesor.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Profesor.cs",
+              "RelativeDocumentMoniker": "Recursos\\Profesor.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Profesor.cs",
+              "RelativeToolTip": "Recursos\\Profesor.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:19:57.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "obtenerProfesores.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerProfesores.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\obtenerProfesores.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerProfesores.cs",
+              "RelativeToolTip": "Controllers\\Admin\\obtenerProfesores.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:18:57.866Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "editarActivo.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarActivo.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\editarActivo.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarActivo.cs",
+              "RelativeToolTip": "Controllers\\Admin\\editarActivo.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAiwA8AAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:17:03.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "obtenerActAdmin.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerActAdmin.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\obtenerActAdmin.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerActAdmin.cs",
+              "RelativeToolTip": "Controllers\\Admin\\obtenerActAdmin.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:08:02.448Z",
               "EditorCaption": ""
             }
           ]

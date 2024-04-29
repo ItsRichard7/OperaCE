@@ -41,7 +41,7 @@ BEGIN
 END
 GO
 
--- Obtener Lista de Operadores que no han sido aprobados (Vista Admin - Operadores)
+-- Obtener Lista de Operadores que no han sido aprobados (Aprobación de Operadores)
 CREATE PROCEDURE obt_operadores_no_aprob
 AS
 BEGIN
@@ -49,7 +49,7 @@ BEGIN
 END
 GO
 
--- Aprobar un operador (Marcarlo como activo) (Vista Admin - Operadores) 
+-- Aprobar un operador (Marcarlo como activo) (Aprobación de Operadores) 
 CREATE PROCEDURE aprobar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -57,7 +57,7 @@ BEGIN
 END
 GO
 
--- Rechazar un operador (Elimina de Registros) (Vista Admin - Operadores)
+-- Rechazar un operador (Elimina de Registros) (Aprobación de Operadores)
 CREATE PROCEDURE rechazar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -65,6 +65,76 @@ BEGIN
 END
 GO
 
+-- PROBAR DESDE AQUI ----------------------------------------------------------
+-- Obtener la lista de activos de CE (Vista de Activos)
+CREATE PROCEDURE obt_activos
+AS
+BEGIN
+	SELECT placa, tipo, marca, f_compra
+	FROM Activo
+END
+GO
+
+-- Editar activo (Vista de Activos)
+CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE)
+AS
+BEGIN
+	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra WHERE placa = @placa;
+END
+GO
+
+-- Obtener la lista de activos de CE (Vista de Profesores)
+CREATE PROCEDURE obt_profesores
+AS
+BEGIN
+	SELECT cedula, p_nombre, s_nombre, p_apellido, s_apellido, 
+	DATEDIFF(YEAR, f_nacim, GETDATE()) - 
+            CASE 
+                WHEN DATEADD(YEAR, DATEDIFF(YEAR, f_nacim, GETDATE()), f_nacim) > GETDATE() THEN 1 
+                ELSE 0 
+            END AS edad,
+			f_nacim, correo
+	FROM Usuario
+	WHERE rol_id = 2;
+END
+GO
+
+-- Editar profesor (Vista de Profesores)
+CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
+AS
+BEGIN
+	UPDATE Usuario SET cedula = @cedula, correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido WHERE cedula = @cedula;
+END
+GO
+
+-- Eliminar un profesor (Vista de Profesores)
+CREATE PROCEDURE borrar_profesor (@cedula NUMERIC(10))
+AS
+BEGIN
+	DELETE FROM USUARIO WHERE cedula = @cedula;
+END
+GO
+
+-- Obtener todos los operadores y horas realizadas (Registros de Operadores)
+CREATE PROCEDURE mostrar_operadores
+AS
+BEGIN
+	SELECT A.carnet, A.p_nombre, A.s_nombre, A.p_apellido, A.s_apellido, SUM(B.horas_reg) AS horas_totales 
+	FROM Usuario AS A JOIN Reg_Horas AS B ON A.cedula = B.user_ced
+	WHERE A.rol_id = 3 AND A.activo = 1
+	GROUP BY A.carnet, A.p_nombre, A.s_nombre, A.p_apellido, A.s_apellido;
+END
+GO
+
+-- Obtener los registros de horas de un operador específico (Registros de Operadores)
+CREATE PROCEDURE obt_reg_horas_op (@carnet NUMERIC(12))
+AS
+BEGIN
+	SELECT B.fecha, B.hora_entr, B.hora_sal, B.horas_reg
+	FROM Usuario AS A JOIN Reg_Horas AS B ON A.cedula = B.user_ced
+	WHERE A.carnet = @carnet;
+END
+GO
 
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_laboratorios;
@@ -74,6 +144,13 @@ DROP PROCEDURE rechazar_operador;
 DROP PROCEDURE editar_laboratorio; 
 DROP PROCEDURE eliminar_facilidades 
 DROP PROCEDURE insertar_facilidad; 
+DROP PROCEDURE obt_activos;
+DROP PROCEDURE editar_activo;
+DROP PROCEDURE obt_profesores;
+DROP PROCEDURE editar_profesor;
+DROP PROCEDURE borrar_profesor;
+DROP PROCEDURE mostrar_operadores;
+DROP PROCEDURE obt_reg_horas_op;
 */
 
 /* Pruebas para los store procedures
@@ -85,4 +162,11 @@ EXEC obt_operadores_no_aprob;
 EXEC editar_laboratorio 'F2-06', 2, 3;
 EXEC eliminar_facilidades 'F2-06';
 EXEC insertar_facilidad 'F2-06', 'Se puede coger... depresión';
+EXEC obt_activos;
+EXEC editar_activo 'PRJ002', 'Proyector', 'Samsung', '2023-07-20';
+EXEC obt_profesores;
+EXEC editar_profesor 4567890123, 'profe2@gmail.com', 'Ana', NULL, 'Martínez', 'López', '1995-03-25';
+EXEC borrar_profesor 4567890123;
+EXEC mostrar_operadores;
+EXEC obt_reg_horas_op 2022457896;
 */

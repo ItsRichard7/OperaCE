@@ -6,7 +6,7 @@ GO
 CREATE TABLE Usuario(
     cedula NUMERIC(10) NOT NULL,
     correo NVARCHAR(50) NOT NULL,
-	contrasena NVARCHAR(20) NOT NULL,
+	contrasena VARCHAR(32) NOT NULL,
     carnet NUMERIC(12),
     p_nombre NVARCHAR(20) NOT NULL,
     s_nombre NVARCHAR(20),
@@ -28,7 +28,8 @@ CREATE TABLE Rol(
 CREATE TABLE Reg_Horas(
     fecha DATE NOT NULL,
     hora_entr TIME NOT NULL,
-    hora_sal TIME,
+    hora_sal TIME NOT NULL,
+	horas_reg NUMERIC(2,1) NOT NULL,
     user_ced NUMERIC(10) NOT NULL
 );
 
@@ -38,12 +39,12 @@ CREATE TABLE Activo(
     marca NVARCHAR(50) NOT NULL,
     f_compra DATE,
     prestado BIT NOT NULL,
-    aprob_ced NUMERIC(10) NOT NULL,
+    aprob_ced NUMERIC(10),
     PRIMARY KEY(placa)
 );
 
 CREATE TABLE Laboratorio(
-    nombre VARCHAR(6) NOT NULL,
+    nombre NCHAR(6) NOT NULL,
     computadoras NUMERIC(2) NOT NULL,
     capacidad NUMERIC(2) NOT NULL,
     PRIMARY KEY(nombre)
@@ -51,7 +52,7 @@ CREATE TABLE Laboratorio(
 
 CREATE TABLE Lab_Facilidad(
     descripcion NVARCHAR(50) NOT NULL,
-    lab_nombre VARCHAR(6) NOT NULL,
+    lab_nombre NCHAR(6) NOT NULL,
     PRIMARY KEY(lab_nombre, descripcion),
     CONSTRAINT FK_Lab_Facilidad FOREIGN KEY (lab_nombre) REFERENCES Laboratorio(nombre)
 );
@@ -66,7 +67,7 @@ CREATE TABLE Soli_Lab(
     p_apellido NVARCHAR(20) NOT NULL,
     s_apellido NVARCHAR(20),
     cant_horas DECIMAL(2,1) NOT NULL,
-    lab_nombre VARCHAR(6) NOT NULL,
+    lab_nombre NCHAR(6) NOT NULL,
     user_ced NUMERIC(10) NOT NULL,
     PRIMARY KEY(correo_soli, fecha, hora),
     CONSTRAINT FK1_Soli_Lab FOREIGN KEY (lab_nombre) REFERENCES Laboratorio(nombre),
@@ -75,20 +76,21 @@ CREATE TABLE Soli_Lab(
 
 CREATE TABLE Soli_Act(
     correo_soli NVARCHAR(50) NOT NULL,
-	aprobado BIT NOT NULL,
-    fecha_ent DATE NOT NULL,
-    hora_ent TIME NOT NULL,
+    fecha_soli DATE NOT NULL,
+    hora_soli TIME NOT NULL,
     p_nombre NVARCHAR(20) NOT NULL,
     s_nombre NVARCHAR(20),
     p_apellido NVARCHAR(20) NOT NULL,
     s_apellido NVARCHAR(20),
+	aprobado BIT NOT NULL,
+	entregado BIT NOT NULL,
     fecha_dev DATE,
     hora_dev TIME,
     devuelto BIT NOT NULL,
-    averia NVARCHAR(200) NOT NULL,
+    averia NVARCHAR(200),
     act_placa NVARCHAR(20) NOT NULL,
     user_ced NUMERIC(10) NOT NULL,
-    PRIMARY KEY(correo_soli, fecha_ent, hora_ent),
+    PRIMARY KEY(correo_soli, fecha_soli, hora_soli),
     CONSTRAINT FK1_Soli_Act FOREIGN KEY (act_placa) REFERENCES Activo(placa),
     CONSTRAINT FK2_Soli_Act FOREIGN KEY (user_ced) REFERENCES Usuario(cedula)
 );

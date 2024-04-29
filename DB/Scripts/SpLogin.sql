@@ -45,8 +45,6 @@ BEGIN
 END
 GO
 
-SELECT * FROM Usuario
-
 /* Eliminar todos los store procedure
 DROP PROCEDURE insertar_usuario;
 DROP PROCEDURE verificar_inicio;
@@ -57,7 +55,7 @@ DROP PROCEDURE actualizar_contrasena;
 /* Pruebas para los store procedures
 SELECT * from Sys.procedures; --Ignorar este comando
 EXEC verificar_inicio 'admin1@gmail.com';
-EXEC insertar_usuario 224560873, 'operador3@gmail.com', 'operador123', 2018445996, 'Marco', NULL, 'Brenes', 'Brenes', '1999-03-12';
+EXEC insertar_usuario 224560873, 'operador3@gmail.com', 'operador123', 2018445996, 'Marco', NULL, 'Brenes', 'Brenes', '1999-03-12', 3;
 
 DECLARE @CorreoExiste BIT;
 EXEC existe_correo 'admin1@gmail.com', @CorreoExiste OUTPUT;

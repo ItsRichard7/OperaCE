@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Recursos;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -6,19 +7,19 @@ namespace API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class opt_laboratorios : Controller
+    public class obtenerActAdmin : Controller
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
         [HttpGet]
 
-        public IActionResult ObtenerLaboratorios()
+        public IActionResult ObtenerActivos()
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand command = new SqlCommand("obt_laboratorios", connection))
+                    using (SqlCommand command = new SqlCommand("obt_activos", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -26,22 +27,22 @@ namespace API.Controllers.Admin
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            List<Laboratorio> laboratorios = new List<Laboratorio>();
+                            List<ActivoAdmin> activos = new List<ActivoAdmin>();
 
                             while (reader.Read())
                             {
-                                Laboratorio laboratorio = new Laboratorio
+                                ActivoAdmin activo = new ActivoAdmin
                                 {
-                                    Nombre = reader["nombre"].ToString(),
-                                    Computadoras = Convert.ToDecimal(reader["computadoras"]),
-                                    Capacidad = Convert.ToDecimal(reader["capacidad"]),
-                                    Descripcion = reader["facilidades"].ToString()
+                                    Placa = reader["placa"].ToString(),
+                                    Tipo = reader["tipo"].ToString(),
+                                    Marca = reader["marca"].ToString(),
+                                    FCompra = Convert.ToDateTime(reader["f_compra"])
                                 };
 
-                                laboratorios.Add(laboratorio);
+                                activos.Add(activo);
                             }
 
-                            return Ok(laboratorios);
+                            return Ok(activos);
                         }
                     }
                 }
