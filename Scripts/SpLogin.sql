@@ -16,11 +16,11 @@ END
 GO
 
 -- Registrar un nuevo operador en la Base de Datos  (Registro Operador)
-CREATE PROCEDURE insertar_usuario (@cedula NUMERIC(10),@correo NVARCHAR(50),@contrasena NVARCHAR(20), @carnet NUMERIC(12), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
+CREATE PROCEDURE insertar_usuario (@cedula NUMERIC(10),@correo NVARCHAR(50),@contrasena NVARCHAR(20), @carnet NUMERIC(12), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE, @rol_id NUMERIC(1))
 AS
 BEGIN
     INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-	VALUES (@cedula, @correo, @contrasena, @carnet, @p_nombre, @s_nombre, @p_apellido, @s_apellido, @f_nacim, 0, 3);
+	VALUES (@cedula, @correo, @contrasena, @carnet, @p_nombre, @s_nombre, @p_apellido, @s_apellido, @f_nacim, 0, @rol_id);
 END
 GO
 
@@ -55,7 +55,7 @@ DROP PROCEDURE actualizar_contrasena;
 /* Pruebas para los store procedures
 SELECT * from Sys.procedures; --Ignorar este comando
 EXEC verificar_inicio 'admin1@gmail.com';
-EXEC insertar_usuario 224560873, 'operador3@gmail.com', 'operador123', 2018445996, 'Marco', NULL, 'Brenes', 'Brenes', '1999-03-12';
+EXEC insertar_usuario 224560873, 'operador3@gmail.com', 'operador123', 2018445996, 'Marco', NULL, 'Brenes', 'Brenes', '1999-03-12', 3;
 
 DECLARE @CorreoExiste BIT;
 EXEC existe_correo 'admin1@gmail.com', @CorreoExiste OUTPUT;
