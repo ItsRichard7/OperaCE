@@ -8,7 +8,7 @@ CREATE TABLE Usuario(
     correo NVARCHAR(50) NOT NULL,
 	contrasena VARCHAR(32) NOT NULL,
     carnet NUMERIC(12),
-    p_nombre NVARCHAR(20) NOT NULL,
+    p_nombre NVARCHAR(50) NOT NULL,
     s_nombre NVARCHAR(20),
     p_apellido NVARCHAR(20) NOT NULL,
     s_apellido NVARCHAR(20),
