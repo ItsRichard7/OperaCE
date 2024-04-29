@@ -119,33 +119,33 @@ VALUES (6789012345, 'operador2@gmail.com', 'operador123', 2022457896, 'Sofía', '
 -- Insertar los activos a la Base
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('PRJ001', 'Proyector', 'Epson', '2023-05-15', 0, 1234567890);
+VALUES ('PRJ001', 'Proyector', 'Epson', '2023-05-15', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR001', 'Control remoto', 'Sony', '2023-03-20', 0, 1234567890);
+VALUES ('CTR001', 'Control remoto', 'Sony', '2023-03-20', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('LLV001', 'Llave', 'Yale', '2022-11-10', 0, 1234567890);
+VALUES ('LLV001', 'Llave', 'Yale', '2022-11-10', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('HDMI001', 'Cable HDMI', 'AmazonBasics', '2022-08-30', 0, 1234567890);
+VALUES ('HDMI001', 'Cable HDMI', 'AmazonBasics', '2022-08-30', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('PRJ002', 'Proyector', 'BenQ', '2023-07-20', 1, 1234567890);
+VALUES ('PRJ002', 'Proyector', 'BenQ', '2023-07-20', 1, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR002', 'Control remoto', 'Samsung', '2023-01-10', 1, 1234567890);
+VALUES ('CTR002', 'Control remoto', 'Samsung', '2023-01-10', 1, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('LLV002', 'Llave', 'Master Lock', '2023-02-28', 1, 1234567890);
+VALUES ('LLV002', 'Llave', 'Master Lock', '2023-02-28', 1, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('HDMI002', 'Cable HDMI', 'Belkin', '2023-04-15', 1, 1234567890);
+VALUES ('HDMI002', 'Cable HDMI', 'Belkin', '2023-04-15', 1, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('PRJ003', 'Proyector', 'ViewSonic', '2023-09-25', 0, 1234567890);
+VALUES ('PRJ003', 'Proyector', 'ViewSonic', '2023-09-25', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, 1234567890);
+VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, 3456789012);
 
 
