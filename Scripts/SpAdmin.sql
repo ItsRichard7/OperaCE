@@ -99,10 +99,10 @@ END
 GO
 
 -- Editar profesor (Vista de Profesores)
-CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
+CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(50), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
 AS
 BEGIN
-	UPDATE Usuario SET cedula = @cedula, correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido WHERE cedula = @cedula;
+	UPDATE Usuario SET correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido, f_nacim = @f_nacim WHERE cedula = @cedula;
 END
 GO
 

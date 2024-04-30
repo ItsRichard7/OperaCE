@@ -16,7 +16,7 @@ END
 GO
 
 -- Registrar un nuevo operador en la Base de Datos  (Registro Operador)
-CREATE PROCEDURE insertar_usuario (@cedula NUMERIC(10),@correo NVARCHAR(50),@contrasena NVARCHAR(20), @carnet NUMERIC(12), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE, @rol_id NUMERIC(1))
+CREATE PROCEDURE insertar_usuario (@cedula NUMERIC(10), @correo NVARCHAR(50), @contrasena NVARCHAR(32), @carnet NUMERIC(12), @p_nombre NVARCHAR(50), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE, @rol_id NUMERIC(1))
 AS
 BEGIN
 	DECLARE @activo BIT;

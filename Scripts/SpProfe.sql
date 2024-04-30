@@ -51,7 +51,7 @@ GO
 
 -- Insertar una nueva solicitud de laboratorio (Vista Reservación Laboratorios)
 CREATE PROCEDURE insertar_soli_lab (@correoSoli NVARCHAR(50), @fechaSoli DATE, @horaSoli TIME, @carnet NUMERIC(12), 
-                                    @pNombre NVARCHAR(20), @sNombre NVARCHAR(20), @pApellido NVARCHAR(20), @sApellido NVARCHAR(20), 
+                                    @pNombre NVARCHAR(50), @sNombre NVARCHAR(20), @pApellido NVARCHAR(20), @sApellido NVARCHAR(20), 
 									@cantHoras DECIMAL(2,1), @labNombre NCHAR(6), @userCed NUMERIC(10))
 AS
 BEGIN
