@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
-import axios from "axios"; // Import axios for making HTTP requests
 
 // iconos
 import { GrUserAdmin } from "react-icons/gr";
@@ -20,27 +19,57 @@ export const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
-      const data = {
-        correo: correo,
-        contrasena: contrasena
-      };
-  
-      const response = await axios.post("http://localhost:5074/api/InicioSesion", data, {
+      const response = await fetch('http://localhost:5074/api/InicioSesion', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
-        }
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ correo, contrasena })
       });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        if (data === true) {
+          const usuarioResponse = await fetch('http://localhost:5074/api/obtenerUsuario', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
   
-      if (response.data === true) {
-        localStorage.setItem("authenticated", JSON.stringify(true));
-        Navigate("/admin"); // Redirect to dashboard or any other route after successful login
+          const usuariosData = await usuarioResponse.json();
+          const usuarioEncontrado = usuariosData.find((usuario) => usuario.correo === correo);
+  
+          if (usuarioEncontrado) {
+            if (usuarioEncontrado.activo === false) {
+              setError("Cuenta no activada");
+              return;
+            }
+  
+            localStorage.setItem("authenticated", JSON.stringify(true));
+  
+            if (usuarioEncontrado.rolId === 1) {
+              Navigate("/admin", { state: { usuario: usuarioEncontrado } });
+            } else if (usuarioEncontrado.rolId === 2) {
+              Navigate("/pro", { state: { usuario: usuarioEncontrado } });
+            } else if (usuarioEncontrado.rolId === 3) {
+              Navigate("/op", { state: { usuario: usuarioEncontrado } });
+            }
+          } else {
+            setError("Usuario no encontrado");
+          }
+        } else {
+          setError("Contraseña incorrecta");
+        }
       } else {
-        setError(response.data);
+        const errorMessage = await response.text();
+        setError(errorMessage);
       }
     } catch (error) {
-      setError("Error al iniciar sesión. Inténtelo de nuevo más tarde.");
-      console.error("Error:", error);
+      setError("Error al iniciar sesión");
     }
   };
   
@@ -84,7 +113,7 @@ export const LoginForm = () => {
               )}
             </span>
           </div>
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="error-message">{error}</p>}{" "}
           <div className="forget">
             <a href="#">Recuperar Contraseña</a>
           </div>

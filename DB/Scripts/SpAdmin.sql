@@ -11,7 +11,7 @@ GO
 CREATE PROCEDURE obt_laboratorios
 AS
 BEGIN
-    SELECT A.nombre, A.capacidad, A.computadoras, STRING_AGG(B.descripcion, '. ') AS facilidades 
+    SELECT A.nombre, A.capacidad, A.computadoras, STRING_AGG(B.descripcion, '. ') AS facilidades
 	FROM Laboratorio as A JOIN Lab_Facilidad as B ON A.nombre = B.lab_nombre 
 	GROUP BY A.nombre, A.capacidad, A.computadoras;
 END
@@ -170,3 +170,5 @@ EXEC borrar_profesor 4567890123;
 EXEC mostrar_operadores;
 EXEC obt_reg_horas_op 2022457896;
 */
+
+SELECT * FROM usuario

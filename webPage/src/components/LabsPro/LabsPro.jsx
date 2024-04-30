@@ -24,6 +24,11 @@ export const LabsPro = () => {
       return;
     }
 
+    if (parseInt(cantidadHoras) <= 0) {
+      setError("La cantidad de horas debe ser mayor que cero");
+      return;
+    }
+
     // Guardar la información
     const reserva = {
       correo: usuario.correo,
@@ -42,6 +47,16 @@ export const LabsPro = () => {
 
     // Redirigir a la página de inicio o a donde sea necesario después de guardar la reserva
     //Navigate("/");
+  };
+
+  const handleVerHorarios = () => {
+    Navigate("/calendar", {
+      state: { laboratorio: laboratorio, usuario: usuario },
+    });
+  };
+
+  const handleBack = () => {
+    Navigate(-1, { state: { usuario } });
   };
 
   return (
@@ -66,6 +81,7 @@ export const LabsPro = () => {
               placeholder="Fecha de la reserva"
               required
               value={fechaReserva}
+              min={new Date().toISOString().split("T")[0]} // Establece la fecha mínima como la fecha de hoy
               onChange={(e) => setFechaReserva(e.target.value)}
             />
           </div>
@@ -75,15 +91,27 @@ export const LabsPro = () => {
               placeholder="Cantidad de horas"
               required
               value={cantidadHoras}
-              onChange={(e) => setCantidadHoras(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (parseInt(value) <= 0) {
+                  setError("La cantidad de horas debe ser mayor que cero");
+                } else {
+                  setCantidadHoras(value);
+                  setError("");
+                }
+              }}
             />
           </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit">Registrar Laboratorio</button>
         </div>
       </form>
-      <button className="see" onClick={() => console.log("ver horarios")}>
-        Ver Horarios del Laboratorio
+      <button className="see" onClick={handleVerHorarios}>
+        Ver Horarios del Laboratorio del {laboratorio.Laboratorio}
+      </button>
+
+      <button className="see" onClick={handleBack}>
+        Volver
       </button>
     </div>
   );

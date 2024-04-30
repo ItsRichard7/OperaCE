@@ -12,7 +12,7 @@ namespace API.Controllers.Admin
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        [HttpGet("registros-hora/{carnet}")]
+        [HttpGet("{carnet}")]
         public IActionResult ObtenerRegistrosHora(decimal carnet)
         {
             try

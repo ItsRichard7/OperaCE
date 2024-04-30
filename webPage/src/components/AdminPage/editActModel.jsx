@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
+import axios from "axios";
 
 const EditActModal = ({ show, handleClose, ActivoData }) => {
   const [editedActivoData, setEditedActivoData] = useState({
-    Placa: ActivoData.Placa ?? "",
-    Tipo: ActivoData.Tipo ?? "",
-    Fecha_de_Compra: ActivoData.Fecha_de_Compra ?? "",
+    placa: ActivoData.placa ?? "",
+    tipo: ActivoData.tipo ?? "",
+    fCompra: ActivoData.fCompra ?? "",
+    marca: ActivoData.marca ?? "",
     Préstamo_requiere_aprobador: ActivoData.Préstamo_requiere_aprobador ?? "",
     prestado: ActivoData.prestado ?? "",
-    aprob_ced: ActivoData.aprob_ced ?? "",
+    aprobCed: ActivoData.aprobCed ?? "",
   });
 
   const [error, setError] = useState(null);
@@ -21,23 +23,28 @@ const EditActModal = ({ show, handleClose, ActivoData }) => {
     }));
   };
 
-  const handleGuardar = () => {
-    const editedActivo = {
-      Placa: editedActivoData.Placa,
-      Tipo: editedActivoData.Tipo,
-      Fecha_de_Compra: editedActivoData.Fecha_de_Compra,
-      Préstamo_requiere_aprobador: editedActivoData.Préstamo_requiere_aprobador,
-      prestado: editedActivoData.prestado,
-      aprob_ced:
-        editedActivoData.aprob_ced === "" ? null : editedActivoData.aprob_ced,
-    };
+  const handleGuardar = async () => {
+    try {
+      const editedActivo = {
+        placa: editedActivoData.placa,
+        tipo: editedActivoData.tipo,
+        fCompra: editedActivoData.fCompra,
+        marca: editedActivoData.marca,
+        aprobCed:
+          editedActivoData.aprobCed === "" ? null : editedActivoData.aprobCed,
+      };
 
-    localStorage.setItem("ActivoData", JSON.stringify(editedActivo));
-    console.log(editedActivo);
+      const response = await axios.put(
+        "http://localhost:5074/api/EditarActivo",
+        editedActivo
+      );
 
-    // Cerrar el modal
-    //window.location.reload();
-    handleClose();
+      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+
+      handleClose(); // Cerrar el modal después de guardar exitosamente
+    } catch (error) {
+      setError(error.response.data); // Manejar errores y mostrar mensaje de error en el componente
+    }
   };
 
   return (
@@ -47,39 +54,50 @@ const EditActModal = ({ show, handleClose, ActivoData }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="Placa">
+          <Form.Group controlId="placa">
             <Form.Label>Placa</Form.Label>
             <Form.Control
               type="text"
-              name="Placa"
-              value={editedActivoData.Placa}
+              name="placa"
+              value={editedActivoData.placa}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="Tipo">
+          <Form.Group controlId="tipo">
             <Form.Label>Tipo</Form.Label>
             <Form.Control
               type="text"
-              name="Tipo"
-              value={editedActivoData.Tipo}
+              name="tipo"
+              value={editedActivoData.tipo}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="Fecha_de_Compra">
+          <Form.Group controlId="fCompra">
             <Form.Label>Fecha de Compra</Form.Label>
             <Form.Control
               type="date"
-              name="Fecha_de_Compra"
-              value={editedActivoData.Fecha_de_Compra}
+              name="fCompra"
+              value={editedActivoData.fCompra.split("T")[0]} // Mostrar solo la fecha
+              onChange={handleChange}
             />
           </Form.Group>
 
-          <Form.Group controlId="aprob_ced">
+          <Form.Group controlId="marca">
+            <Form.Label>Marca</Form.Label>
+            <Form.Control
+              type="text"
+              name="marca"
+              value={editedActivoData.marca}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="aprobCed">
             <Form.Label>Cedula del aprobador</Form.Label>
             <Form.Control
               type="number"
-              name="aprob_ced"
-              value={editedActivoData.aprob_ced}
+              name="aprobCed"
+              value={editedActivoData.aprobCed}
               onChange={handleChange}
             />
           </Form.Group>

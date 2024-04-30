@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import md5 from "md5";
+import axios from "axios";
 
 // modal para guardar profesor //
 const ProfesorModal = ({ show, handleClose }) => {
@@ -39,29 +40,38 @@ const ProfesorModal = ({ show, handleClose }) => {
     return true;
   };
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
     if (validateFields()) {
-      const hashedPassword = md5(profesorData.contrasena);
-
-      const newProfesor = {
-        correo: profesorData.correo,
-        contrasena: hashedPassword,
-        cedula: profesorData.cedula,
-        nombre: profesorData.pnombre,
-        snombre: profesorData.snombre,
-        apellido1: profesorData.apellido1,
-        apellido2: profesorData.apellido2,
-        fechaNacimiento: profesorData.fechaNacimiento,
-        rol: "profesor",
-      };
-
-      localStorage.setItem("profesorData", JSON.stringify(newProfesor));
-
-      console.log("Contraseña cifrada:", hashedPassword);
-
-      console.log("Nuevo profesor:", newProfesor);
-
-      handleClose();
+      try {
+        const hashedPassword = md5(profesorData.contrasena);
+  
+        const newUser = {
+          cedula: profesorData.cedula,
+          correo: profesorData.correo,
+          contrasena: hashedPassword,
+          carnet: null, 
+          primerNombre: profesorData.pnombre,
+          segundoNombre: profesorData.snombre || null, // Manejar explícitamente el valor nulo
+          primerApellido: profesorData.apellido1,
+          segundoApellido: profesorData.apellido2 || null, // Manejar explícitamente el valor nulo
+          fechaNacimiento: profesorData.fechaNacimiento,
+          activo: true, // Opcional: establecer el usuario como activo por defecto
+          rolId: 2, // Opcional: asignar el ID del rol de profesor
+        };
+  
+        const response = await axios.post(
+          "http://localhost:5074/api/Usuario",
+          newUser
+        );
+  
+        console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+  
+        // Cerrar el modal o realizar alguna otra acción después de guardar exitosamente
+        handleClose();
+      } catch (error) {
+        console.error("Error al insertar usuario:", error);
+        setError("Error al insertar usuario. Por favor, intenta nuevamente.");
+      }
     }
   };
 

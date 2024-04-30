@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
+import axios from "axios";
 
 const EditModalProf = ({ show, handleClose, profesorData }) => {
   // Establecer valores predeterminados para campos indefinidos
   const [editedProfesorData, setEditedProfesorData] = useState({
     correo: profesorData.correo ?? "",
-    nombre: profesorData.nombre ?? "",
-    snombre: profesorData.snombre ?? "",
-    apellido1: profesorData.apellido1 ?? "",
-    fechaNacimiento: profesorData.fecha_nacimiento,
-    apellido2: profesorData.apellido2 ?? "",
+    primerNombre: profesorData.primerNombre ?? "",
+    segundoNombre: profesorData.segundoNombre ?? "",
+    primerApellido: profesorData.primerApellido ?? "",
+    fechaNacimiento: profesorData.fechaNacimiento,
+    segundoApellido: profesorData.segundoApellido ?? "",
   });
 
   const [error, setError] = useState(null);
@@ -22,22 +23,31 @@ const EditModalProf = ({ show, handleClose, profesorData }) => {
     }));
   };
 
-  const handleGuardar = () => {
-    const editedProfesor = {
-      correo: editedProfesorData.correo,
-      nombre: editedProfesorData.nombre,
-      snombre: editedProfesorData.snombre,
-      apellido1: editedProfesorData.apellido1,
-      apellido2: editedProfesorData.apellido2,
-      fechaNacimiento: editedProfesorData.fechaNacimiento,
-    };
+  const handleGuardar = async () => {
+    try {
+      const editedProfesor = {
+        cedula: profesorData.cedula,
+        correo: editedProfesorData.correo,
+        pNombre: editedProfesorData.primerNombre,
+        sNombre: editedProfesorData.segundoNombre,
+        pApellido: editedProfesorData.primerApellido,
+        sApellido: editedProfesorData.segundoApellido,
+        edad: profesorData.edad,
+        fNacimiento: editedProfesorData.fechaNacimiento,
+      };
 
-    localStorage.setItem("profesorData", JSON.stringify(editedProfesor));
-    console.log(editedProfesor);
+      const response = await axios.put(
+        "http://localhost:5074/api/editarProfesor",
+        editedProfesor
+      );
 
-    // Cerrar el modal
-    //window.location.reload();
-    handleClose();
+      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+
+      handleClose(); // Cerrar el modal después de guardar exitosamente
+    } catch (error) {
+      const errorMessage = error.response.data.errors.message; // Accede directamente al mensaje de error
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -47,30 +57,39 @@ const EditModalProf = ({ show, handleClose, profesorData }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="nombre">
-            <Form.Label>Nombre</Form.Label>
+          <Form.Group controlId="primerNombre">
+            <Form.Label>Primer Nombre</Form.Label>
             <Form.Control
               type="text"
-              name="nombre"
-              value={editedProfesorData.nombre}
+              name="primerNombre"
+              value={editedProfesorData.primerNombre}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="apellido1">
+          <Form.Group controlId="segundoNombre">
+            <Form.Label>Segundo Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              name="segundoNombre"
+              value={editedProfesorData.segundoNombre}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="primerApellido">
             <Form.Label>Primer Apellido</Form.Label>
             <Form.Control
               type="text"
-              name="apellido1"
-              value={editedProfesorData.apellido1}
+              name="primerApellido"
+              value={editedProfesorData.primerApellido}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="apellido2">
+          <Form.Group controlId="segundoApellido">
             <Form.Label>Segundo Apellido</Form.Label>
             <Form.Control
               type="text"
-              name="apellido2"
-              value={editedProfesorData.apellido2}
+              name="segundoApellido"
+              value={editedProfesorData.segundoApellido}
               onChange={handleChange}
             />
           </Form.Group>
@@ -79,7 +98,7 @@ const EditModalProf = ({ show, handleClose, profesorData }) => {
             <Form.Control
               type="date"
               name="fechaNacimiento"
-              value={editedProfesorData.fechaNacimiento} // Usar fecha_nacimiento en lugar de fechaNacimiento
+              value={editedProfesorData.fechaNacimiento.split("T")[0]} // Mostrar solo la fecha
               onChange={handleChange}
             />
           </Form.Group>
