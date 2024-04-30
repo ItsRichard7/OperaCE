@@ -75,10 +75,10 @@ END
 GO
 
 -- Editar activo (Vista de Activos)
-CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE)
+CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE, @aprob_ced NUMERIC(10))
 AS
 BEGIN
-	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra WHERE placa = @placa;
+	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra, aprob_ced = @aprob_ced WHERE placa = @placa;
 END
 GO
 
@@ -99,7 +99,7 @@ END
 GO
 
 -- Editar profesor (Vista de Profesores)
-CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(50), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
+CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
 AS
 BEGIN
 	UPDATE Usuario SET correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido, f_nacim = @f_nacim WHERE cedula = @cedula;
