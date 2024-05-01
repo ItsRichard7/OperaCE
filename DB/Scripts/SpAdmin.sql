@@ -11,7 +11,7 @@ GO
 CREATE PROCEDURE obt_laboratorios
 AS
 BEGIN
-    SELECT A.nombre, A.capacidad, A.computadoras, STRING_AGG(B.descripcion, '. ') AS facilidades
+    SELECT A.nombre, A.capacidad, A.computadoras, STRING_AGG(B.descripcion, '. ') AS facilidades 
 	FROM Laboratorio as A JOIN Lab_Facilidad as B ON A.nombre = B.lab_nombre 
 	GROUP BY A.nombre, A.capacidad, A.computadoras;
 END
@@ -65,7 +65,6 @@ BEGIN
 END
 GO
 
--- PROBAR DESDE AQUI ----------------------------------------------------------
 -- Obtener la lista de activos de CE (Vista de Activos)
 CREATE PROCEDURE obt_activos
 AS
@@ -76,14 +75,14 @@ END
 GO
 
 -- Editar activo (Vista de Activos)
-CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE)
+CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE, @aprob_ced NUMERIC(10))
 AS
 BEGIN
-	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra WHERE placa = @placa;
+	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra, aprob_ced = @aprob_ced WHERE placa = @placa;
 END
 GO
 
--- Obtener la lista de activos de CE (Vista de Profesores)
+-- Obtener la lista de profesores (Vista de Profesores)
 CREATE PROCEDURE obt_profesores
 AS
 BEGIN
@@ -103,7 +102,7 @@ GO
 CREATE PROCEDURE editar_profesor (@cedula NUMERIC(10), @correo NVARCHAR(50), @p_nombre NVARCHAR(20), @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @f_nacim DATE)
 AS
 BEGIN
-	UPDATE Usuario SET cedula = @cedula, correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido WHERE cedula = @cedula;
+	UPDATE Usuario SET correo = @correo, p_nombre = @p_nombre, s_nombre = @s_nombre, p_apellido = @p_apellido, s_apellido = @s_apellido, f_nacim = @f_nacim WHERE cedula = @cedula;
 END
 GO
 
@@ -170,5 +169,3 @@ EXEC borrar_profesor 4567890123;
 EXEC mostrar_operadores;
 EXEC obt_reg_horas_op 2022457896;
 */
-
-SELECT * FROM usuario

@@ -3,44 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\editaractivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\editaractivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\obteneractivosfalse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\obteneractivosfalse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\registrohorasop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\registrohorasop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\activonoaprobado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\activonoaprobado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\login\\verifinicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\login\\verifinicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\aprobarprestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\aprobarprestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obteneroperadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obteneroperadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\login\\actualizarcontrasena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\login\\actualizarcontrasena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\rechazarop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\rechazarop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\aprobarop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\aprobarop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\rechazarprestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\rechazarprestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\login\\insertarusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\login\\insertarusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\editarlab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\editarlab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\obtenersolislabprofe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\obtenersolislabprofe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\admin\\obtenerlabadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\admin\\obtenerlabadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\obtenersolilab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\obtenersolilab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\choquereservas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\choquereservas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\solicitudlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\solicitudlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\prestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\prestamo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,136 +50,136 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "obtenerOperadores.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerOperadores.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\obtenerOperadores.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerOperadores.cs",
-              "RelativeToolTip": "Controllers\\Admin\\obtenerOperadores.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T00:00:48.068Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "registroHorasOP.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\registroHorasOP.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\registroHorasOP.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\registroHorasOP.cs",
-              "RelativeToolTip": "Controllers\\Admin\\registroHorasOP.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAABMAAABWAAAA",
+              "Title": "ActivoNoAprobado.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\ActivoNoAprobado.cs",
+              "RelativeDocumentMoniker": "Recursos\\ActivoNoAprobado.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\ActivoNoAprobado.cs",
+              "RelativeToolTip": "Recursos\\ActivoNoAprobado.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T23:57:13.867Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "verifInicio.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\verifInicio.cs",
-              "RelativeDocumentMoniker": "Controllers\\Login\\verifInicio.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\verifInicio.cs",
-              "RelativeToolTip": "Controllers\\Login\\verifInicio.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T23:55:20.443Z",
+              "WhenOpened": "2024-05-01T02:57:45.771Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "actualizarContrasena.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\actualizarContrasena.cs",
-              "RelativeDocumentMoniker": "Controllers\\Login\\actualizarContrasena.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\actualizarContrasena.cs",
-              "RelativeToolTip": "Controllers\\Login\\actualizarContrasena.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAAACkAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T23:40:53.286Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "aprobarOP.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\aprobarOP.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\aprobarOP.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\aprobarOP.cs",
-              "RelativeToolTip": "Controllers\\Admin\\aprobarOP.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAADwvy0AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T23:39:58.42Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "rechazarOP.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\rechazarOP.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\rechazarOP.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\rechazarOP.cs",
-              "RelativeToolTip": "Controllers\\Admin\\rechazarOP.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAADwvy0AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T23:39:41.427Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "insertarUsuario.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\insertarUsuario.cs",
               "RelativeDocumentMoniker": "Controllers\\Login\\insertarUsuario.cs",
               "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\insertarUsuario.cs",
               "RelativeToolTip": "Controllers\\Login\\insertarUsuario.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAywCMAAABQAAAA",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAQwB4AAABeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T22:23:32.843Z",
+              "WhenOpened": "2024-05-01T01:49:19.916Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "editarActivo.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarActivo.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\editarActivo.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarActivo.cs",
-              "RelativeToolTip": "Controllers\\Admin\\editarActivo.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAADwvxoAAAA8AAAA",
+              "DocumentIndex": 5,
+              "Title": "obtenerSolisLabProfe.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerSolisLabProfe.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\obtenerSolisLabProfe.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerSolisLabProfe.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\obtenerSolisLabProfe.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwCgAAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T22:03:23.916Z",
+              "WhenOpened": "2024-05-01T01:43:40.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "obtenerSoliLab.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerSoliLab.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\obtenerSoliLab.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerSoliLab.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\obtenerSoliLab.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAFMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T01:42:59.018Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "editarLab.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarLab.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\editarLab.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\editarLab.cs",
-              "RelativeToolTip": "Controllers\\Admin\\editarLab.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAYwBwAAABiAAAA",
+              "Title": "solicitudLaboratorio.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwEoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T19:53:51.777Z",
+              "WhenOpened": "2024-05-01T01:40:17.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "choqueReservas.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\choqueReservas.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\choqueReservas.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\choqueReservas.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\choqueReservas.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAgwD4AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T01:38:17.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "rechazarPrestamo.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\rechazarPrestamo.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\rechazarPrestamo.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\rechazarPrestamo.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\rechazarPrestamo.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T01:36:42.651Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "obtenerLabAdmin.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerLabAdmin.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\obtenerLabAdmin.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Admin\\obtenerLabAdmin.cs",
-              "RelativeToolTip": "Controllers\\Admin\\obtenerLabAdmin.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAUwBcAAAAAAAAA",
+              "Title": "Prestamo.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Prestamo.cs",
+              "RelativeDocumentMoniker": "Recursos\\Prestamo.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\Prestamo.cs",
+              "RelativeToolTip": "Recursos\\Prestamo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T19:46:06.714Z",
+              "WhenOpened": "2024-05-01T01:36:20.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "obtenerActivosFalse.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerActivosFalse.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\obtenerActivosFalse.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\obtenerActivosFalse.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\obtenerActivosFalse.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAgwCkAAABKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T01:31:54.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "aprobarPrestamo.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\aprobarPrestamo.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\aprobarPrestamo.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\aprobarPrestamo.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\aprobarPrestamo.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAIwDEAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T01:34:28.592Z",
               "EditorCaption": ""
             }
           ]

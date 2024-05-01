@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import md5 from "md5";
+import axios from "axios";
 
 // iconos
 import { GrUserAdmin } from "react-icons/gr";
@@ -16,39 +17,54 @@ export const RegisterPage = () => {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [cedula, setCedula] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [snombre, setSnombre] = useState("");
-  const [apellido1, setApellido1] = useState("");
-  const [apellido2, setApellido2] = useState("");
+  const [primerNombre, setNombre] = useState("");
+  const [segundoNombre, setSnombre] = useState("");
+  const [primerApellido, setApellido1] = useState("");
+  const [segundoApellido, setApellido2] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [carnet, setCarnet] = useState("");
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const Navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     const hashedPassword = md5(contrasena);
 
-    // dylan acá va la logica para guardarlo, usted decida como agarrar la info.
+    const formattedFechaNacimiento = new Date(fechaNacimiento + "T00:00:00.000Z");
+
+
     const newUser = {
       correo,
       contrasena: hashedPassword,
       cedula,
-      nombre,
-      snombre,
-      apellido1,
-      apellido2,
-      fechaNacimiento,
+      primerNombre,
+      segundoNombre,
+      primerApellido,
+      segundoApellido,
+      fechaNacimiento: formattedFechaNacimiento.toISOString(), // Formatea la fecha según lo requerido
       carnet,
-      rol: "operador",
-      aprobado: false,
+      rolId: 3, // Valor fijo para rol_id
+      activo: false, // Valor fijo para activo
     };
-    localStorage.setItem("userData", JSON.stringify(newUser));
-    console.log("Contraseña cifrada:", hashedPassword);
-    console.log(localStorage.getItem("userData"));
-    Navigate("/");
+
+    console.log(newUser);
+
+    try {
+      // Realiza el llamado a la API para insertar el nuevo usuario
+      const response = await axios.post(
+        "http://localhost:5074/api/Usuario",
+        newUser
+      );
+
+      console.log("Respuesta de la API:", response.data);
+
+      Navigate("/"); // Redirige al usuario después del registro
+    } catch (error) {
+      setError("Error al registrar usuario");
+      console.error("Error al registrar usuario:", error);
+    }
   };
 
   return (
@@ -104,7 +120,7 @@ export const RegisterPage = () => {
               type="text"
               placeholder="Nombre"
               required
-              value={nombre}
+              value={primerNombre}
               onChange={(e) => setNombre(e.target.value)}
             />
           </div>
@@ -112,8 +128,8 @@ export const RegisterPage = () => {
             <input
               type="text"
               placeholder="Segundo Nombre"
-              value={snombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={segundoNombre}
+              onChange={(e) => setSnombre(e.target.value)}
             />
           </div>
           <div className="input-box">
@@ -121,7 +137,7 @@ export const RegisterPage = () => {
               type="text"
               placeholder="Primer Apellido"
               required
-              value={apellido1}
+              value={primerApellido}
               onChange={(e) => setApellido1(e.target.value)}
             />
           </div>
@@ -130,7 +146,7 @@ export const RegisterPage = () => {
               type="text"
               placeholder="Segundo Apellido"
               required
-              value={apellido2}
+              value={segundoApellido}
               onChange={(e) => setApellido2(e.target.value)}
             />
           </div>
