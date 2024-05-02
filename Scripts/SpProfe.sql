@@ -11,7 +11,7 @@ GO
 CREATE PROCEDURE obt_activos_no_aprobados (@cedula NUMERIC(10))
 AS
 BEGIN
-	SELECT A.act_placa, A.p_nombre, A.s_nombre, A.p_apellido, A.s_apellido, A.fecha_soli, A.hora_soli
+	SELECT A.act_placa, A.p_nombre, A.s_nombre, A.p_apellido, A.s_apellido, A.fecha_soli, A.hora_soli, A.correo_soli
 	FROM Soli_Act as A JOIN Activo as B ON A.act_placa = B.placa
 	WHERE A.aprobado = 0 AND B.aprob_ced = @cedula;
 END
@@ -35,21 +35,22 @@ GO
 
 -- Obtener Lista de Labs (este ya esta en SpAdmin con el nombre de obt_laboratorios)
 
--- Verificar que no haya otra solicitud del laboratorio (Vista Reservación Laboratorios)
-CREATE PROCEDURE hay_choque_reservas (@lab_nombre NCHAR(6), @hora_inicio TIME, @cant_horas DECIMAL(2,1), @existe_registro BIT OUTPUT)
+-- Verificar que no haya otra solicitud del laboratorio (Vista Reservaciï¿½n Laboratorios)
+CREATE PROCEDURE hay_choque_reservas (@fecha DATE, @lab_nombre NCHAR(6), @hora_inicio TIME, @cant_horas DECIMAL(2,1), @existe_registro BIT OUTPUT)
 AS
 BEGIN
 	DECLARE @hora_salida TIME
 	SET @hora_salida = DATEADD(HOUR, @cant_horas, @hora_inicio)
 	IF EXISTS ( SELECT 1 FROM Soli_Lab
-        WHERE lab_nombre = @lab_nombre AND hora >= @hora_inicio AND hora <= @hora_salida
+        WHERE fecha = @fecha AND lab_nombre = @lab_nombre AND ((hora >= @hora_inicio AND hora <= @hora_salida) OR 
+		((DATEADD(HOUR, cant_horas, hora) >= @hora_inicio) AND (DATEADD(HOUR, cant_horas, hora) <= @hora_salida)))
     )
     BEGIN SET @existe_registro = 1 END
     ELSE BEGIN SET @existe_registro = 0 END
 END
 GO
 
--- Insertar una nueva solicitud de laboratorio (Vista Reservación Laboratorios)
+-- Insertar una nueva solicitud de laboratorio (Vista Reservaciï¿½n Laboratorios)
 CREATE PROCEDURE insertar_soli_lab (@correoSoli NVARCHAR(50), @fechaSoli DATE, @horaSoli TIME, @carnet NUMERIC(12), 
                                     @pNombre NVARCHAR(50), @sNombre NVARCHAR(20), @pApellido NVARCHAR(20), @sApellido NVARCHAR(20), 
 									@cantHoras DECIMAL(2,1), @labNombre NCHAR(6), @userCed NUMERIC(10))
@@ -79,10 +80,20 @@ GO
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_activos_no_aprobados;
 DROP PROCEDURE aprobar_prestamo_activo;
+DROP PROCEDURE hay_choque_reservas;
 */
 
 /* Pruebas para los store procedures
 SELECT * from Sys.procedures; --Ignorar este comando
 EXEC obt_activos_no_aprobados 3456789012;
 EXEC obt_activos_no_aprobados 'juanitoelcrack@estudiantec.cr', '2024-04-28', '18:56:44';
+
+DECLARE @existe_registro BIT;
+EXEC hay_choque_reservas '2024-05-01', 'F2-06', '01:00:00', 1.5, @existe_registro OUTPUT;
+SELECT @existe_registro AS 'hay_choque';
+
+@hora_inicio TIME, @cant_horas DECIMAL(2,1), @existe_registro BIT OUTPUT)
+
 */
+
+SELECT * FROM Soli_Lab;
