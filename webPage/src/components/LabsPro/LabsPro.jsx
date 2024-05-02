@@ -16,7 +16,7 @@ export const LabsPro = () => {
   const [error, setError] = useState("");
   const Navigate = useNavigate();
 
-  const handleReserve = (e) => {
+  const handleReserve = async (e) => {
     e.preventDefault();
 
     if (!hora || !fechaReserva || !cantidadHoras) {
@@ -29,24 +29,61 @@ export const LabsPro = () => {
       return;
     }
 
-    // Guardar la información
     const reserva = {
-      correo: usuario.correo,
-      fecha: fechaReserva,
-      hora: hora,
-      cedula: usuario.cedula,
-      laboratorio: laboratorio.Laboratorio,
-      nombre: usuario.nombre,
-      apellido1: usuario.apellido1,
-      apellido2: usuario.apellido2,
-      cantidadHoras: cantidadHoras,
+      correoSoli: usuario.correo,
+      fechaSoli: fechaReserva + "T00:00:00.000Z",
+      horaSoli: hora + ":00",
+      carnet: 12,
+      pNombre: usuario.primerNombre,
+      sNombre: usuario.segundoNombre,
+      pApellido: usuario.primerApellido,
+      sApellido: usuario.segundoApellido,
+      cantHoras: parseInt(cantidadHoras),
+      labNombre: laboratorio.nombre.trim(),
+      userCed: usuario.cedula,
     };
 
-    // Aquí puedes realizar la lógica para guardar la reserva
-    console.log("Información de la reserva:", reserva);
+    console.log(reserva);
+    console.log(laboratorio);
 
-    // Redirigir a la página de inicio o a donde sea necesario después de guardar la reserva
-    //Navigate("/");
+    try {
+      const conflict = await checkReservationConflict(
+        reserva.labNombre,
+        reserva.fechaSoli,
+        reserva.horaSoli,
+        reserva.cantHoras
+      );
+
+      if (conflict) {
+        setError("Ya hay una reserva a esa hora");
+        console.log("Hay conflicto");
+        return;
+      }
+
+      console.log("No hay conflicto");
+
+      const response = await fetch(
+        "http://localhost:5074/api/InsertarSoliLab",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reserva),
+        }
+      );
+
+      if (response.ok) {
+        // La solicitud fue exitosa, puedes hacer algo como redirigir a otra página
+        Navigate(-1, { state: { usuario } });
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || "Hubo un error al procesar la solicitud");
+      }
+    } catch (error) {
+      setError("Hubo un error al procesar la solicitud");
+      console.error("Error:", error);
+    }
   };
 
   const handleVerHorarios = () => {
@@ -57,6 +94,39 @@ export const LabsPro = () => {
 
   const handleBack = () => {
     Navigate(-1, { state: { usuario } });
+  };
+
+  const checkReservationConflict = async (
+    labNombre,
+    fechaSoli,
+    horaSoli,
+    cantHoras
+  ) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5074/api/HayChoqueReservas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            LabNombre: labNombre,
+            HoraInicio: horaSoli,
+            CantHoras: cantHoras,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
   };
 
   return (
@@ -107,7 +177,7 @@ export const LabsPro = () => {
         </div>
       </form>
       <button className="see" onClick={handleVerHorarios}>
-        Ver Horarios del Laboratorio del {laboratorio.Laboratorio}
+        Ver Horarios del Laboratorio del {laboratorio.nombre}
       </button>
 
       <button className="see" onClick={handleBack}>

@@ -68,3 +68,6 @@ EXEC insertar_soli_activo 'operador1@gmail.com', '2003-01-01', '20:10', 'Luis', 
 EXEC insertar_soli_activo 'operador2@gmail.com', '2003-02-02', '22:12', 'Sofía', 'Alejandra', 'Hernandez', 'Perez', 0,CTR002, 5678901234  
 
 */
+
+Use OperaCE
+SELECT * FROM Reg_Horas

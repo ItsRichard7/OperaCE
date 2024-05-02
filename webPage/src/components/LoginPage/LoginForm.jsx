@@ -55,7 +55,7 @@ export const LoginForm = () => {
               Navigate("/admin", { state: { usuario: usuarioEncontrado } });
             } else if (usuarioEncontrado.rolId === 2) {
               Navigate("/pro", { state: { usuario: usuarioEncontrado } });
-            } else if (usuarioEncontrado.rolId === 3) {
+            } else if (usuarioEncontrado.rolId === 3 && usuarioEncontrado.activo === true) {
               Navigate("/op", { state: { usuario: usuarioEncontrado } });
             }
           } else {

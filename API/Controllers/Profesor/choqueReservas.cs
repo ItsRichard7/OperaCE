@@ -39,11 +39,11 @@ public class HayChoqueReservasController : Controller
 
                     if (existeRegistro)
                     {
-                        return Conflict("Existe un choque de reservas para el laboratorio en la hora especificada.");
+                        return Conflict(false);
                     }
                     else
                     {
-                        return Ok("No existe un choque de reservas para el laboratorio en la hora especificada.");
+                        return Ok(true);
                     }
                 }
             }

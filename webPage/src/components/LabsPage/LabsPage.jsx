@@ -4,20 +4,21 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./LabsPage.css"; // Importa tu archivo CSS para los estilos personalizados
 
-import SolLabs from "../Assets/LabSol.json";
 
 function procesarSolicitudes(solicitudes) {
   return solicitudes.map((solicitud) => {
-    const { fecha, hora, cant_horas, lab, p_nombre, p_apellido } = solicitud;
-    const fechaHoraInicio = new Date(`${fecha}T${hora}`);
+    const { fechaSoli, horaSoli, cantHoras, labNombre, pNombre, pApellido} = solicitud;
+    const fecha = fechaSoli.split("T")[0];
+    const fechaHoraInicio = new Date(`${fecha}T${horaSoli}`);
     const fechaHoraFin = new Date(
-      fechaHoraInicio.getTime() + cant_horas * 60 * 60 * 1000
+      fechaHoraInicio.getTime() + cantHoras * 60 * 60 * 1000
     );
 
     return {
-      title: `${lab} - ${p_nombre} ${p_apellido}`,
+      title: `${labNombre.trim()} - ${pNombre} ${pApellido}`,
       start: fechaHoraInicio.toISOString(),
       end: fechaHoraFin.toISOString(),
       ...solicitud,
@@ -26,13 +27,32 @@ function procesarSolicitudes(solicitudes) {
 }
 
 function Calendar() {
+  useEffect(() => {
+    const fectSolData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5074/api/ObtSolisLab/${laboratorio.nombre}`
+        );
+        if (response.ok) {
+          const actSolData = await response.json();
+          setActSol(actSolData);
+          console.log(actSolData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fectSolData(); // Llamar a la función para obtener los datos de operadores al cargar la página
+  }, []);
+
   const { state } = useLocation();
   const navigate = useNavigate();
   const { usuario, laboratorio } = state || {};
 
-  const solicitudesFiltradas = SolLabs.filter(
-    (solicitud) => solicitud.lab === laboratorio?.Laboratorio
-  );
+  const [solicitudesFiltradas, setActSol] = useState([]);
+
 
   const eventos = procesarSolicitudes(solicitudesFiltradas);
 

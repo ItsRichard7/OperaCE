@@ -79,6 +79,7 @@ GO
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_activos_no_aprobados;
 DROP PROCEDURE aprobar_prestamo_activo;
+DROP PROCEDURE hay_choque_reservas;
 */
 
 /* Pruebas para los store procedures
@@ -86,4 +87,5 @@ SELECT * from Sys.procedures; --Ignorar este comando
 EXEC obt_activos_no_aprobados 3456789012;
 */
 
-SELECT * FROM Soli_Act
+Use OperaCE
+SELECT * FROM Soli_Lab

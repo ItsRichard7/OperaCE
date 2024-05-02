@@ -28,7 +28,7 @@ public class InsertarSoliLabController : Controller
                     command.Parameters.AddWithValue("@correoSoli", request.CorreoSoli);
                     command.Parameters.AddWithValue("@fechaSoli", request.FechaSoli);
                     command.Parameters.AddWithValue("@horaSoli", request.HoraSoli);
-                    command.Parameters.AddWithValue("@carnet", request.Carnet);
+                    command.Parameters.AddWithValue("@carnet", (object)request.Carnet ?? DBNull.Value); // Manejar explícitamente el valor nulo
                     command.Parameters.AddWithValue("@pNombre", request.PNombre);
                     command.Parameters.AddWithValue("@sNombre", request.SNombre);
                     command.Parameters.AddWithValue("@pApellido", request.PApellido);
@@ -64,12 +64,12 @@ public class SolicitudLabRequest
     public string CorreoSoli { get; set; }
     public DateTime FechaSoli { get; set; }
     public TimeSpan HoraSoli { get; set; }
-    public int Carnet { get; set; }
+    public decimal? Carnet { get; set; }
     public string PNombre { get; set; }
     public string SNombre { get; set; }
     public string PApellido { get; set; }
     public string SApellido { get; set; }
     public decimal CantHoras { get; set; }
     public string LabNombre { get; set; }
-    public int UserCed { get; set; }
+    public decimal UserCed { get; set; }
 }

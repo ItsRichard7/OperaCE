@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./OperatorPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -28,6 +28,14 @@ import CreateProfeActivo from "./createProfeActivo";
 import CreateEstActivo from "./createModalActivoEst";
 
 export const OperatorPage = () => {
+  useEffect(() => {
+    const entradaGuardada = localStorage.getItem("entrada");
+    if (entradaGuardada) {
+      setEntradaActual(entradaGuardada);
+    }
+  }, []);
+
+
   const location = useLocation();
   const { usuario } = location.state || {};
 
@@ -38,8 +46,7 @@ export const OperatorPage = () => {
   const [actSol, setActSol] = useState(actSolData || []);
   const [usuarios, setUsuarios] = useState(usuariosData || []);
   const [horarios, setHorarios] = useState(regHorasData || []);
-  const profesores = usuarios.filter((usuario) => usuario.rol === "profesor");
-  const operadores = usuarios.filter((usuario) => usuario.rol === "operador");
+
   const activosPrestados = activo.filter((activo) => activo.prestado === true);
   const activosNoPrestados = activo.filter(
     (activo) => activo.prestado === false
@@ -56,44 +63,86 @@ export const OperatorPage = () => {
   // funciones y const para registro de horas
 
   const [showEntryButton, setShowEntryButton] = useState(true);
-  const [showExitButton, setShowExitButton] = useState(true);
+  const [showExitButton, setShowExitButton] = useState(false);
   const [entradaActual, setEntradaActual] = useState("");
+
   const handleEntryClick = () => {
     const entrada = new Date().toLocaleTimeString();
     localStorage.setItem("entrada", entrada);
     setEntradaActual(entrada);
     console.log("Hora de entrada guardada en el localStorage:", entrada);
-    setShowEntryButton(true);
+    setShowEntryButton(false);
     setShowExitButton(true);
   };
 
-  const handleExitClick = () => {
+  const formatearFecha = (fecha) => {
+    const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
+    return fechaFormateada;
+};
+
+const formatearHora = (hora) => {
+  const horaObj = new Date(`01/01/2022 ${hora}`);
+  const horas = horaObj.getHours().toString().padStart(2, '0');
+  const minutos = horaObj.getMinutes().toString().padStart(2, '0');
+  const segundos = horaObj.getSeconds().toString().padStart(2, '0');
+  return `${horas}:${minutos}:${segundos}`;
+};
+
+
+const calcularHorasTrabajadas = (horaEntrada, horaSalida) => {
+    // Parsea las horas de entrada y salida en objetos Date
+    const entrada = new Date(`01/01/2022 ${horaEntrada}`);
+    const salida = new Date(`01/01/2022 ${horaSalida}`);
+
+    // Calcula la diferencia en milisegundos entre la hora de salida y la hora de entrada
+    const diferenciaMs = salida - entrada;
+
+    // Convierte la diferencia en milisegundos a horas
+    const horasTrabajadas = diferenciaMs / (1000 * 60 * 60);
+
+    // Redondea las horas trabajadas a dos decimales y retorna el resultado
+    return parseFloat(horasTrabajadas.toFixed(2));
+};
+
+const handleExitClick = () => {
     const salida = new Date().toLocaleTimeString();
     const entrada = localStorage.getItem("entrada");
     const cedulaOperador = usuario.cedula;
 
-    localStorage.setItem("cedulaOperador", cedulaOperador);
-    localStorage.setItem("horaEntrada", entrada);
-    localStorage.setItem("horaSalida", salida);
-
     const infoRegHrs = {
-      cedula: cedulaOperador,
-      horaEntrada: entrada,
-      horaSalida: salida,
-      fecha: new Date().toLocaleDateString(),
+        fecha: formatearFecha(new Date()),
+        horaEntrada: formatearHora(entrada),
+        horaSalida: formatearHora(salida), // Extrae la hora de la salida formateada
+        horasRegistradas: calcularHorasTrabajadas(entrada, salida), // Puedes implementar esta función para calcular las horas trabajadas
+        userCed: cedulaOperador
     };
 
-    localStorage.setItem("infoOperador", JSON.stringify(infoRegHrs));
+    console.log(infoRegHrs);
 
-    console.log("Info que ocupo", infoRegHrs);
+    fetch('http://localhost:5074/api/insertarHoras', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(infoRegHrs),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al enviar las horas registradas al servidor');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Horas registradas exitosamente:', data);
+        localStorage.removeItem("entrada");
+        setShowExitButton(false);
+        setShowEntryButton(true);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
 
-    setShowExitButton(true);
-    setShowEntryButton(true);
-
-    //window.location.href = "/";
-  };
-
-  // funciones para reservación de labs
 
   const Navigate = useNavigate();
 
