@@ -38,13 +38,13 @@ INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee extintor contra incendios','F2-07');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee una buena iluminación','F2-07');
+VALUES ('Posee una buena iluminaciï¿½n','F2-07');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee pizarras en ambas paredes','F2-07');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee una pantalla de Televisión','F2-07');
+VALUES ('Posee una pantalla de Televisiï¿½n','F2-07');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee 2 Proyectores','F2-08');
@@ -56,13 +56,13 @@ INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee extintor contra incendios','F2-08');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee una buena iluminación','F2-08');
+VALUES ('Posee una buena iluminaciï¿½n','F2-08');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee instrumentos de Texas Instruments','F2-08');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee multímetros y osciloscopios','F2-08');
+VALUES ('Posee multï¿½metros y osciloscopios','F2-08');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee pizarras en ambas paredes','F2-08');
@@ -89,32 +89,32 @@ INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee extintor contra incendios','F2-10');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee una buena iluminación','F2-10');
+VALUES ('Posee una buena iluminaciï¿½n','F2-10');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee pizarras en ambas paredes','F2-10');
 
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
-VALUES ('Posee una pantalla de televisión','F2-10');
+VALUES ('Posee una pantalla de televisiï¿½n','F2-10');
 
 -- Insert usuarios a la base
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (1234567890, 'admin1@gmail.com', 'admin123', NULL, 'Juan', 'Carlos', 'Pérez', 'Gómez', '1990-05-15', 1, 1);
+VALUES (1234567890, 'admin1@gmail.com', 'admin123', NULL, 'Juan', 'Carlos', 'Pï¿½rez', 'Gï¿½mez', '1990-05-15', 1, 1);
 
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (2345678901, 'admin2@gmail.com', 'admin123', NULL, 'María', NULL, 'González', 'López', '1985-08-20', 1, 1);
+VALUES (2345678901, 'admin2@gmail.com', 'admin123', NULL, 'Marï¿½a', NULL, 'Gonzï¿½lez', 'Lï¿½pez', '1985-08-20', 1, 1);
 
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (3456789012, 'profe1@gmail.com', 'profe123',NULL, 'Pedro', 'José', 'Ramírez', 'Martínez', '2000-12-10', 1, 2);
+VALUES (3456789012, 'profe1@gmail.com', 'profe123',NULL, 'Pedro', 'Josï¿½', 'Ramï¿½rez', 'Martï¿½nez', '2000-12-10', 1, 2);
 
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (4567890123, 'profe2@gmail.com', 'profe123', NULL, 'Ana', 'Isabel', 'Martínez', 'López', '1995-03-25', 1, 2);
+VALUES (4567890123, 'profe2@gmail.com', 'profe123', NULL, 'Ana', 'Isabel', 'Martï¿½nez', 'Lï¿½pez', '1995-03-25', 1, 2);
 
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (5678901234, 'operador1@gmail.com', 'operador123', 2021468527, 'Luis', 'Miguel', 'García', 'Sánchez', '2002-11-03', 1, 3);
+VALUES (5678901234, 'operador1@gmail.com', 'operador123', 2021468527, 'Luis', 'Miguel', 'Garcï¿½a', 'Sï¿½nchez', '2002-11-03', 1, 3);
 
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
-VALUES (6789012345, 'operador2@gmail.com', 'operador123', 2022457896, 'Sofía', 'Alejandra', 'Hernández', 'Pérez', '2003-07-18', 1, 3);
+VALUES (6789012345, 'operador2@gmail.com', 'operador123', 2022457896, 'Sofï¿½a', 'Alejandra', 'Hernï¿½ndez', 'Pï¿½rez', '2003-07-18', 1, 3);
 
 -- Insertar los activos a la Base
 
@@ -150,6 +150,7 @@ VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, 3456789012);
 
 
 /* Inserts de Prueba
+-- Insertar Registros de Hora
 INSERT INTO Reg_Horas(fecha, hora_entr, hora_sal, horas_reg, user_ced)
 VALUES ('2024-04-26', '15:30:10', '18:29:50', DATEDIFF(MINUTE, '15:30:10', '18:29:50') / 60.0 , 5678901234);
 
@@ -168,7 +169,30 @@ VALUES ('2024-04-27', '10:10:10', '14:44:02', DATEDIFF(MINUTE, '10:10:10', '14:4
 INSERT INTO Reg_Horas(fecha, hora_entr, hora_sal, horas_reg, user_ced)
 VALUES ('2024-04-28', '18:56:44', '21:01:54', DATEDIFF(MINUTE, '18:56:44', '21:01:54') / 60.0 , 6789012345);
 
+-- Insertar Solicitudes de Laboratorios
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo1@correo.com', '2024-05-01', '08:00:00', NULL, 'Juan', NULL, 'PÃ©rez', NULL, 3.0, 'F2-06', 5678901234);
+
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo2@correo.com', '2024-05-01', '11:30:00', NULL, 'MarÃ­a', NULL, 'LÃ³pez', NULL, 2.5, 'F2-07', 6789012345);
+
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo3@correo.com', '2024-05-02', '09:00:00', NULL, 'Pedro', NULL, 'GÃ³mez', NULL, 1.5, 'F2-08', 5678901234);
+
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo4@correo.com', '2024-05-03', '12:00:00', NULL, 'Ana', 'MarÃ­a', 'RodrÃ­guez', 'GarcÃ­a', 2.0, 'F2-09', 6789012345);
+
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo5@correo.com', '2024-05-03', '14:30:00', NULL, 'Jorge', NULL, 'MartÃ­nez', NULL, 3.5, 'F2-10', 5678901234);
+
+INSERT INTO Soli_Lab (correo_soli, fecha, hora, carnet, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) 
+VALUES ('ejemplo6@correo.com', '2024-05-04', '13:00:00', NULL, 'Laura', 'Isabel', 'FernÃ¡ndez', 'LÃ³pez', 1.0, 'F2-06', 6789012345);
+
+
 SELECT * FROM Usuario;
 SELECT * FROM Reg_Horas;
+SELECT * FROM Soli_Lab;
+
 DELETE FROM Reg_Horas;
+DELETE FROM Soli_Lab;
 */
