@@ -32,6 +32,12 @@ AS
 BEGIN
 	INSERT INTO	Soli_Act(correo_soli, fecha_soli, hora_soli, p_nombre, s_nombre, p_apellido, s_apellido, aprobado, entregado, fecha_dev, hora_dev, devuelto, averia, act_placa, user_ced)
 	VALUES (@correo_soli, @fecha_soli, @hora_soli, @p_nombre, @s_nombre, @p_apellido, @s_apellido, @aprobado, @aprobado, NULL, NULL, 0, NULL, @act_placa, @user_ced);
+
+	-- Actualizar el estado del activo prestado a true
+	UPDATE Activo
+	SET prestado = 1
+	WHERE placa = @act_placa;
+
 END
 GO
 
@@ -58,6 +64,7 @@ CREATE PROCEDURE devolver_activo (@act_placa NVARCHAR(20), @fecha_dev DATE, @hor
 AS
 BEGIN
 	UPDATE Soli_Act SET	devuelto = 1, fecha_dev = @fecha_dev, hora_dev = @hora_dev, averia = @averia WHERE act_placa = @act_placa AND devuelto = 0;
+	UPDATE Activo SET prestado = 0 WHERE placa = @act_placa;
 END
 GO
 
@@ -66,8 +73,12 @@ GO
 /*
 EXEC insertar_soli_activo 'operador1@gmail.com', '2003-01-01', '20:10', 'Luis', 'Miguel', 'García', 'Sánchez', 0, HDMI001, 5678901234
 EXEC insertar_soli_activo 'operador2@gmail.com', '2003-02-02', '22:12', 'Sofía', 'Alejandra', 'Hernandez', 'Perez', 0, CTR002, 5678901234  
-
+DROP PROCEDURE devolver_activo
+DELETE FROM Soli_Act
+EXEC obt_activos_no_entregados
 */
 
 Use OperaCE
+SELECT * FROM Usuario
 SELECT * FROM Soli_Act
+SELECT * FROM Activo

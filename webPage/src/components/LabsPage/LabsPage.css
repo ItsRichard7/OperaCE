@@ -3,6 +3,9 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  width: 100%;
+  max-width: 1200px; /* Establece un ancho máximo de 1200px */
+
 }
 
 .button-container {
@@ -21,4 +24,8 @@
 
 .back-button:hover {
   background-color: #0056b3;
+}
+
+.dark-background {
+  background-color: rgba(0, 0, 0, 0.5);
 }

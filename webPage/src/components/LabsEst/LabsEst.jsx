@@ -15,7 +15,6 @@ export const LabsEst = () => {
   const [apellido1, setApellido1] = useState("");
   const [apellido2, setApellido2] = useState("");
   const [carnet, setCarnet] = useState("");
-  const [cedula, setCedula] = useState("");
   const [correo, setCorreo] = useState("");
   const location = useLocation();
   const { usuario, laboratorio } = location.state || {};
@@ -31,7 +30,6 @@ export const LabsEst = () => {
       !fechaReserva ||
       !cantidadHoras ||
       !carnet ||
-      !cedula ||
       !nombre ||
       !correo ||
       !apellido1 ||
@@ -58,7 +56,7 @@ export const LabsEst = () => {
       fechaSoli: fechaReserva + "T00:00:00.000Z",
       horaSoli: hora + ":00",
       carnet: parseInt(carnet),
-      userCed: parseInt(cedula),
+      userCed: parseInt(usuario.cedula),
       labNombre: laboratorio.nombre.trim(),
       pNombre: nombre,
       sNombre: nombre2,
@@ -252,23 +250,6 @@ export const LabsEst = () => {
                   setError("Carnet inválido");
                 } else {
                   setCarnet(value);
-                  setError("");
-                }
-              }}
-            />
-          </div>
-          <div className="input-box">
-            <input
-              type="number"
-              placeholder="Cedula"
-              required
-              value={cedula}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (parseInt(value) <= 0) {
-                  setError("Cedula inválido");
-                } else {
-                  setCedula(value);
                   setError("");
                 }
               }}

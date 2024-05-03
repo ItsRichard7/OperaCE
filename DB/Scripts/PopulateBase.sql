@@ -148,6 +148,8 @@ VALUES ('PRJ003', 'Proyector', 'ViewSonic', '2023-09-25', 0, 3456789012);
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, null);
 
+SELECT * FROM Usuario
+
 
 /* Inserts de Prueba
 INSERT INTO Reg_Horas(fecha, hora_entr, hora_sal, horas_reg, user_ced)

@@ -23,16 +23,6 @@ import CreateEstActivo from "./createModalActivoEst";
 
 export const OperatorPage = () => {
   useEffect(() => {
-    const entradaGuardada = localStorage.getItem("entrada");
-    if (entradaGuardada) {
-      setEntradaActual(entradaGuardada);
-    }
-
-    if (localStorage.getItem("entrada") !== null) {
-      setShowEntryButton(false);
-      setShowExitButton(true);
-    }
-
     const fetchLabData = async () => {
       try {
         const response = await fetch(
@@ -41,7 +31,6 @@ export const OperatorPage = () => {
         if (response.ok) {
           const labData = await response.json();
           setLab(labData);
-          console.log(labData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -58,7 +47,6 @@ export const OperatorPage = () => {
         if (response.ok) {
           const activoData = await response.json();
           setActivo(activoData);
-          console.log(activoData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -75,7 +63,6 @@ export const OperatorPage = () => {
         if (response.ok) {
           const activoData = await response.json();
           setActSol(activoData);
-          console.log(activoData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -110,6 +97,17 @@ export const OperatorPage = () => {
     fetchActData(); // Llamar a la función para obtener los datos de activos al cargar la página
     fecthActNoEntregados(); // Llamar a la función para obtener los datos de activos no entregados al cargar la página
     fecthHistorialHoras(); // Llamar a la función para obtener los datos de historial de horas al cargar la página
+
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
+    const entradaGuardada = localStorage.getItem(cedulaString);
+    if (entradaGuardada) {
+      setEntradaActual(entradaGuardada);
+    }
+
+    if (localStorage.getItem(cedulaString) !== null) {
+      setShowEntryButton(false);
+      setShowExitButton(true);
+    }
   }, []);
 
   const location = useLocation();
@@ -120,20 +118,14 @@ export const OperatorPage = () => {
 
   const [lab, setLab] = useState([]);
   const [activo, setActivo] = useState([]);
-  const [actSol, setActSol] = useState([]);
+  const [actSolAprobados, setActSol] = useState([]);
   const [horasTotales, setHorasTotales] = useState(0);
   const [historialHoras, setHistorialHoras] = useState([]);
-
 
   const activosPrestados = activo.filter((activo) => activo.prestado === true);
   const activosNoPrestados = activo.filter(
     (activo) => activo.prestado === false
   );
-
-  const actSolAprobados = actSol.filter(
-    (item) => item.aprobado === true && item.entregado === false
-  );
-
   // funciones y const para registro de horas
 
   const [showEntryButton, setShowEntryButton] = useState(true);
@@ -142,9 +134,9 @@ export const OperatorPage = () => {
 
   const handleEntryClick = () => {
     const entrada = new Date().toLocaleTimeString();
-    localStorage.setItem("entrada", entrada);
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
+    localStorage.setItem(cedulaString, entrada);
     setEntradaActual(entrada);
-    console.log("Hora de entrada guardada en el localStorage:", entrada);
     setShowEntryButton(false);
     setShowExitButton(true);
   };
@@ -178,8 +170,9 @@ export const OperatorPage = () => {
   };
 
   const handleExitClick = () => {
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
     const salida = new Date().toLocaleTimeString();
-    const entrada = localStorage.getItem("entrada");
+    const entrada = localStorage.getItem(cedulaString);
     const cedulaOperador = usuario.cedula;
 
     const infoRegHrs = {
@@ -189,8 +182,6 @@ export const OperatorPage = () => {
       horasRegistradas: calcularHorasTrabajadas(entrada, salida), // Puedes implementar esta función para calcular las horas trabajadas
       userCed: cedulaOperador,
     };
-
-    console.log(infoRegHrs);
 
     fetch("http://localhost:5074/api/insertarHoras", {
       method: "POST",
@@ -206,14 +197,15 @@ export const OperatorPage = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Horas registradas exitosamente:", data);
-        localStorage.removeItem("entrada");
+        localStorage.removeItem(cedulaString);
         setShowExitButton(false);
         setShowEntryButton(true);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+
+    window.location.reload();
   };
 
   const Navigate = useNavigate();
@@ -239,93 +231,113 @@ export const OperatorPage = () => {
 
   const handleLogin = async (correo, contrasena) => {
     try {
-        const response = await fetch('http://localhost:5074/api/InicioSesion', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ correo, contrasena })
-        });
+      const response = await fetch("http://localhost:5074/api/InicioSesion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo, contrasena }),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-          if (data === true) {
-            const usuarioResponse = await fetch('http://localhost:5074/api/obtenerUsuario', {
-              method: 'GET',
+      if (response.ok) {
+        if (data === true) {
+          const usuarioResponse = await fetch(
+            "http://localhost:5074/api/obtenerUsuario",
+            {
+              method: "GET",
               headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-    
-            const usuariosData = await usuarioResponse.json();
-            const usuarioEncontrado = usuariosData.find((usuario) => usuario.correo === correo);
-    
-            if (usuarioEncontrado) {
-              if (usuarioEncontrado.activo === false) {
-                setError("Cuenta no activada");
-                return;
-              }
-    
-              localStorage.setItem("authenticated", JSON.stringify(true));
-    
-              if (usuarioEncontrado.rolId === 2) {
-                return data;
-              } else {
-                throw new Error("rol erroneo")
-              }
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const usuariosData = await usuarioResponse.json();
+          const usuarioEncontrado = usuariosData.find(
+            (usuario) => usuario.correo === correo
+          );
+
+          if (usuarioEncontrado) {
+            if (usuarioEncontrado.activo === false) {
+              setError("Cuenta no activada");
+              return;
+            }
+
+            localStorage.setItem("authenticated", JSON.stringify(true));
+
+            if (usuarioEncontrado.rolId === 2) {
+              return data;
             } else {
-              throw new Error("Usuario no encontrado");
+              throw new Error("rol erroneo");
             }
           } else {
-            throw new Error("Contraseña incorrecta");
+            throw new Error("Usuario no encontrado");
           }
         } else {
-            const errorMessage = await response.text();
-            throw new Error(errorMessage);
+          throw new Error("Contraseña incorrecta");
         }
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
     } catch (error) {
-        throw new Error("Error al iniciar sesión");
+      throw new Error("Error al iniciar sesión");
     }
-};
+  };
 
-
-const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apellido2) => {
-  try {
+  const handleVerify = async (
+    correo,
+    password,
+    nombre1,
+    nombre2,
+    apellido1,
+    apellido2
+  ) => {
+    try {
       // Verifica el inicio de sesión llamando a handleLogin
       const loginResult = await handleLogin(correo, password);
-      
-      if (loginResult === true) {
-          // Continúa con la lógica de handleVerify si el inicio de sesión fue exitoso
-          if (password.trim() === "") {
-              console.log("La contraseña está vacía");
-              return;
-          }
 
-          const hashedPassword = md5(password);
-          const jsonData = {
-              ActivoPlaca: activosNoPrestados[activoIdx].Placa,
-              PrimerNombre: nombre1,
-              SegundoNombre: nombre2,
-              PrimerApellido: apellido1,
-              SegundoAPellido: apellido2,
-              CorreoSolicitante: correo,
-              FechaSolicitud: new Date().toLocaleDateString(),
-              HoraSolicitud: new Date().toLocaleTimeString(),
-              UsuarioCedula: usuario.cedula,
-              Aprobado: true,
-          };
-          console.log("JSON generado:", jsonData);
-          closeModalActivoProf();
-          //window.location.reload();
+      if (loginResult === true) {
+        // Continúa con la lógica de handleVerify si el inicio de sesión fue exitoso
+        if (password.trim() === "") {
+          console.log("La contraseña está vacía");
+          return;
+        }
+
+        const fecha = formatearFecha(new Date());
+        const hora = new Date().toLocaleTimeString();
+        const horaFormateada = formatearHora(hora);
+
+        const jsonData = {
+          ActivoPlaca: activosNoPrestados[activoIdx].placa,
+          PrimerNombre: nombre1,
+          SegundoNombre: nombre2,
+          PrimerApellido: apellido1,
+          SegundoAPellido: apellido2,
+          CorreoSolicitante: correo,
+          FechaSolicitud: fecha,
+          HoraSolicitud: horaFormateada,
+          UsuarioCedula: usuario.cedula,
+          Aprobado: true,
+        };
+
+        const response = await axios.post(
+          "http://localhost:5074/api/insertarSolicitudActivo",
+          jsonData
+        );
+
+        console.log("JSON generado:", jsonData);
+        closeModalActivoProf();
+        window.location.reload();
       } else {
-          // Maneja el caso en el que el inicio de sesión no fue exitoso
-          console.log("Verificación de correo fallida");
+        // Maneja el caso en el que el inicio de sesión no fue exitoso
+        console.log("Verificación de correo fallida");
       }
-  } catch (error) {
+    } catch (error) {
       console.error(error.message);
-  }
-};
+    }
+  };
 
   // funciones para prestamo de activos a estudiante
 
@@ -354,20 +366,39 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
     }
   };
 
-  const handleVerifyActivoEst = (nombre, apellido1, apellido2, correo) => {
-    const aprobado = activosNoPrestados[activoIdx].aprob_ced ? false : true;
+  const handleVerifyActivoEst = async (
+    nombre1,
+    nombre2,
+    apellido1,
+    apellido2,
+    correo
+  ) => {
+    const aprobado = activosNoPrestados[activoIdx].aprobCed ? false : true;
+
+    const fecha = formatearFecha(new Date());
+    const hora = new Date().toLocaleTimeString();
+    const horaFormateada = formatearHora(hora);
+
     const jsonData = {
-      placa: activosNoPrestados[activoIdx].Placa,
-      nombre: nombre,
-      apellido1: apellido1,
-      apellido2: apellido2,
-      correo: correo,
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
-      aprobado: aprobado,
+      ActivoPlaca: activosNoPrestados[activoIdx].placa,
+      PrimerNombre: nombre1,
+      SegundoNombre: nombre2,
+      PrimerApellido: apellido1,
+      SegundoAPellido: apellido2,
+      CorreoSolicitante: correo,
+      FechaSolicitud: fecha,
+      HoraSolicitud: horaFormateada,
+      UsuarioCedula: usuario.cedula,
+      Aprobado: aprobado,
     };
+
+    const response = await axios.post(
+      "http://localhost:5074/api/insertarSolicitudActivo",
+      jsonData
+    );
     console.log("JSON generado para el estudiante:", jsonData);
     closeModalActivoEst();
+    window.location.reload();
   };
 
   const [showAprobacionModal, setShowAprobacionModal] = useState(false);
@@ -382,29 +413,37 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
 
   const [showDevolvioBienModal, setShowDevolvioBienModal] = useState(false);
 
-    // Función para formatear la fecha y mostrar solo la fecha sin la hora
-    function renderFechaCompra(fechaCompra) {
-      if (!fechaCompra) return "No se conoce";
-      const fecha = new Date(fechaCompra);
-      const formattedFechaCompra = fecha.toLocaleDateString("es-ES");
-      return formattedFechaCompra;
-    }
+  // Función para formatear la fecha y mostrar solo la fecha sin la hora
+  function renderFechaCompra(fechaCompra) {
+    if (!fechaCompra) return "No se conoce";
+    const fecha = new Date(fechaCompra);
+    const formattedFechaCompra = fecha.toLocaleDateString("es-ES");
+    return formattedFechaCompra;
+  }
 
-  const handleConfirmDevolvioBien = () => {
-    const hashedPassword = md5(password);
+  const handleConfirmDevolvioBien = async () => {
     const horaEntrega = new Date().toLocaleTimeString();
-    const fechaEntrega = new Date().toLocaleDateString();
+    const horaFormateada = formatearHora(horaEntrega);
+    const fechaEntrega = formatearFecha(new Date());
     const jsonData = {
-      placa: activosPrestados[activoIdx].Placa,
-      usuario: usuario.cedula,
-      hashedPassword: hashedPassword,
-      horaEntrega: horaEntrega,
-      fechaEntrega: fechaEntrega,
-      detalleAveria: "no hay averia",
+      activoPlaca: activosPrestados[activoIdx].placa,
+      horaDevolucion: horaFormateada,
+      fechaDevolucion: fechaEntrega,
+      averia: "no hay averia",
     };
     localStorage.setItem("infoDevolvioBien", JSON.stringify(jsonData));
     console.log("Información de devolución sin averías guardada:", jsonData);
-    setShowDevolvioBienModal(false);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/DevolverActivo",
+        jsonData
+      );
+      window.location.reload();
+      setShowDevolvioBienModal(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleDevolvioBien = (idx) => {
@@ -415,17 +454,29 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
   const [showDevolvioMalModal, setShowDevolvioMalModal] = useState(false);
   const [detalleAveria, setDetalleAveria] = useState("");
 
-  const handleConfirmDevolvioMal = () => {
+  const handleConfirmDevolvioMal = async () => {
     const horaEntrega = new Date().toLocaleTimeString();
-    const fechaEntrega = new Date().toLocaleDateString();
+    const horaFormateada = formatearHora(horaEntrega);
+    const fechaEntrega = formatearFecha(new Date());
     const jsonData = {
-      placa: activosPrestados[activoIdx].Placa,
-      detalleAveria: detalleAveria,
-      horaEntrega: horaEntrega,
-      fechaEntrega: fechaEntrega,
+      activoPlaca: activosPrestados[activoIdx].placa,
+      averia: detalleAveria,
+      horaDevolucion: horaFormateada,
+      fechaDevolucion: fechaEntrega,
     };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/DevolverActivo",
+        jsonData
+      );
+      window.location.reload();
+    } catch (error) {
+      console.log("Error:", error);
+    }
     localStorage.setItem("infoDevolvioMal", JSON.stringify(jsonData));
     console.log("Información de devolución con avería guardada:", jsonData);
+
     setShowDevolvioMalModal(false);
     setDetalleAveria("");
   };
@@ -435,16 +486,31 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
     setShowDevolvioMalModal(true);
   };
 
-  const confirmarEntrega = (idx) => {
+  const confirmarEntrega = async (idx) => {
     console.log(
       "placa del activo al que hay que cambiarle el entregado: " +
-        actSolAprobados[idx].placa
+        actSolAprobados[idx].correoSolicitante +
+        " / " +
+        actSolAprobados[idx].fechaSolicitud +
+        " / " +
+        actSolAprobados[idx].horaSolicitud
     );
 
-    // corregir
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/MarcarEntregado",
+        {
+          correoSolicitante: actSolAprobados[idx].correoSolicitante,
+          fechaSolicitud: actSolAprobados[idx].fechaSolicitud,
+          horaSolicitud: actSolAprobados[idx].horaSolicitud,
+        }
+      );
+      window.location.reload();
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
-  // funciones para horas trabajadas
 
   return (
     <Container className="py-4">
@@ -469,7 +535,7 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
             <div>Hora de entrada: {entradaActual}</div>
           </Tab>
           <Tab eventKey="tab-2" title="Reservación de los laboratorios">
-          <div className="table-wrapper">
+            <div className="table-wrapper">
               <table className="table">
                 <thead>
                   <tr>
@@ -583,13 +649,13 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
                 <tbody>
                   {actSolAprobados.map((sols, idx) => (
                     <tr key={idx}>
-                      <td>{sols.placa}</td>
-                      <td>{sols.nombre}</td>
-                      <td>{sols.apellido1}</td>
-                      <td>{sols.apellido2}</td>
-                      <td>{sols.fecha}</td>
-                      <td>{sols.hora}</td>
-                      <td className="expand"> {sols.correo}</td>
+                      <td>{sols.activoPlaca}</td>
+                      <td>{sols.primerNombre}</td>
+                      <td>{sols.primerApellido}</td>
+                      <td>{sols.segundoApellido}</td>
+                      <td>{sols.fechaSolicitud}</td>
+                      <td>{sols.horaSolicitud}</td>
+                      <td className="expand"> {sols.correoSolicitante}</td>
                       <td className="fit">
                         <Button onClick={() => confirmarEntrega(idx)}>
                           Confirmar Entrega
@@ -615,9 +681,9 @@ const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apell
                 <tbody>
                   {activosPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => handleDevolvioBien(idx)}>

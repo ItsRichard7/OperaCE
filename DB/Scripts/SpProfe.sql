@@ -62,10 +62,10 @@ END
 GO
 
 -- Obtener todas las solicitudes que ha tenido un laboratorio (Vista Calendario Laboratorio)
-CREATE PROCEDURE obt_solis_lab (@nombre NCHAR(6))
+CREATE PROCEDURE obt_act_no_devueltos
 AS
 BEGIN
-    SELECT * FROM Soli_Lab WHERE lab_nombre = @nombre;
+    SELECT p_nombre, s_nombre, p_apellido, s_apellido FROM Soli_Act WHERE devuelto = 0;
 END
 GO
 
@@ -80,7 +80,7 @@ GO
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_activos_no_aprobados;
 DROP PROCEDURE aprobar_prestamo_activo;
-DROP PROCEDURE hay_choque_reservas;
+DROP PROCEDURE obt_act_no_devueltos;
 */
 
 /* Pruebas para los store procedures
@@ -89,4 +89,6 @@ EXEC obt_activos_no_aprobados 3456789012;
 */
 
 Use OperaCE
-SELECT * FROM Usuario
+SELECT * FROM Activo
+SELECT * FROM Soli_Act
+EXEC obt_act_no_devueltos

@@ -17,8 +17,6 @@ export const ProfesorPage = () => {
   const [lab, setLab] = useState([]);
   const [actSol, setActSol] = useState([]);
 
-
-
   useEffect(() => {
     // Función para obtener los datos de laboratorios desde la API
     const fetchLabData = async () => {
@@ -37,7 +35,7 @@ export const ProfesorPage = () => {
         console.error(error);
       }
     };
-  
+
     const fectSolData = async () => {
       try {
         const response = await fetch(
@@ -58,16 +56,18 @@ export const ProfesorPage = () => {
     fectSolData(); // Llamar a la función para obtener los datos de operadores al cargar la página
   }, []);
 
-
   // funciones para solicitud de prestamos
 
   const aprobar = async (idx) => {
     try {
-      const response = await axios.put("http://localhost:5074/api/AprobarPrestamo", {
-        correoSoli: actSol[idx].correoSolicitud,
-        fechaSoli: actSol[idx].fechaSolicitud,
-        horaSoli: actSol[idx].horaSolicitud,
-      });
+      const response = await axios.put(
+        "http://localhost:5074/api/AprobarPrestamo",
+        {
+          correoSoli: actSol[idx].correoSolicitud,
+          fechaSoli: actSol[idx].fechaSolicitud,
+          horaSoli: actSol[idx].horaSolicitud,
+        }
+      );
       window.location.reload();
       console.log(response.data);
       console.log(actSol[idx]);
@@ -79,13 +79,16 @@ export const ProfesorPage = () => {
 
   const Noaprobar = async (idx) => {
     try {
-      const response = await axios.delete("http://localhost:5074/api/RechazarPrestamo", {
-        data: {
-          correoSoli: actSol[idx].correoSolicitud,
-          fechaSoli: actSol[idx].fechaSolicitud,
-          horaSoli: actSol[idx].horaSolicitud,
-        },
-      });
+      const response = await axios.delete(
+        "http://localhost:5074/api/RechazarPrestamo",
+        {
+          data: {
+            correoSoli: actSol[idx].correoSolicitud,
+            fechaSoli: actSol[idx].fechaSolicitud,
+            horaSoli: actSol[idx].horaSolicitud,
+          },
+        }
+      );
       window.location.reload();
       console.log(response.data);
       // Actualizar el estado o realizar alguna acción adicional si es necesario
@@ -93,7 +96,6 @@ export const ProfesorPage = () => {
       console.error("Error al rechazar préstamo:", error);
     }
   };
-
 
   // Reservación de laboratorios
 

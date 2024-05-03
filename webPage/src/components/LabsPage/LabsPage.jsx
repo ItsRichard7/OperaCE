@@ -61,7 +61,7 @@ function Calendar() {
   };
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container dark-background">
       <div className="button-container">
         <button className="back-button" onClick={handleBack}>
           Volver

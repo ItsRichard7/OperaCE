@@ -21,7 +21,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Nombre 1 del solicitante</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Ingrese su nombre"
+              placeholder="Ingrese el nombre del solicitante"
               value={nombre1}
               onChange={(e) => setNombre1(e.target.value)}
             />
@@ -30,7 +30,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Nombre 2 del solicitante</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Ingrese su nombre"
+              placeholder="Ingrese el segundo nombre del solicitante"
               value={nombre2}
               onChange={(e) => setNombre2(e.target.value)}
             />
@@ -39,7 +39,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Apellido 1 del solicitante</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Ingrese el apellido 1 del solicitante"
+              placeholder="Ingrese el primer apellido del solicitante"
               value={apellido1}
               onChange={(e) => setApellido1(e.target.value)}
             />
@@ -48,7 +48,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Apellido 2 del solicitante</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Ingrese el apellido 2 del solicitante"
+              placeholder="Ingrese el segundo apellido del solicitante"
               value={apellido2}
               onChange={(e) => setApellido2(e.target.value)}
             />
@@ -57,7 +57,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Correo</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Ingrese correo de profesor"
+              placeholder="Ingrese correo del profesor"
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
             />
@@ -66,7 +66,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             <Form.Label>Contraseña</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Ingrese contraseña de profesor"
+              placeholder="Ingrese contraseña del profesor"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -83,7 +83,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
             handleVerify(correo, password, nombre1, nombre2, apellido1, apellido2)
           }
         >
-          Verificar
+          Prestar
         </Button>
       </Modal.Footer>
     </Modal>
