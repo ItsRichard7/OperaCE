@@ -10,7 +10,7 @@ namespace API.Controllers.Admin
     [ApiController]
     public class eliminarProfesor : Controller
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpDelete("{cedula}")]
         public IActionResult elimProfe(decimal cedula)

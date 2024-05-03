@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Alert, ImageBackground, TouchableOpacity } from 'react-native';
 import { db } from '../DB/updateDB.js'; 
 
@@ -10,9 +10,9 @@ export default function LaboratoriesScreen({ navigation }) {
     fetchLaboratories();
   }, []);
 
-  const navigateToLabsSchedule = (lab) => {
+  const navigateToLabsSchedule = (selectedLab) => {
     // Navigate to lab schedule screen passing lab as parameter
-    navigation.navigate('LabAvailabilityScreen', { labName: lab.nombre });
+    navigation.navigate('LabAvailabilityScreen', { labName: selectedLab });
   };
 
   const fetchLaboratories = () => {
@@ -44,7 +44,7 @@ export default function LaboratoriesScreen({ navigation }) {
           {laboratories.map((lab, index) => (
             <TouchableOpacity 
               key={index} 
-              onPress={() => navigateToLabsSchedule(lab)} 
+              onPress={() => navigateToLabsSchedule(lab.nombre)} 
               style={styles.labTouchable}
             >
               <View style={styles.labContainer}>

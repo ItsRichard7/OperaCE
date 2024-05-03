@@ -8,7 +8,7 @@ namespace API.Controllers
     [ApiController]
     public class AprobarOp : ControllerBase
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpPost("{cedula}")]
         public IActionResult AprobarOperador(string cedula)

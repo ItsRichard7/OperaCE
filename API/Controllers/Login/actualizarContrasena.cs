@@ -10,7 +10,7 @@ namespace API.Controllers.Login
     [ApiController]
     public class actualizarContrasena : ControllerBase
     {
-        private readonly string connectionString = "Server= DYLAN; Database= OperaCE; Integrated Security=True;"; // Reemplaza con tu cadena de conexión
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpPut]
         public IActionResult ActualizarContrasena([FromBody] Credenciales credenciales)

@@ -8,7 +8,7 @@ namespace API.Controllers.Admin
     [ApiController]
     public class elimFacilidad : Controller
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpDelete("{labNombre}")]
         public IActionResult EliminarFacilidades(string labNombre)

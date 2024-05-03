@@ -8,7 +8,7 @@ namespace API.Controllers
     [ApiController]
     public class RechazarOperadorController : ControllerBase
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpDelete("{cedula}")]
         public IActionResult RechazarOperador(string cedula)

@@ -10,7 +10,7 @@ namespace API.Controllers.Login
     [ApiController]
     public class InicioSesionController : ControllerBase
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpPost]
         public IActionResult VerificarInicio([FromBody] Credenciales credenciales)

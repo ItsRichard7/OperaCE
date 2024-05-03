@@ -1,5 +1,7 @@
 import NetInfo from "@react-native-community/netinfo";
 import SQLite from 'react-native-sqlite-storage';
+import React, { useEffect } from 'react';
+
 
 export const db = SQLite.openDatabase(
     {
@@ -13,9 +15,9 @@ export const db = SQLite.openDatabase(
 
 export default function updateDB() {
 
-    useEffect(() => {
+    useEffect( () => {
         // Create the tables
-        CreateTables();
+        createTables();
     
         // Subscribe to network status changes
         const unsubscribe = NetInfo.addEventListener(state => {
@@ -24,6 +26,7 @@ export default function updateDB() {
                 updateDatabase();
             }
         });
+
     
         // Clean up the subscription
         return () => {
@@ -37,7 +40,7 @@ export default function updateDB() {
         `CREATE TABLE IF NOT EXISTS Usuario(
             cedula NUMERIC(10) NOT NULL,
             correo NVARCHAR(50) NOT NULL,
-            contrasena NVARCHAR(20) NOT NULL,
+            contrasena VARCHAR(32) NOT NULL,
             carnet NUMERIC(12),
             p_nombre NVARCHAR(20) NOT NULL,
             s_nombre NVARCHAR(20),
@@ -122,42 +125,208 @@ export default function updateDB() {
         );
     }, null, null);
     };
-    
-    const updateDatabase = async () => {
-        try {
-            // Define the tables and their corresponding API endpoints
-            const tables = ['Usuario', 'Activo', 'Laboratorio', 'Lab_Facilidad', 'Soli_Lab', 'Soli_Act'];
-            const endpoints = ['usuarios', 'activos', 'laboratorios', 'lab_facilidad', 'soli_lab', 'soli_act'];
-            const columns = [
-                ['cedula', 'correo', 'contrasena', 'carnet', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'f_nacim', 'activo', 'rol_id'],
-                ['placa', 'tipo', 'marca', 'f_compra', 'prestado', 'aprob_ced'],
-                ['nombre', 'computadoras', 'capacidad'],
-                ['descripcion', 'lab_nombre'],
-                ['correo_soli', 'fecha', 'hora', 'carnet', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'cant_horas', 'lab_nombre', 'user_ced'],
-                ['correo_soli', 'fecha_ent', 'hora_ent', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'fecha_dev', 'hora_dev', 'devuelto', 'averia', 'act_placa', 'user_ced']
-            ];
 
-            // Fetch data for each table and update the SQLite database
-            for (let i = 0; i < tables.length; i++) {
-                const response = await fetch(`https://your-server.com/api/${endpoints[i]}`);
-                const data = await response.json();
-
-                db.transaction((tx) => {
-                    data.forEach((item) => {
-                        const values = columns[i].map(column => item[column]);
-                        const placeholders = columns[i].map(() => '?').join(', ');
-                        tx.executeSql(
-                            `INSERT OR REPLACE INTO ${tables[i]} (${columns[i].join(', ')}) VALUES (${placeholders})`,
-                            values,
-                        );
-                    });
-                });
-            }
-        } catch (error) {
-            console.error('Failed to update database:', error);
+    const updateSQLiteDatabase = async (table, columns, data) => {
+        if (!data || data.length === 0) {
+          console.log(`No data to update for table: ${table}`);
+          return;
         }
-    };
+      
+        const placeholders = columns.map(() => '?').join(', ');
+        const sqlStatement = `INSERT OR REPLACE INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
+      
+        db.transaction(tx => {
+          data.forEach(item => {
+            const values = columns.map(column => item[column]);
+            tx.executeSql(sqlStatement, values, (tx, results) => {
+              if (results.rowsAffected > 0) {
+                console.log(`Insertion or replacement successful for table: ${table}`);
+              } else {
+                console.log(`Insertion or replacement failed for table: ${table}`);
+              }
+            }, (tx, error) => {
+              console.log(`Failed to execute query for table: ${table}, error: ${error.message}`);
+            });
+          });
+        }, (error) => {
+          console.log(`Transaction error for table: ${table}, error: ${error.message}`);
+        }, () => {
+          console.log(`Transaction successful for table: ${table}`);
+        });
+      };
+      
 
+
+      const updateUsuario = async () => {
+        const endpoint = 'obtenerUsuario';
+        const columns = ['cedula', 'correo', 'contrasena', 'carnet', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'f_nacim', 'activo', 'rol_id'];
+        let data = await fetchData(endpoint);
+      
+        // Map the keys from the data to the column names expected by the database
+        data = data.map(item => ({
+          cedula: item.cedula,
+          correo: item.correo,
+          contrasena: item.contrasena,
+          carnet: item.carnet, // This can be null as per your schema
+          p_nombre: item.primerNombre,
+          s_nombre: item.segundoNombre, // This can be null as per your schema
+          p_apellido: item.primerApellido,
+          s_apellido: item.segundoApellido, // This can be null as per your schema
+          f_nacim: item.fechaNacimiento.split('T')[0], // Assuming you want just the date part
+          activo: item.activo ? 1 : 0, // Convert boolean to 1 or 0
+          rol_id: item.rolId
+        }));
+      
+        await updateSQLiteDatabase('Usuario', columns, data);
+      };
+
+      const updateActivo = async () => {
+        const endpoint = 'obtenerActivo/activos';
+        const columns = ['placa', 'tipo', 'marca', 'f_compra', 'prestado', 'aprob_ced'];
+        let data = await fetchData(endpoint);
+      
+        // Map the data to the column names
+        const mappedData = data.map(item => ({
+          placa: item.placa,
+          tipo: item.tipo,
+          marca: item.marca,
+          f_compra: item.fCompra,
+          prestado: item.prestado ? 1 : 0, // Convert boolean to 1 or 0 if necessary
+          aprob_ced: item.aprobCed
+        }));
+      
+        // Call the function to update the database with the mapped data
+        await updateSQLiteDatabase('Activo', columns, mappedData);
+      };
+
+      const updateLaboratorio = async () => {
+        const endpoint = 'obtenerLaboratorios';
+        const columns = ['nombre', 'computadoras', 'capacidad'];
+        let data = await fetchData(endpoint);
+        
+        // Map the data to the column names
+        data = data.map(item => ({
+            nombre: item.nombre,
+            computadoras: item.computadoras,
+            capacidad: item.capacidad
+        }));
+    
+        await updateSQLiteDatabase('Laboratorio', columns, data);
+    };
+    
+    const updateLab_Facilidad = async () => {
+        const endpoint = 'obtenerFacilidad';
+        const columns = ['lab_nombre', 'descripcion'];
+        let data = await fetchData(endpoint);
+        
+        // Map the data to the column names
+        data = data.map(item => ({
+            lab_nombre: item.lab_nombre,
+            descripcion: item.descripcion
+        }));
+    
+        await updateSQLiteDatabase('Lab_Facilidad', columns, data);
+    };
+    
+    const updateSoli_Lab = async () => {
+        const endpoint = 'obtenerSoliLab/solicitudes-laboratorio';
+        const columns = ['correo_soli', 'fecha_ent', 'hora_ent', 'fecha_sal', 'hora_sal', 'lab_nombre', 'user_ced'];
+        let data = await fetchData(endpoint);
+        
+        // Map the data to the column names
+        data = data.map(item => ({
+            correo_soli: item.correo_soli,
+            fecha_ent: item.fecha,
+            hora_ent: item.hora,
+            fecha_sal: item.fecha_sal,
+            hora_sal: item.hora_sal,
+            lab_nombre: item.lab_nombre,
+            user_ced: item.user_ced
+        }));
+    
+        await updateSQLiteDatabase('Soli_Lab', columns, data);
+    };
+    
+    const updateSoli_Act = async () => {
+        const endpoint = 'SoliAct';
+        const columns = ['correo_soli', 'fecha_ent', 'hora_ent', 'fecha_sal', 'hora_sal', 'act_placa', 'user_ced'];
+        let data = await fetchData(endpoint);
+        
+        // Map the data to the column names
+        data = data.map(item => ({
+            correo_soli: item.correo_soli,
+            fecha_ent: item.fecha_soli,
+            hora_ent: item.hora_soli,
+            fecha_sal: item.fecha_dev,
+            hora_sal: item.hora_dev,
+            act_placa: item.act_placa,
+            user_ced: item.user_ced
+        }));
+    
+        await updateSQLiteDatabase('Soli_Act', columns, data);
+    };
+    
+
+const fetchData = async (endpoint) => {
+  const response = await fetch(`http://10.0.2.2:5074/api/${endpoint}`)
+    .catch(error => {
+      console.error('Fetch error:', error);
+      throw error;  // Rethrow the error
+    });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error(`Error al obtener datos de ${endpoint}`);
+  }
+};
+
+const updateDatabase = async () => {
+    try {
+      await updateUsuario();
+  
+      await updateActivo();
+  
+      await updateLaboratorio();
+  
+      await updateLab_Facilidad();
+  
+      await updateSoli_Lab();
+  
+      await updateSoli_Act();
+  
+    } catch (error) {
+      console.log('El error esta aqui:', error);
+      console.error(error);
+    }
+
+    checkUpdates();
+  };
+
+  function logTableData(table) {
+  db.transaction(tx => {
+    tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
+  console.log(`Results from ${table}:`, results);
+},
+    (tx, error) => {
+      console.log('Database error: ' + error.message);
+    });
+  });
+}
+
+const checkUpdates = async () => {
+  //await updateDatabase();
+
+  logTableData('Usuario');
+  logTableData('Activo');
+  logTableData('Laboratorio');
+  logTableData('Lab_Facilidad');
+  logTableData('Soli_Lab');
+  logTableData('Soli_Act');
+};
+    
+
+/*
     const syncDatabase = async () => {
     try {
         // Define the tables and their corresponding API endpoints
@@ -173,7 +342,7 @@ export default function updateDB() {
                     async (tx, results) => {
                         const rows = results.rows.raw();
 
-                        const response = await fetch(`https://your-server.com/api/${endpoints[i]}`, {
+                        const response = await fetch(`http://localhost:5074/api/${endpoints[i]}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -195,5 +364,6 @@ export default function updateDB() {
         console.error('Failed to sync database:', error);
     }
 };
+*/
 
     }
