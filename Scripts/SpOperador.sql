@@ -18,13 +18,13 @@ GO
 
 -- Confirmar si lab esta disponible (este ya esta en SpProfe con el nombre de hay_choque_reservas)
 
--- Hacer Reservación Lab (este ya esta SpProfe con el nombre de insertar_soli_lab)
+-- Hacer Reservaciï¿½n Lab (este ya esta SpProfe con el nombre de insertar_soli_lab)
 
 -- Pedir la lista de activos (este ya esta SpAdmin con el nombre de obt_activos)
 
--- Proceso para verificar el inicio de sesión (este ya esta en SpLogin con el nombre de verificar_inicio)
+-- Proceso para verificar el inicio de sesiï¿½n (este ya esta en SpLogin con el nombre de verificar_inicio)
 
--- Insertar nueva solicitud de prestamo de activo (Vista Hacer Préstamo Activo tanto Profesor como Estudiante)
+-- Insertar nueva solicitud de prestamo de activo (Vista Hacer Prï¿½stamo Activo tanto Profesor como Estudiante)
 CREATE PROCEDURE insertar_soli_activo (@correo_soli NVARCHAR(50), @fecha_soli DATE, @hora_soli TIME, @p_nombre NVARCHAR(20), 
 									   @s_nombre NVARCHAR(20), @p_apellido NVARCHAR(20), @s_apellido NVARCHAR(20), @aprobado BIT,
 									   @act_placa NVARCHAR(20), @user_ced NUMERIC(10))
@@ -51,13 +51,14 @@ BEGIN
 END
 GO
 
--- Proceso para verificar el inicio de sesión (este ya esta en SpLogin con el nombre de verificar_inicio)
+-- Proceso para verificar el inicio de sesiï¿½n (este ya esta en SpLogin con el nombre de verificar_inicio)
 
--- Al devolverse el activo se actualiza el estado del préstamo (Vista Devoluçión Activo)
+-- Al devolverse el activo se actualiza el estado del prï¿½stamo (Vista Devoluï¿½iï¿½n Activo)
 CREATE PROCEDURE devolver_activo (@act_placa NVARCHAR(20), @fecha_dev DATE, @hora_dev TIME, @averia NVARCHAR(200))
 AS
 BEGIN
 	UPDATE Soli_Act SET	devuelto = 1, fecha_dev = @fecha_dev, hora_dev = @hora_dev, averia = @averia WHERE act_placa = @act_placa AND devuelto = 0;
+	UPDATE Activo SET prestado = 0 WHERE placa = @act_placa;
 END
 GO
 
