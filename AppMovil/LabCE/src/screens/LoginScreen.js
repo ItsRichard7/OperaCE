@@ -51,8 +51,7 @@ export default function LoginScreen() {
             setClientId(results.rows.item(0).cedula);
             navigation.navigate('HomeScreen');
           } else {
-            console.error('Error:', error);
-          Alert.alert('Error', 'El usuario o la contrasena son incorrectos.');
+            Alert.alert('Error', 'El usuario o la contrasena son incorrectos.');
           }
         },
         (tx, error) => {

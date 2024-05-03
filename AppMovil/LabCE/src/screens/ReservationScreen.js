@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; //npm install @react-native-picker/picker
 import { db } from '../DB/updateDB.js'; 
 import { getClientId } from '../globalVariables/clientID.js';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 const ReservationScreen = ({ route, navigation }) => {
   const { selectedLab, selectedDate, selectedHour } = route.params;
+  console.log('selected Lab:', selectedLab,selectedDate, selectedHour);
   const [duration, setDuration] = useState(1); // Default duration is 1 hour
   const [userData, setUserData] = useState(null);
+  //const navigation = useNavigation();
+
 
 
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  useEffect(() => {
-    if (userData) {
-      confirmReservation();
-    }
-  }, [userData]);
 
   const fetchUserData = () => {
     const clientId = getClientId();
@@ -45,23 +45,15 @@ const ReservationScreen = ({ route, navigation }) => {
   const confirmReservation = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO Soli_Lab (correo_soli, fecha, hora, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT OR REPLACE INTO Soli_Lab (correo_soli, fecha, hora, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [userData.correo, selectedDate, selectedHour, userData.p_nombre, userData.s_nombre, userData.p_apellido, userData.s_apellido, duration, selectedLab, userData.cedula],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
           if (results.rowsAffected > 0) {
-            Alert.alert(
-              'Success',
-              'Se ha creado la solicitud con exito',
-              [
-                {
-                  text: 'Ok',
-                },
-              ],
-              { cancelable: false }
-            );
+            Alert.alert('Reservacion', 'La reservacion se ha hecho con exito, favo conectese con la red local para enviar al servidor.');
+            navigation.navigate('HomeScreen');
           } else {
-            alert('Reservation Failed');
+            Alert.alert('Error', 'No se pudo hacer la reservacion, intente de nuevo.');
           }
         },
         (error) => {

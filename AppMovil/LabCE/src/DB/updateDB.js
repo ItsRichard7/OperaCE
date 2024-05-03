@@ -294,9 +294,10 @@ const updateDatabase = async () => {
       await updateSoli_Lab();
   
       await updateSoli_Act();
+
+      //cleanTable('Soli_Lab');
   
     } catch (error) {
-      console.log('El error esta aqui:', error);
       console.error(error);
     }
 
@@ -324,6 +325,53 @@ const checkUpdates = async () => {
   logTableData('Soli_Lab');
   logTableData('Soli_Act');
 };
+
+const cleanTable = (tableName) => {
+    db.transaction((tx) => {
+        tx.executeSql(
+            `DELETE FROM ${tableName}`,
+            [],
+            (tx, results) => {
+                console.log('Table cleaned successfully');
+            },
+            (tx, error) => {
+                console.log('Error cleaning table: ', error.message);
+            }
+        );
+    });
+}
+
+const sendDatabaseTablesToServer = async () => {
+  const tables = ['Usuario', 'Activo', 'Laboratorio', 'Lab_Facilidad', 'Soli_Lab', 'Soli_Act'];
+  const endpoints = ['sendUsuario', 'sendActivo', 'sendLaboratorio', 'sendLab_Facilidad', 'sendSoli_Lab', 'sendSoli_Act'];
+
+  for (let i = 0; i < tables.length; i++) {
+    const table = tables[i];
+    const endpoint = endpoints[i];
+    let data = {};
+
+    await db.transaction(tx => {
+      tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
+        const rows = results.rows.raw();
+        data = rows;
+      });
+    });
+
+    const jsonData = JSON.stringify(data);
+
+    fetch(`http://10.0.2.2:5074/api/${endpoint}`, { // Assuming the server is running on the same machine
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonData
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+  }
+};
+
     
 
 /*

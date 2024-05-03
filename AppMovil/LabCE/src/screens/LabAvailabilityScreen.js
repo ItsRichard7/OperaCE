@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import moment from 'moment'; // Make sure to install moment.js with `npm install moment`
+import moment from 'moment'; //npm install moment
 import { db } from '../DB/updateDB.js'; 
 
 
@@ -86,7 +86,6 @@ const fetchReservations = (labName) => {
       (tx, results) => {
         const rows = results.rows.raw();
         setAvailabilityData(updateAvailabilityData(rows));
-        // Do something with the updated availability, such as updating the UI or storing it
       },
       (tx, error) => {
         console.error('Failed to fetch reservations:', error);
@@ -94,26 +93,6 @@ const fetchReservations = (labName) => {
     );
   });
 };
-
-  /*
-  const updateAvailabilityData = (reservations) => {
-    const newAvailabilityData = [...availabilityData];
-    reservations.forEach((reservation) => {
-      const date = moment(reservation.fecha);
-      const week = date.week();
-      const dayIndex = date.day();
-      const hourIndex = moment(reservation.hora, 'HH:mm').hour();
-      const duration = reservation.cant_horas;
-      for (let i = 0; i < duration; i++) {
-        const dayData = newAvailabilityData.find(day => day.week === week && dayIndex === newAvailabilityData.indexOf(day));
-        if (dayData) {
-          dayData.slots[hourIndex + i] = false;
-        }
-      }
-    });
-    setAvailabilityData(newAvailabilityData);
-  };
-  */
 
  
   // Function to handle navigation to view availability for the next week
@@ -145,6 +124,7 @@ const reserveSlot = (dayIndex, hourIndex) => {
   const selectedDate = datesOfWeek[dayIndex].format('MMMM D, YYYY');
   const selectedHour = hours[hourIndex];
   navigation.navigate('ReservationScreen', {
+    selectedLab: labName,
     selectedDate: selectedDate,
     selectedHour: selectedHour,
   });
@@ -152,16 +132,13 @@ const reserveSlot = (dayIndex, hourIndex) => {
 
 const transformedAvailabilityData = availabilityData.map((slots, index) => ({
   week: currentWeek, // Assuming all data is for week 0, this should be dynamic based on your application logic
-  day: dias[index], // Replace with actual day names if available
+  day: dias[index], 
   slots: slots.map(slot => ({ available: slot })) // Transforming boolean values into objects
 }));
 
 // Now, filter the transformed data for the current week
 const currentWeekData = transformedAvailabilityData.filter(day => day.week === currentWeek);
 
-// Log the transformed data to verify its structure
-console.log('Transformed Availability Data:', transformedAvailabilityData);
-console.log('Filtered Current Week Data:', currentWeekData);
 
   return (
     <View style={styles.container}>

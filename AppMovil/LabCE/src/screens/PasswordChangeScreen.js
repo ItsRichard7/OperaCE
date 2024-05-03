@@ -29,18 +29,22 @@ export default function PasswordChangeScreen() {
         `SELECT contrasena FROM Usuario WHERE cedula = ?`,
         [clientId],
         (tx, results) => {
+          
           const rows = results.rows.raw();
+        
           if (rows.length > 0) {
             const user = rows[0];
-            if (user.contrasena !== currentPassword) {
-              Alert.alert('Error', 'Contraseña actual esta incorrecta');
-            } else if (newPassword !== confirmNewPassword) {
+            if (user.contrasena !== currentpassword) {
+              Alert.alert('Error', 'Contraseña actual está incorrecta');
+            } else if (newpassword !== confirmnewpassword) {
               Alert.alert('Error', 'Las contraseñas no coinciden');
             } else {
+              console.log('Updating password...');
               tx.executeSql(
                 `UPDATE Usuario SET contrasena = ? WHERE cedula = ?`,
-                [newPassword, clientId],
+                [newpassword, clientId],
                 () => {
+                  console.log('Password changed successfully');
                   Alert.alert('Success', 'Password changed successfully');
                   navigation.goBack();
                 },
@@ -73,6 +77,7 @@ export default function PasswordChangeScreen() {
             placeholder="Contraseña actual"
             onChangeText={text => setCurrentPassword(text)}
             value={currentpassword}
+            secureTextEntry={true}
             placeholderTextColor="#666"
           />
           <TextInput
