@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; //npm install @react-native-picker/picker
 import { db } from '../DB/updateDB.js'; 
 import { getClientId } from '../globalVariables/clientID.js';
+import moment from 'moment'; //npm install moment
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -43,10 +44,14 @@ const ReservationScreen = ({ route, navigation }) => {
   };
 
   const confirmReservation = () => {
+      // Format selectedDate and selectedHour
+  const formattedDate = moment(selectedDate, 'D [de] MMMM, YYYY').format('YYYY-MM-DD');
+  const formattedHour = moment(selectedHour, 'h:mm A').format('HH:mm:ss');
+
     db.transaction((tx) => {
       tx.executeSql(
         `INSERT OR REPLACE INTO Soli_Lab (correo_soli, fecha, hora, p_nombre, s_nombre, p_apellido, s_apellido, cant_horas, lab_nombre, user_ced) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [userData.correo, selectedDate, selectedHour, userData.p_nombre, userData.s_nombre, userData.p_apellido, userData.s_apellido, duration, selectedLab, userData.cedula],
+        [userData.correo, formattedDate, formattedHour, userData.p_nombre, userData.s_nombre, userData.p_apellido, userData.s_apellido, duration, selectedLab, userData.cedula],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
           if (results.rowsAffected > 0) {
@@ -65,10 +70,10 @@ const ReservationScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Confirm Your Reservation</Text>
-      <Text style={styles.info}>Date: {selectedDate}</Text>
-      <Text style={styles.info}>Hour: {selectedHour}</Text>
-      <Text style={styles.label}>Select Duration (hours):</Text>
+    <Text style={styles.title}>Confirma Tu Reservación</Text>
+    <Text style={styles.info}>Fecha: {selectedDate}</Text>
+    <Text style={styles.info}>Hora: {selectedHour}</Text>
+      <Text style={styles.label}>Cantidad de hora:</Text>
       <Picker
         selectedValue={duration}
         style={styles.picker}

@@ -126,6 +126,9 @@ export default function updateDB() {
     }, null, null);
     };
 
+
+
+
     const updateSQLiteDatabase = async (table, columns, data) => {
         if (!data || data.length === 0) {
           console.log(`No data to update for table: ${table}`);
@@ -281,36 +284,30 @@ const fetchData = async (endpoint) => {
   }
 };
 
-const updateDatabase = async () => {
-    try {
-      await updateUsuario();
-  
-      await updateActivo();
-  
-      await updateLaboratorio();
-  
-      await updateLab_Facilidad();
-  
-      await updateSoli_Lab();
-  
-      await updateSoli_Act();
 
-      //cleanTable('Soli_Lab');
-  
-    } catch (error) {
-      console.error(error);
-    }
+const updateDatabase = async () => {
+  try {
+    await updateUsuario();
+    await updateActivo();
+    await updateLaboratorio();
+    await updateLab_Facilidad();
+    await updateSoli_Lab();
+    await updateSoli_Act();
 
     checkUpdates();
-  };
+
+
+    //cleanTable('Soli_Lab');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   function logTableData(table) {
   db.transaction(tx => {
     tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
-  console.log(`Results from ${table}:`, results);
-},
-    (tx, error) => {
-      console.log('Database error: ' + error.message);
+      const rows = results.rows.raw();
+      console.log(`Results from ${table} in JSON format:`, JSON.stringify(rows, null, 2));
     });
   });
 }
@@ -318,12 +315,12 @@ const updateDatabase = async () => {
 const checkUpdates = async () => {
   //await updateDatabase();
 
-  logTableData('Usuario');
+  //logTableData('Usuario');
   logTableData('Activo');
-  logTableData('Laboratorio');
-  logTableData('Lab_Facilidad');
+  //logTableData('Laboratorio');
+  //logTableData('Lab_Facilidad');
   logTableData('Soli_Lab');
-  logTableData('Soli_Act');
+  //logTableData('Soli_Act');
 };
 
 const cleanTable = (tableName) => {
