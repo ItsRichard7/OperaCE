@@ -4,7 +4,8 @@ import md5 from "md5";
 
 const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
   const [correo, setCorreo] = useState("");
-  const [nombre, setNombre] = useState("");
+  const [nombre1, setNombre1] = useState("");
+  const [nombre2, setNombre2] = useState("");
   const [apellido1, setApellido1] = useState("");
   const [apellido2, setApellido2] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +17,22 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formNombre">
-            <Form.Label>Nombre del solicitante</Form.Label>
+          <Form.Group controlId="formNombre1">
+            <Form.Label>Nombre 1 del solicitante</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese su nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={nombre1}
+              onChange={(e) => setNombre1(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formNombre2">
+            <Form.Label>Nombre 2 del solicitante</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingrese su nombre"
+              value={nombre2}
+              onChange={(e) => setNombre2(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="formApellido1">
@@ -70,7 +80,7 @@ const CreateProfeActivo = ({ showModal, closeModal, handleVerify }) => {
         <Button
           variant="primary"
           onClick={() =>
-            handleVerify(correo, password, nombre, apellido1, apellido2)
+            handleVerify(correo, password, nombre1, nombre2, apellido1, apellido2)
           }
         >
           Verificar

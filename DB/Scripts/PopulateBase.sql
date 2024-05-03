@@ -122,7 +122,7 @@ INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('PRJ001', 'Proyector', 'Epson', '2023-05-15', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR001', 'Control remoto', 'Sony', '2023-03-20', 0, 3456789012);
+VALUES ('CTR001', 'Control remoto', 'Sony', '2023-03-20', 0, null);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('LLV001', 'Llave', 'Yale', '2022-11-10', 0, 3456789012);
@@ -134,7 +134,7 @@ INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('PRJ002', 'Proyector', 'BenQ', '2023-07-20', 1, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR002', 'Control remoto', 'Samsung', '2023-01-10', 1, 3456789012);
+VALUES ('CTR002', 'Control remoto', 'Samsung', '2023-01-10', 1, null);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('LLV002', 'Llave', 'Master Lock', '2023-02-28', 1, 3456789012);
@@ -146,7 +146,7 @@ INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('PRJ003', 'Proyector', 'ViewSonic', '2023-09-25', 0, 3456789012);
 
 INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
-VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, 3456789012);
+VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, null);
 
 
 /* Inserts de Prueba

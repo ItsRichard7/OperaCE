@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\login\\verifinicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\login\\verifinicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\insertarsoliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\operador\\insertarsoliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\soliactivo2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\soliactivo2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\profesor\\solicitudlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\profesor\\solicitudlaboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\obteneractivosnoentregados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\operador\\obteneractivosnoentregados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\insh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\operador\\insh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\insertarsoliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\operador\\insertarsoliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\marcarentregado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,18 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\entregadoactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\entregadoactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\operador\\obteneractivosnoentregados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\operador\\obteneractivosnoentregados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\soliactivo2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\soliactivo2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\recursos\\soliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:recursos\\soliactivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,11 +58,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "verifInicio.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\verifInicio.cs",
+              "RelativeDocumentMoniker": "Controllers\\Login\\verifInicio.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\verifInicio.cs",
+              "RelativeToolTip": "Controllers\\Login\\verifInicio.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T01:26:03.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "soliActivo2.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\soliActivo2.cs",
+              "RelativeDocumentMoniker": "Recursos\\soliActivo2.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\soliActivo2.cs",
+              "RelativeToolTip": "Recursos\\soliActivo2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T01:24:30.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "solicitudLaboratorio.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "RelativeDocumentMoniker": "Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "RelativeToolTip": "Controllers\\Profesor\\solicitudLaboratorio.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAgwB0AAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T00:12:53.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -66,12 +109,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAAAwAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-02T15:15:51.331Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-02T15:15:51.331Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "devolverActivo.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\devolverActivo.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\devolverActivo.cs",
@@ -83,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "EntregadoActivo.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\EntregadoActivo.cs",
               "RelativeDocumentMoniker": "Recursos\\EntregadoActivo.cs",
@@ -95,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "marcarEntregado.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\marcarEntregado.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\marcarEntregado.cs",
@@ -107,55 +149,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "obtenerActivosNoEntregados.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\obtenerActivosNoEntregados.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\obtenerActivosNoEntregados.cs",
               "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\obtenerActivosNoEntregados.cs",
               "RelativeToolTip": "Controllers\\Operador\\obtenerActivosNoEntregados.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAgwCUAAABjAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAgwCAAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T23:55:22.008Z"
+              "WhenOpened": "2024-05-01T23:55:22.008Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "SoliActivo.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\SoliActivo.cs",
-              "RelativeDocumentMoniker": "Recursos\\SoliActivo.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\SoliActivo.cs",
-              "RelativeToolTip": "Recursos\\SoliActivo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T23:53:42.314Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "soliActivo2.cs",
-              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\soliActivo2.cs",
-              "RelativeDocumentMoniker": "Recursos\\soliActivo2.cs",
-              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\soliActivo2.cs",
-              "RelativeToolTip": "Recursos\\soliActivo2.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T23:53:40.07Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "insertarSoliActivo.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\insertarSoliActivo.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\insertarSoliActivo.cs",
               "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\insertarSoliActivo.cs",
               "RelativeToolTip": "Controllers\\Operador\\insertarSoliActivo.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAD0AAAAAAAAA",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAQwCMAAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T23:53:13.688Z"
+              "WhenOpened": "2024-05-01T23:53:13.688Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "insertarHoras.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\insertarHoras.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\insertarHoras.cs",
@@ -163,12 +183,11 @@
               "RelativeToolTip": "Controllers\\Operador\\insertarHoras.cs",
               "ViewState": "AQIAAAsAAAAAAAAAAAAowCgAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T23:46:45.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-01T23:46:45.674Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "insH.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\insH.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\insH.cs",
@@ -181,7 +200,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "devolucionActivo.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\devolucionActivo.cs",
               "RelativeDocumentMoniker": "Recursos\\devolucionActivo.cs",

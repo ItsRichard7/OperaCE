@@ -2,6 +2,7 @@
 using System.Data;
 using API.Recursos;
 using System.Data.SqlClient;
+using System.Collections.Generic; // Agregar este using para List<>
 
 namespace API.Controllers.Admin
 {
@@ -37,7 +38,7 @@ namespace API.Controllers.Admin
                                     Marca = reader.GetString(2),
                                     FCompra = reader.IsDBNull(3) ? null : (DateTime?)reader.GetDateTime(3),
                                     Prestado = reader.GetBoolean(4),
-                                    AprobCed = reader.GetDecimal(5)
+                                    AprobCed = reader.IsDBNull(5) ? null : (decimal?)reader.GetDecimal(5)
                                 };
 
                                 activos.Add(activo);

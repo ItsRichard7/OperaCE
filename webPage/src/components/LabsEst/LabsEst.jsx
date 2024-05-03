@@ -11,9 +11,11 @@ export const LabsEst = () => {
   const [fechaReserva, setFechaReserva] = useState("");
   const [cantidadHoras, setCantidadHoras] = useState("");
   const [nombre, setNombre] = useState("");
+  const [nombre2, setNombre2] = useState("");
   const [apellido1, setApellido1] = useState("");
   const [apellido2, setApellido2] = useState("");
   const [carnet, setCarnet] = useState("");
+  const [cedula, setCedula] = useState("");
   const [correo, setCorreo] = useState("");
   const location = useLocation();
   const { usuario, laboratorio } = location.state || {};
@@ -21,7 +23,7 @@ export const LabsEst = () => {
   const [error, setError] = useState("");
   const Navigate = useNavigate();
 
-  const handleReserve = (e) => {
+  const handleReserve = async (e) => {
     e.preventDefault();
 
     if (
@@ -29,6 +31,7 @@ export const LabsEst = () => {
       !fechaReserva ||
       !cantidadHoras ||
       !carnet ||
+      !cedula ||
       !nombre ||
       !correo ||
       !apellido1 ||
@@ -51,19 +54,95 @@ export const LabsEst = () => {
 
     // Guardar la información
     const reserva = {
-      correo: correo,
-      fecha: fechaReserva,
-      hora: hora,
-      carnet: carnet,
-      laboratorio: laboratorio.Laboratorio,
-      nombre: nombre,
-      apellido1: usuario.apellido1,
-      apellido2: usuario.apellido2,
-      cantidadHoras: cantidadHoras,
+      correoSoli: correo,
+      fechaSoli: fechaReserva + "T00:00:00.000Z",
+      horaSoli: hora + ":00",
+      carnet: parseInt(carnet),
+      userCed: parseInt(cedula),
+      labNombre: laboratorio.nombre.trim(),
+      pNombre: nombre,
+      sNombre: nombre2,
+      pApellido: apellido1,
+      sApellido: apellido2,
+      cantHoras: parseInt(cantidadHoras),
     };
 
-    console.log("Información de la reserva:", reserva);
+    console.log(reserva);
+    console.log(laboratorio);
+
+    try {
+      /* const conflict = await checkReservationConflict(
+        reserva.labNombre,
+        reserva.fechaSoli,
+        reserva.horaSoli,
+        reserva.cantHoras
+      );
+
+      if (conflict) {
+        setError("Ya hay una reserva a esa hora");
+        console.log("Hay conflicto");
+        return;
+      }
+ */
+      console.log("No hay conflicto");
+
+      const response = await fetch(
+        "http://localhost:5074/api/InsertarSoliLab",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reserva),
+        }
+      );
+
+      if (response.ok) {
+        // La solicitud fue exitosa, puedes hacer algo como redirigir a otra página
+        Navigate(-1, { state: { usuario } });
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || "Hubo un error al procesar la solicitud");
+      }
+    } catch (error) {
+      setError("Hubo un error al procesar la solicitud");
+      console.error("Error:", error);
+    }
   };
+
+  const checkReservationConflict = async (
+    labNombre,
+    fechaSoli,
+    horaSoli,
+    cantHoras
+  ) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5074/api/HayChoqueReservas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            LabNombre: labNombre,
+            HoraInicio: horaSoli,
+            CantHoras: cantHoras,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
+
 
   const handleVerHorarios = () => {
     Navigate("/calendar", {
@@ -120,7 +199,7 @@ export const LabsEst = () => {
           <div className="input-box">
             <input
               type="text"
-              placeholder="Nombre"
+              placeholder="Primer Nombre"
               required
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -129,7 +208,15 @@ export const LabsEst = () => {
           <div className="input-box">
             <input
               type="text"
-              placeholder="Apellido 1"
+              placeholder="Segundo Nombre"
+              value={nombre2}
+              onChange={(e) => setNombre2(e.target.value)}
+            />
+          </div>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder="Primer Apellido"
               required
               value={apellido1}
               onChange={(e) => setApellido1(e.target.value)}
@@ -138,7 +225,7 @@ export const LabsEst = () => {
           <div className="input-box">
             <input
               type="text"
-              placeholder="Apellido 2"
+              placeholder="Segundo Apellido"
               required
               value={apellido2}
               onChange={(e) => setApellido2(e.target.value)}
@@ -170,12 +257,29 @@ export const LabsEst = () => {
               }}
             />
           </div>
+          <div className="input-box">
+            <input
+              type="number"
+              placeholder="Cedula"
+              required
+              value={cedula}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (parseInt(value) <= 0) {
+                  setError("Cedula inválido");
+                } else {
+                  setCedula(value);
+                  setError("");
+                }
+              }}
+            />
+          </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit">Registrar Laboratorio</button>
         </div>
       </form>
       <button className="see" onClick={handleVerHorarios}>
-        Ver Horarios del Laboratorio del {laboratorio.Laboratorio}
+        Ver Horarios del Laboratorio del {laboratorio.nombre}
       </button>
       <button className="see" onClick={handleBack}>
         Volver

@@ -12,13 +12,7 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import md5 from "md5";
-
-// data
-import labData from "../Assets/laboratorios.json";
-import activoData from "../Assets/activos.json";
-import usuariosData from "../Assets/usuarios.json";
-import regHorasData from "../Assets/Reg_horas.json";
-import actSolData from "../Assets/actSol.json";
+import axios from "axios";
 
 //iconos
 import { IoBagCheck } from "react-icons/io5";
@@ -33,27 +27,107 @@ export const OperatorPage = () => {
     if (entradaGuardada) {
       setEntradaActual(entradaGuardada);
     }
-  }, []);
 
+    if (localStorage.getItem("entrada") !== null) {
+      setShowEntryButton(false);
+      setShowExitButton(true);
+    }
+
+    const fetchLabData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/obtenerLabAdmin"
+        );
+        if (response.ok) {
+          const labData = await response.json();
+          setLab(labData);
+          console.log(labData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchActData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/obtenerActivo/activos"
+        );
+        if (response.ok) {
+          const activoData = await response.json();
+          setActivo(activoData);
+          console.log(activoData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fecthActNoEntregados = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/ObtenerActivosNoEntregados"
+        );
+        if (response.ok) {
+          const activoData = await response.json();
+          setActSol(activoData);
+          console.log(activoData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fecthHistorialHoras = async () => {
+      try {
+        const carnet = usuario.carnet;
+        const response = await axios.get(
+          `http://localhost:5074/api/registroHorasOP/${carnet}`
+        );
+        if (response.status === 200) {
+          const historialHora = response.data;
+          setHistorialHoras(historialHora);
+          const horasTotalesCalculadas = historialHora.reduce(
+            (totalHoras, registro) => totalHoras + registro.horasReg,
+            0
+          );
+          setHorasTotales(horasTotalesCalculadas);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLabData(); // Llamar a la función para obtener los datos de laboratorios al cargar la página
+    fetchActData(); // Llamar a la función para obtener los datos de activos al cargar la página
+    fecthActNoEntregados(); // Llamar a la función para obtener los datos de activos no entregados al cargar la página
+    fecthHistorialHoras(); // Llamar a la función para obtener los datos de historial de horas al cargar la página
+  }, []);
 
   const location = useLocation();
   const { usuario } = location.state || {};
+  const [error, setError] = useState(null);
 
   //listas
 
-  const [lab, setLab] = useState(labData || []);
-  const [activo, setActivo] = useState(activoData || []);
-  const [actSol, setActSol] = useState(actSolData || []);
-  const [usuarios, setUsuarios] = useState(usuariosData || []);
-  const [horarios, setHorarios] = useState(regHorasData || []);
+  const [lab, setLab] = useState([]);
+  const [activo, setActivo] = useState([]);
+  const [actSol, setActSol] = useState([]);
+  const [horasTotales, setHorasTotales] = useState(0);
+  const [historialHoras, setHistorialHoras] = useState([]);
+
 
   const activosPrestados = activo.filter((activo) => activo.prestado === true);
   const activosNoPrestados = activo.filter(
     (activo) => activo.prestado === false
-  );
-
-  const horariosUser = horarios.filter(
-    (horario) => horario.user_ced === usuario.cedula
   );
 
   const actSolAprobados = actSol.filter(
@@ -76,20 +150,19 @@ export const OperatorPage = () => {
   };
 
   const formatearFecha = (fecha) => {
-    const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
+    const fechaFormateada = new Date(fecha).toISOString().split("T")[0];
     return fechaFormateada;
-};
+  };
 
-const formatearHora = (hora) => {
-  const horaObj = new Date(`01/01/2022 ${hora}`);
-  const horas = horaObj.getHours().toString().padStart(2, '0');
-  const minutos = horaObj.getMinutes().toString().padStart(2, '0');
-  const segundos = horaObj.getSeconds().toString().padStart(2, '0');
-  return `${horas}:${minutos}:${segundos}`;
-};
+  const formatearHora = (hora) => {
+    const horaObj = new Date(`01/01/2022 ${hora}`);
+    const horas = horaObj.getHours().toString().padStart(2, "0");
+    const minutos = horaObj.getMinutes().toString().padStart(2, "0");
+    const segundos = horaObj.getSeconds().toString().padStart(2, "0");
+    return `${horas}:${minutos}:${segundos}`;
+  };
 
-
-const calcularHorasTrabajadas = (horaEntrada, horaSalida) => {
+  const calcularHorasTrabajadas = (horaEntrada, horaSalida) => {
     // Parsea las horas de entrada y salida en objetos Date
     const entrada = new Date(`01/01/2022 ${horaEntrada}`);
     const salida = new Date(`01/01/2022 ${horaSalida}`);
@@ -102,47 +175,46 @@ const calcularHorasTrabajadas = (horaEntrada, horaSalida) => {
 
     // Redondea las horas trabajadas a dos decimales y retorna el resultado
     return parseFloat(horasTrabajadas.toFixed(2));
-};
+  };
 
-const handleExitClick = () => {
+  const handleExitClick = () => {
     const salida = new Date().toLocaleTimeString();
     const entrada = localStorage.getItem("entrada");
     const cedulaOperador = usuario.cedula;
 
     const infoRegHrs = {
-        fecha: formatearFecha(new Date()),
-        horaEntrada: formatearHora(entrada),
-        horaSalida: formatearHora(salida), // Extrae la hora de la salida formateada
-        horasRegistradas: calcularHorasTrabajadas(entrada, salida), // Puedes implementar esta función para calcular las horas trabajadas
-        userCed: cedulaOperador
+      fecha: formatearFecha(new Date()),
+      horaEntrada: formatearHora(entrada),
+      horaSalida: formatearHora(salida), // Extrae la hora de la salida formateada
+      horasRegistradas: calcularHorasTrabajadas(entrada, salida), // Puedes implementar esta función para calcular las horas trabajadas
+      userCed: cedulaOperador,
     };
 
     console.log(infoRegHrs);
 
-    fetch('http://localhost:5074/api/insertarHoras', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(infoRegHrs),
+    fetch("http://localhost:5074/api/insertarHoras", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infoRegHrs),
     })
-    .then(response => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error('Error al enviar las horas registradas al servidor');
+          throw new Error("Error al enviar las horas registradas al servidor");
         }
         return response.json();
-    })
-    .then(data => {
-        console.log('Horas registradas exitosamente:', data);
+      })
+      .then((data) => {
+        console.log("Horas registradas exitosamente:", data);
         localStorage.removeItem("entrada");
         setShowExitButton(false);
         setShowEntryButton(true);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-};
-
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   const Navigate = useNavigate();
 
@@ -165,28 +237,95 @@ const handleExitClick = () => {
 
   const closeModalActivoProf = () => setShowModalActivoProf(false);
 
-  const handleVerify = (correo, password, nombre, apellido1, apellido2) => {
-    if (password.trim() === "") {
-      console.log("La contraseña está vacía");
-      return;
+  const handleLogin = async (correo, contrasena) => {
+    try {
+        const response = await fetch('http://localhost:5074/api/InicioSesion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ correo, contrasena })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          if (data === true) {
+            const usuarioResponse = await fetch('http://localhost:5074/api/obtenerUsuario', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+    
+            const usuariosData = await usuarioResponse.json();
+            const usuarioEncontrado = usuariosData.find((usuario) => usuario.correo === correo);
+    
+            if (usuarioEncontrado) {
+              if (usuarioEncontrado.activo === false) {
+                setError("Cuenta no activada");
+                return;
+              }
+    
+              localStorage.setItem("authenticated", JSON.stringify(true));
+    
+              if (usuarioEncontrado.rolId === 2) {
+                return data;
+              } else {
+                throw new Error("rol erroneo")
+              }
+            } else {
+              throw new Error("Usuario no encontrado");
+            }
+          } else {
+            throw new Error("Contraseña incorrecta");
+          }
+        } else {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+    } catch (error) {
+        throw new Error("Error al iniciar sesión");
     }
-    const hashedPassword = md5(password);
-    const jsonData = {
-      Placa: activosNoPrestados[activoIdx].Placa,
-      nombre: nombre,
-      apellido1: apellido1,
-      apellido2: apellido2,
-      correo: correo,
-      hashedPassword: hashedPassword,
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
-      cedulaUser: usuario.cedula,
-      aprobado: true,
-    };
-    console.log("JSON generado:", jsonData);
-    closeModalActivoProf();
-    //window.location.reload();
-  };
+};
+
+
+const handleVerify = async (correo, password, nombre1, nombre2, apellido1, apellido2) => {
+  try {
+      // Verifica el inicio de sesión llamando a handleLogin
+      const loginResult = await handleLogin(correo, password);
+      
+      if (loginResult === true) {
+          // Continúa con la lógica de handleVerify si el inicio de sesión fue exitoso
+          if (password.trim() === "") {
+              console.log("La contraseña está vacía");
+              return;
+          }
+
+          const hashedPassword = md5(password);
+          const jsonData = {
+              ActivoPlaca: activosNoPrestados[activoIdx].Placa,
+              PrimerNombre: nombre1,
+              SegundoNombre: nombre2,
+              PrimerApellido: apellido1,
+              SegundoAPellido: apellido2,
+              CorreoSolicitante: correo,
+              FechaSolicitud: new Date().toLocaleDateString(),
+              HoraSolicitud: new Date().toLocaleTimeString(),
+              UsuarioCedula: usuario.cedula,
+              Aprobado: true,
+          };
+          console.log("JSON generado:", jsonData);
+          closeModalActivoProf();
+          //window.location.reload();
+      } else {
+          // Maneja el caso en el que el inicio de sesión no fue exitoso
+          console.log("Verificación de correo fallida");
+      }
+  } catch (error) {
+      console.error(error.message);
+  }
+};
 
   // funciones para prestamo de activos a estudiante
 
@@ -198,11 +337,15 @@ const handleExitClick = () => {
     setActivoIdx(idx);
   };
 
+  function renderAprobador(requiereAprobador) {
+    return requiereAprobador ? "Sí" : "No";
+  }
+
   const closeModalActivoEst = () => setShowModalActivoEst(false);
 
   const handleLendActiveEst = (idx) => {
     const activoPrestado = activosNoPrestados[idx];
-    if (activoPrestado.aprob_ced === null) {
+    if (activoPrestado.aprobCed === null) {
       setShowModalActivoEst(true);
       openModalActivoEst(idx);
     } else {
@@ -238,6 +381,14 @@ const handleExitClick = () => {
   // funciones para Devolución de activos
 
   const [showDevolvioBienModal, setShowDevolvioBienModal] = useState(false);
+
+    // Función para formatear la fecha y mostrar solo la fecha sin la hora
+    function renderFechaCompra(fechaCompra) {
+      if (!fechaCompra) return "No se conoce";
+      const fecha = new Date(fechaCompra);
+      const formattedFechaCompra = fecha.toLocaleDateString("es-ES");
+      return formattedFechaCompra;
+    }
 
   const handleConfirmDevolvioBien = () => {
     const hashedPassword = md5(password);
@@ -290,7 +441,7 @@ const handleExitClick = () => {
         actSolAprobados[idx].placa
     );
 
-    // corregit
+    // corregir
   };
 
   // funciones para horas trabajadas
@@ -318,7 +469,7 @@ const handleExitClick = () => {
             <div>Hora de entrada: {entradaActual}</div>
           </Tab>
           <Tab eventKey="tab-2" title="Reservación de los laboratorios">
-            <div className="table-wrapper">
+          <div className="table-wrapper">
               <table className="table">
                 <thead>
                   <tr>
@@ -332,11 +483,15 @@ const handleExitClick = () => {
                 <tbody>
                   {lab.map((labs, idx) => (
                     <tr key={idx}>
-                      <td>{labs.Laboratorio}</td>
-                      <td>{labs.Capacidad}</td>
-                      <td>{labs.Computadoras}</td>
+                      <td>{labs.nombre}</td>
+                      <td>{labs.capacidad}</td>
+                      <td>{labs.computadoras}</td>
 
-                      <td className="expand">{labs.Facilidades}</td>
+                      <td className="expand">
+                        {labs.descripcion.split(".").map((line, index) => (
+                          <p key={index}>{line.trim()}</p>
+                        ))}
+                      </td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => handleLendLab(idx)}>
@@ -348,7 +503,7 @@ const handleExitClick = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </div>{" "}
           </Tab>
           <Tab eventKey="tab-3" title="Préstamo de activo a profesor">
             <div className="table-wrapper">
@@ -364,9 +519,9 @@ const handleExitClick = () => {
                 <tbody>
                   {activosNoPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => openModalActivoProf(idx)}>
@@ -388,15 +543,17 @@ const handleExitClick = () => {
                     <th>Placa</th>
                     <th>Tipo</th>
                     <th>Marca</th>
+                    <th>Requiere Aprobador</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {activosNoPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
+                      <td>{renderAprobador(activos.aprobCed)}</td>
                       <td className="fit">
                         <Button onClick={() => handleLendActiveEst(idx)}>
                           Prestar
@@ -479,27 +636,38 @@ const handleExitClick = () => {
           </Tab>
           <Tab eventKey="tab-7" title="Horas trabajadas">
             <div className="table-wrapper">
+              <p>Cédula: {usuario.cedula}</p>
+              <p>Horas Totales: {horasTotales}</p>
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Fecha</th>
-                    <th>Hora entrada</th>
-                    <th>Hora salida</th>
-                    <th>Pienso</th>
+                    <th>Fecha de Entrada</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Salida</th>
+                    <th>Cantidad de Horas</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {horariosUser.map((horarios, idx) => (
+                  {historialHoras.map((registro, idx) => (
                     <tr key={idx}>
-                      <td>{horarios.fecha}</td>
-                      <td>{horarios.hora_entr}</td>
-                      <td className="expand">{horarios.hora_sal}</td>
-                      <td>pienso</td>
+                      <td>{renderFechaCompra(registro.fecha)}</td>
+                      <td>{registro.horaEntr}</td>
+                      <td>{registro.horaSal}</td>
+                      <td className="expand">
+                        {(
+                          (new Date(
+                            "2000-01-01 " + registro.horaSal
+                          ).getTime() -
+                            new Date(
+                              "2000-01-01 " + registro.horaEntr
+                            ).getTime()) /
+                          (1000 * 60 * 60)
+                        ).toFixed(2)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <div>Horas trabajadas totales: </div>
             </div>
           </Tab>
         </Tabs>

@@ -64,10 +64,10 @@ GO
 -- Obtener los registros de hora de un operador (este ya esta en SpAdmin con el nombre de obt_reg_horas_op)
 
 /*
-EXEC insertar_soli_activo 'operador1@gmail.com', '2003-01-01', '20:10', 'Luis', 'Miguel', 'García', 'Sánchez', 0,CTR001, 5678901234
-EXEC insertar_soli_activo 'operador2@gmail.com', '2003-02-02', '22:12', 'Sofía', 'Alejandra', 'Hernandez', 'Perez', 0,CTR002, 5678901234  
+EXEC insertar_soli_activo 'operador1@gmail.com', '2003-01-01', '20:10', 'Luis', 'Miguel', 'García', 'Sánchez', 0, HDMI001, 5678901234
+EXEC insertar_soli_activo 'operador2@gmail.com', '2003-02-02', '22:12', 'Sofía', 'Alejandra', 'Hernandez', 'Perez', 0, CTR002, 5678901234  
 
 */
 
 Use OperaCE
-SELECT * FROM Reg_Horas
+SELECT * FROM Soli_Act

@@ -36,13 +36,14 @@ GO
 -- Obtener Lista de Labs (este ya esta en SpAdmin con el nombre de obt_laboratorios)
 
 -- Verificar que no haya otra solicitud del laboratorio (Vista Reservación Laboratorios)
-CREATE PROCEDURE hay_choque_reservas (@lab_nombre NCHAR(6), @hora_inicio TIME, @cant_horas DECIMAL(2,1), @existe_registro BIT OUTPUT)
+CREATE PROCEDURE hay_choque_reservas (@fecha DATE, @lab_nombre NCHAR(6), @hora_inicio TIME, @cant_horas DECIMAL(2,1), @existe_registro BIT OUTPUT)
 AS
 BEGIN
-	DECLARE @hora_salida TIME
-	SET @hora_salida = DATEADD(HOUR, @cant_horas, @hora_inicio)
-	IF EXISTS ( SELECT 1 FROM Soli_Lab
-        WHERE lab_nombre = @lab_nombre AND hora >= @hora_inicio AND hora <= @hora_salida
+    DECLARE @hora_salida TIME
+    SET @hora_salida = DATEADD(HOUR, @cant_horas, @hora_inicio)
+    IF EXISTS ( SELECT 1 FROM Soli_Lab
+        WHERE fecha = @fecha AND lab_nombre = @lab_nombre AND ((hora >= @hora_inicio AND hora <= @hora_salida) OR 
+        ((DATEADD(HOUR, cant_horas, hora) >= @hora_inicio) AND (DATEADD(HOUR, cant_horas, hora) <= @hora_salida)))
     )
     BEGIN SET @existe_registro = 1 END
     ELSE BEGIN SET @existe_registro = 0 END
@@ -88,4 +89,4 @@ EXEC obt_activos_no_aprobados 3456789012;
 */
 
 Use OperaCE
-SELECT * FROM Soli_Lab
+SELECT * FROM Usuario

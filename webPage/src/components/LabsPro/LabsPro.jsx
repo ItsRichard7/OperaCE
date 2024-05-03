@@ -47,7 +47,7 @@ export const LabsPro = () => {
     console.log(laboratorio);
 
     try {
-      const conflict = await checkReservationConflict(
+      /* const conflict = await checkReservationConflict(
         reserva.labNombre,
         reserva.fechaSoli,
         reserva.horaSoli,
@@ -58,7 +58,7 @@ export const LabsPro = () => {
         setError("Ya hay una reserva a esa hora");
         console.log("Hay conflicto");
         return;
-      }
+      } */
 
       console.log("No hay conflicto");
 

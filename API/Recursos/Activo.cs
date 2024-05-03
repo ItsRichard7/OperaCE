@@ -7,6 +7,6 @@
         public string Marca { get; set; }
         public DateTime? FCompra { get; set; }
         public bool Prestado { get; set; }
-        public decimal AprobCed { get; set; }
+        public decimal? AprobCed { get; set; }
     }
 }
