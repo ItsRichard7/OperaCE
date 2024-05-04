@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./OperatorPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -12,13 +12,7 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import md5 from "md5";
-
-// data
-import labData from "../Assets/laboratorios.json";
-import activoData from "../Assets/activos.json";
-import usuariosData from "../Assets/usuarios.json";
-import regHorasData from "../Assets/Reg_horas.json";
-import actSolData from "../Assets/actSol.json";
+import axios from "axios";
 
 //iconos
 import { IoBagCheck } from "react-icons/io5";
@@ -28,72 +22,191 @@ import CreateProfeActivo from "./createProfeActivo";
 import CreateEstActivo from "./createModalActivoEst";
 
 export const OperatorPage = () => {
+  useEffect(() => {
+    const fetchLabData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/obtenerLabAdmin"
+        );
+        if (response.ok) {
+          const labData = await response.json();
+          setLab(labData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchActData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/obtenerActivo/activos"
+        );
+        if (response.ok) {
+          const activoData = await response.json();
+          setActivo(activoData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fecthActNoEntregados = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/ObtenerActivosNoEntregados"
+        );
+        if (response.ok) {
+          const activoData = await response.json();
+          setActSol(activoData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fecthHistorialHoras = async () => {
+      try {
+        const carnet = usuario.carnet;
+        const response = await axios.get(
+          `http://localhost:5074/api/registroHorasOP/${carnet}`
+        );
+        if (response.status === 200) {
+          const historialHora = response.data;
+          setHistorialHoras(historialHora);
+          const horasTotalesCalculadas = historialHora.reduce(
+            (totalHoras, registro) => totalHoras + registro.horasReg,
+            0
+          );
+          setHorasTotales(horasTotalesCalculadas);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLabData(); // Llamar a la función para obtener los datos de laboratorios al cargar la página
+    fetchActData(); // Llamar a la función para obtener los datos de activos al cargar la página
+    fecthActNoEntregados(); // Llamar a la función para obtener los datos de activos no entregados al cargar la página
+    fecthHistorialHoras(); // Llamar a la función para obtener los datos de historial de horas al cargar la página
+
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
+    const entradaGuardada = localStorage.getItem(cedulaString);
+    if (entradaGuardada) {
+      setEntradaActual(entradaGuardada);
+    }
+
+    if (localStorage.getItem(cedulaString) !== null) {
+      setShowEntryButton(false);
+      setShowExitButton(true);
+    }
+  }, []);
+
   const location = useLocation();
   const { usuario } = location.state || {};
+  const [error, setError] = useState(null);
 
   //listas
 
-  const [lab, setLab] = useState(labData || []);
-  const [activo, setActivo] = useState(activoData || []);
-  const [actSol, setActSol] = useState(actSolData || []);
-  const [usuarios, setUsuarios] = useState(usuariosData || []);
-  const [horarios, setHorarios] = useState(regHorasData || []);
-  const profesores = usuarios.filter((usuario) => usuario.rol === "profesor");
-  const operadores = usuarios.filter((usuario) => usuario.rol === "operador");
+  const [lab, setLab] = useState([]);
+  const [activo, setActivo] = useState([]);
+  const [actSolAprobados, setActSol] = useState([]);
+  const [horasTotales, setHorasTotales] = useState(0);
+  const [historialHoras, setHistorialHoras] = useState([]);
+
   const activosPrestados = activo.filter((activo) => activo.prestado === true);
   const activosNoPrestados = activo.filter(
     (activo) => activo.prestado === false
   );
-
-  const horariosUser = horarios.filter(
-    (horario) => horario.user_ced === usuario.cedula
-  );
-
-  const actSolAprobados = actSol.filter(
-    (item) => item.aprobado === true && item.entregado === false
-  );
-
   // funciones y const para registro de horas
 
   const [showEntryButton, setShowEntryButton] = useState(true);
-  const [showExitButton, setShowExitButton] = useState(true);
+  const [showExitButton, setShowExitButton] = useState(false);
   const [entradaActual, setEntradaActual] = useState("");
+
   const handleEntryClick = () => {
     const entrada = new Date().toLocaleTimeString();
-    localStorage.setItem("entrada", entrada);
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
+    localStorage.setItem(cedulaString, entrada);
     setEntradaActual(entrada);
-    console.log("Hora de entrada guardada en el localStorage:", entrada);
-    setShowEntryButton(true);
+    setShowEntryButton(false);
     setShowExitButton(true);
+  };
+
+  const formatearFecha = (fecha) => {
+    const fechaFormateada = new Date(fecha).toISOString().split("T")[0];
+    return fechaFormateada;
+  };
+
+  const formatearHora = (hora) => {
+    const horaObj = new Date(`01/01/2022 ${hora}`);
+    const horas = horaObj.getHours().toString().padStart(2, "0");
+    const minutos = horaObj.getMinutes().toString().padStart(2, "0");
+    const segundos = horaObj.getSeconds().toString().padStart(2, "0");
+    return `${horas}:${minutos}:${segundos}`;
+  };
+
+  const calcularHorasTrabajadas = (horaEntrada, horaSalida) => {
+    // Parsea las horas de entrada y salida en objetos Date
+    const entrada = new Date(`01/01/2022 ${horaEntrada}`);
+    const salida = new Date(`01/01/2022 ${horaSalida}`);
+
+    // Calcula la diferencia en milisegundos entre la hora de salida y la hora de entrada
+    const diferenciaMs = salida - entrada;
+
+    // Convierte la diferencia en milisegundos a horas
+    const horasTrabajadas = diferenciaMs / (1000 * 60 * 60);
+
+    // Redondea las horas trabajadas a dos decimales y retorna el resultado
+    return parseFloat(horasTrabajadas.toFixed(2));
   };
 
   const handleExitClick = () => {
+    const cedulaString = usuario.cedula.toString(); // Convertir la cédula a cadena
     const salida = new Date().toLocaleTimeString();
-    const entrada = localStorage.getItem("entrada");
+    const entrada = localStorage.getItem(cedulaString);
     const cedulaOperador = usuario.cedula;
 
-    localStorage.setItem("cedulaOperador", cedulaOperador);
-    localStorage.setItem("horaEntrada", entrada);
-    localStorage.setItem("horaSalida", salida);
-
     const infoRegHrs = {
-      cedula: cedulaOperador,
-      horaEntrada: entrada,
-      horaSalida: salida,
-      fecha: new Date().toLocaleDateString(),
+      fecha: formatearFecha(new Date()),
+      horaEntrada: formatearHora(entrada),
+      horaSalida: formatearHora(salida), // Extrae la hora de la salida formateada
+      horasRegistradas: calcularHorasTrabajadas(entrada, salida), // Puedes implementar esta función para calcular las horas trabajadas
+      userCed: cedulaOperador,
     };
 
-    localStorage.setItem("infoOperador", JSON.stringify(infoRegHrs));
+    fetch("http://localhost:5074/api/insertarHoras", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infoRegHrs),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al enviar las horas registradas al servidor");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        localStorage.removeItem(cedulaString);
+        setShowExitButton(false);
+        setShowEntryButton(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
 
-    console.log("Info que ocupo", infoRegHrs);
-
-    setShowExitButton(true);
-    setShowEntryButton(true);
-
-    //window.location.href = "/";
+    window.location.reload();
   };
-
-  // funciones para reservación de labs
 
   const Navigate = useNavigate();
 
@@ -116,27 +229,114 @@ export const OperatorPage = () => {
 
   const closeModalActivoProf = () => setShowModalActivoProf(false);
 
-  const handleVerify = (correo, password, nombre, apellido1, apellido2) => {
-    if (password.trim() === "") {
-      console.log("La contraseña está vacía");
-      return;
+  const handleLogin = async (correo, contrasena) => {
+    try {
+      const response = await fetch("http://localhost:5074/api/InicioSesion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo, contrasena }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data === true) {
+          const usuarioResponse = await fetch(
+            "http://localhost:5074/api/obtenerUsuario",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const usuariosData = await usuarioResponse.json();
+          const usuarioEncontrado = usuariosData.find(
+            (usuario) => usuario.correo === correo
+          );
+
+          if (usuarioEncontrado) {
+            if (usuarioEncontrado.activo === false) {
+              setError("Cuenta no activada");
+              return;
+            }
+
+            localStorage.setItem("authenticated", JSON.stringify(true));
+
+            if (usuarioEncontrado.rolId === 2) {
+              return data;
+            } else {
+              throw new Error("rol erroneo");
+            }
+          } else {
+            throw new Error("Usuario no encontrado");
+          }
+        } else {
+          throw new Error("Contraseña incorrecta");
+        }
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      throw new Error("Error al iniciar sesión");
     }
-    const hashedPassword = md5(password);
-    const jsonData = {
-      Placa: activosNoPrestados[activoIdx].Placa,
-      nombre: nombre,
-      apellido1: apellido1,
-      apellido2: apellido2,
-      correo: correo,
-      hashedPassword: hashedPassword,
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
-      cedulaUser: usuario.cedula,
-      aprobado: true,
-    };
-    console.log("JSON generado:", jsonData);
-    closeModalActivoProf();
-    //window.location.reload();
+  };
+
+  const handleVerify = async (
+    correo,
+    password,
+    nombre1,
+    nombre2,
+    apellido1,
+    apellido2
+  ) => {
+    try {
+      // Verifica el inicio de sesión llamando a handleLogin
+      const loginResult = await handleLogin(correo, password);
+
+      if (loginResult === true) {
+        // Continúa con la lógica de handleVerify si el inicio de sesión fue exitoso
+        if (password.trim() === "") {
+          console.log("La contraseña está vacía");
+          return;
+        }
+
+        const fecha = formatearFecha(new Date());
+        const hora = new Date().toLocaleTimeString();
+        const horaFormateada = formatearHora(hora);
+
+        const jsonData = {
+          ActivoPlaca: activosNoPrestados[activoIdx].placa,
+          PrimerNombre: nombre1,
+          SegundoNombre: nombre2,
+          PrimerApellido: apellido1,
+          SegundoAPellido: apellido2,
+          CorreoSolicitante: correo,
+          FechaSolicitud: fecha,
+          HoraSolicitud: horaFormateada,
+          UsuarioCedula: usuario.cedula,
+          Aprobado: true,
+        };
+
+        const response = await axios.post(
+          "http://localhost:5074/api/insertarSolicitudActivo",
+          jsonData
+        );
+
+        console.log("JSON generado:", jsonData);
+        closeModalActivoProf();
+        window.location.reload();
+      } else {
+        // Maneja el caso en el que el inicio de sesión no fue exitoso
+        console.log("Verificación de correo fallida");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   // funciones para prestamo de activos a estudiante
@@ -149,11 +349,15 @@ export const OperatorPage = () => {
     setActivoIdx(idx);
   };
 
+  function renderAprobador(requiereAprobador) {
+    return requiereAprobador ? "Sí" : "No";
+  }
+
   const closeModalActivoEst = () => setShowModalActivoEst(false);
 
   const handleLendActiveEst = (idx) => {
     const activoPrestado = activosNoPrestados[idx];
-    if (activoPrestado.aprob_ced === null) {
+    if (activoPrestado.aprobCed === null) {
       setShowModalActivoEst(true);
       openModalActivoEst(idx);
     } else {
@@ -162,20 +366,39 @@ export const OperatorPage = () => {
     }
   };
 
-  const handleVerifyActivoEst = (nombre, apellido1, apellido2, correo) => {
-    const aprobado = activosNoPrestados[activoIdx].aprob_ced ? false : true;
+  const handleVerifyActivoEst = async (
+    nombre1,
+    nombre2,
+    apellido1,
+    apellido2,
+    correo
+  ) => {
+    const aprobado = activosNoPrestados[activoIdx].aprobCed ? false : true;
+
+    const fecha = formatearFecha(new Date());
+    const hora = new Date().toLocaleTimeString();
+    const horaFormateada = formatearHora(hora);
+
     const jsonData = {
-      placa: activosNoPrestados[activoIdx].Placa,
-      nombre: nombre,
-      apellido1: apellido1,
-      apellido2: apellido2,
-      correo: correo,
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
-      aprobado: aprobado,
+      ActivoPlaca: activosNoPrestados[activoIdx].placa,
+      PrimerNombre: nombre1,
+      SegundoNombre: nombre2,
+      PrimerApellido: apellido1,
+      SegundoAPellido: apellido2,
+      CorreoSolicitante: correo,
+      FechaSolicitud: fecha,
+      HoraSolicitud: horaFormateada,
+      UsuarioCedula: usuario.cedula,
+      Aprobado: aprobado,
     };
+
+    const response = await axios.post(
+      "http://localhost:5074/api/insertarSolicitudActivo",
+      jsonData
+    );
     console.log("JSON generado para el estudiante:", jsonData);
     closeModalActivoEst();
+    window.location.reload();
   };
 
   const [showAprobacionModal, setShowAprobacionModal] = useState(false);
@@ -190,21 +413,37 @@ export const OperatorPage = () => {
 
   const [showDevolvioBienModal, setShowDevolvioBienModal] = useState(false);
 
-  const handleConfirmDevolvioBien = () => {
-    const hashedPassword = md5(password);
+  // Función para formatear la fecha y mostrar solo la fecha sin la hora
+  function renderFechaCompra(fechaCompra) {
+    if (!fechaCompra) return "No se conoce";
+    const fecha = new Date(fechaCompra);
+    const formattedFechaCompra = fecha.toLocaleDateString("es-ES");
+    return formattedFechaCompra;
+  }
+
+  const handleConfirmDevolvioBien = async () => {
     const horaEntrega = new Date().toLocaleTimeString();
-    const fechaEntrega = new Date().toLocaleDateString();
+    const horaFormateada = formatearHora(horaEntrega);
+    const fechaEntrega = formatearFecha(new Date());
     const jsonData = {
-      placa: activosPrestados[activoIdx].Placa,
-      usuario: usuario.cedula,
-      hashedPassword: hashedPassword,
-      horaEntrega: horaEntrega,
-      fechaEntrega: fechaEntrega,
-      detalleAveria: "no hay averia",
+      activoPlaca: activosPrestados[activoIdx].placa,
+      horaDevolucion: horaFormateada,
+      fechaDevolucion: fechaEntrega,
+      averia: "no hay averia",
     };
     localStorage.setItem("infoDevolvioBien", JSON.stringify(jsonData));
     console.log("Información de devolución sin averías guardada:", jsonData);
-    setShowDevolvioBienModal(false);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/DevolverActivo",
+        jsonData
+      );
+      window.location.reload();
+      setShowDevolvioBienModal(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleDevolvioBien = (idx) => {
@@ -215,17 +454,29 @@ export const OperatorPage = () => {
   const [showDevolvioMalModal, setShowDevolvioMalModal] = useState(false);
   const [detalleAveria, setDetalleAveria] = useState("");
 
-  const handleConfirmDevolvioMal = () => {
+  const handleConfirmDevolvioMal = async () => {
     const horaEntrega = new Date().toLocaleTimeString();
-    const fechaEntrega = new Date().toLocaleDateString();
+    const horaFormateada = formatearHora(horaEntrega);
+    const fechaEntrega = formatearFecha(new Date());
     const jsonData = {
-      placa: activosPrestados[activoIdx].Placa,
-      detalleAveria: detalleAveria,
-      horaEntrega: horaEntrega,
-      fechaEntrega: fechaEntrega,
+      activoPlaca: activosPrestados[activoIdx].placa,
+      averia: detalleAveria,
+      horaDevolucion: horaFormateada,
+      fechaDevolucion: fechaEntrega,
     };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/DevolverActivo",
+        jsonData
+      );
+      window.location.reload();
+    } catch (error) {
+      console.log("Error:", error);
+    }
     localStorage.setItem("infoDevolvioMal", JSON.stringify(jsonData));
     console.log("Información de devolución con avería guardada:", jsonData);
+
     setShowDevolvioMalModal(false);
     setDetalleAveria("");
   };
@@ -235,16 +486,31 @@ export const OperatorPage = () => {
     setShowDevolvioMalModal(true);
   };
 
-  const confirmarEntrega = (idx) => {
+  const confirmarEntrega = async (idx) => {
     console.log(
       "placa del activo al que hay que cambiarle el entregado: " +
-        actSolAprobados[idx].placa
+        actSolAprobados[idx].correoSolicitante +
+        " / " +
+        actSolAprobados[idx].fechaSolicitud +
+        " / " +
+        actSolAprobados[idx].horaSolicitud
     );
 
-    // corregit
+    try {
+      const response = await axios.post(
+        "http://localhost:5074/api/MarcarEntregado",
+        {
+          correoSolicitante: actSolAprobados[idx].correoSolicitante,
+          fechaSolicitud: actSolAprobados[idx].fechaSolicitud,
+          horaSolicitud: actSolAprobados[idx].horaSolicitud,
+        }
+      );
+      window.location.reload();
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
-  // funciones para horas trabajadas
 
   return (
     <Container className="py-4">
@@ -283,11 +549,15 @@ export const OperatorPage = () => {
                 <tbody>
                   {lab.map((labs, idx) => (
                     <tr key={idx}>
-                      <td>{labs.Laboratorio}</td>
-                      <td>{labs.Capacidad}</td>
-                      <td>{labs.Computadoras}</td>
+                      <td>{labs.nombre}</td>
+                      <td>{labs.capacidad}</td>
+                      <td>{labs.computadoras}</td>
 
-                      <td className="expand">{labs.Facilidades}</td>
+                      <td className="expand">
+                        {labs.descripcion.split(".").map((line, index) => (
+                          <p key={index}>{line.trim()}</p>
+                        ))}
+                      </td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => handleLendLab(idx)}>
@@ -299,7 +569,7 @@ export const OperatorPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </div>{" "}
           </Tab>
           <Tab eventKey="tab-3" title="Préstamo de activo a profesor">
             <div className="table-wrapper">
@@ -315,9 +585,9 @@ export const OperatorPage = () => {
                 <tbody>
                   {activosNoPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => openModalActivoProf(idx)}>
@@ -339,15 +609,17 @@ export const OperatorPage = () => {
                     <th>Placa</th>
                     <th>Tipo</th>
                     <th>Marca</th>
+                    <th>Requiere Aprobador</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {activosNoPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
+                      <td>{renderAprobador(activos.aprobCed)}</td>
                       <td className="fit">
                         <Button onClick={() => handleLendActiveEst(idx)}>
                           Prestar
@@ -377,13 +649,13 @@ export const OperatorPage = () => {
                 <tbody>
                   {actSolAprobados.map((sols, idx) => (
                     <tr key={idx}>
-                      <td>{sols.placa}</td>
-                      <td>{sols.nombre}</td>
-                      <td>{sols.apellido1}</td>
-                      <td>{sols.apellido2}</td>
-                      <td>{sols.fecha}</td>
-                      <td>{sols.hora}</td>
-                      <td className="expand"> {sols.correo}</td>
+                      <td>{sols.activoPlaca}</td>
+                      <td>{sols.primerNombre}</td>
+                      <td>{sols.primerApellido}</td>
+                      <td>{sols.segundoApellido}</td>
+                      <td>{sols.fechaSolicitud}</td>
+                      <td>{sols.horaSolicitud}</td>
+                      <td className="expand"> {sols.correoSolicitante}</td>
                       <td className="fit">
                         <Button onClick={() => confirmarEntrega(idx)}>
                           Confirmar Entrega
@@ -409,9 +681,9 @@ export const OperatorPage = () => {
                 <tbody>
                   {activosPrestados.map((activos, idx) => (
                     <tr key={idx}>
-                      <td>{activos.Placa}</td>
-                      <td>{activos.Tipo}</td>
-                      <td className="expand">{activos.Marca}</td>
+                      <td>{activos.placa}</td>
+                      <td>{activos.tipo}</td>
+                      <td className="expand">{activos.marca}</td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => handleDevolvioBien(idx)}>
@@ -430,27 +702,38 @@ export const OperatorPage = () => {
           </Tab>
           <Tab eventKey="tab-7" title="Horas trabajadas">
             <div className="table-wrapper">
+              <p>Cédula: {usuario.cedula}</p>
+              <p>Horas Totales: {horasTotales}</p>
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Fecha</th>
-                    <th>Hora entrada</th>
-                    <th>Hora salida</th>
-                    <th>Pienso</th>
+                    <th>Fecha de Entrada</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Salida</th>
+                    <th>Cantidad de Horas</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {horariosUser.map((horarios, idx) => (
+                  {historialHoras.map((registro, idx) => (
                     <tr key={idx}>
-                      <td>{horarios.fecha}</td>
-                      <td>{horarios.hora_entr}</td>
-                      <td className="expand">{horarios.hora_sal}</td>
-                      <td>pienso</td>
+                      <td>{renderFechaCompra(registro.fecha)}</td>
+                      <td>{registro.horaEntr}</td>
+                      <td>{registro.horaSal}</td>
+                      <td className="expand">
+                        {(
+                          (new Date(
+                            "2000-01-01 " + registro.horaSal
+                          ).getTime() -
+                            new Date(
+                              "2000-01-01 " + registro.horaEntr
+                            ).getTime()) /
+                          (1000 * 60 * 60)
+                        ).toFixed(2)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <div>Horas trabajadas totales: </div>
             </div>
           </Tab>
         </Tabs>

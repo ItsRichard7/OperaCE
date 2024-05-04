@@ -16,10 +16,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
-
 var app = builder.Build();
+
+// UseCors should come before UseAuthorization and MapControllers
+app.UseCors();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -33,7 +34,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors();
 
 app.Run();

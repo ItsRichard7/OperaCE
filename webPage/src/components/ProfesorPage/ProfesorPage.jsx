@@ -5,10 +5,7 @@ import { Container, Row, Tabs, Tab, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // data
-import labData from "../Assets/laboratorios.json";
-import activoData from "../Assets/activos.json";
-import usuariosData from "../Assets/usuarios.json";
-import actSolData from "../Assets/actSol.json";
+import axios from "axios";
 
 export const ProfesorPage = () => {
   const location = useLocation();
@@ -17,30 +14,87 @@ export const ProfesorPage = () => {
 
   //listas
 
-  const [lab, setLab] = useState(labData || []);
-  const [activo, setActivo] = useState(activoData || []);
-  const [usuarios, setUsuarios] = useState(usuariosData || []);
-  const [actSol, setActSol] = useState(actSolData || []);
-  const profesores = usuarios.filter((usuario) => usuario.rol === "profesor");
-  const operadores = usuarios.filter((usuario) => usuario.rol === "operador");
-  const activosPrestados = activo.filter((activo) => activo.prestado === true);
-  const activosNoPrestados = activo.filter(
-    (activo) => activo.prestado === false
-  );
+  const [lab, setLab] = useState([]);
+  const [actSol, setActSol] = useState([]);
+
+  useEffect(() => {
+    // Función para obtener los datos de laboratorios desde la API
+    const fetchLabData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/obtenerLabAdmin"
+        );
+        if (response.ok) {
+          const labData = await response.json();
+          setLab(labData);
+          console.log(labData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fectSolData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5074/api/ActivosNoAprobados/${usuario.cedula}`
+        );
+        if (response.ok) {
+          const actSolData = await response.json();
+          setActSol(actSolData);
+          console.log(actSolData);
+        } else {
+          throw new Error("Error al obtener datos de laboratorios");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchLabData(); // Llamar a la función para obtener los datos de laboratorios al cargar la página
+    fectSolData(); // Llamar a la función para obtener los datos de operadores al cargar la página
+  }, []);
 
   // funciones para solicitud de prestamos
 
-  const actSolNecesitanApro = actSol.filter((item) => item.aprobado === false);
-
-  const aprobar = (idx) => {
-    console.log(
-      "placa del activo al que hay que cambiarle el aprobado: " +
-        actSolNecesitanApro[idx].placa
-    );
+  const aprobar = async (idx) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:5074/api/AprobarPrestamo",
+        {
+          correoSoli: actSol[idx].correoSolicitud,
+          fechaSoli: actSol[idx].fechaSolicitud,
+          horaSoli: actSol[idx].horaSolicitud,
+        }
+      );
+      window.location.reload();
+      console.log(response.data);
+      console.log(actSol[idx]);
+      // Actualizar el estado o realizar alguna acción adicional si es necesario
+    } catch (error) {
+      console.error("Error al aprobar préstamo:", error);
+    }
   };
 
-  const Noaprobar = (idx) => {
-    console.log("Borrar " + actSolNecesitanApro[idx].placa);
+  const Noaprobar = async (idx) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:5074/api/RechazarPrestamo",
+        {
+          data: {
+            correoSoli: actSol[idx].correoSolicitud,
+            fechaSoli: actSol[idx].fechaSolicitud,
+            horaSoli: actSol[idx].horaSolicitud,
+          },
+        }
+      );
+      window.location.reload();
+      console.log(response.data);
+      // Actualizar el estado o realizar alguna acción adicional si es necesario
+    } catch (error) {
+      console.error("Error al rechazar préstamo:", error);
+    }
   };
 
   // Reservación de laboratorios
@@ -54,7 +108,7 @@ export const ProfesorPage = () => {
 
   return (
     <Container className="py-4">
-      <h1>Bienvenido Profesor {usuario.nombre}</h1>
+      <h1>Bienvenido Profesor {usuario.primerNombre}</h1>
       <Row className="justify-content-center">
         <Tabs
           justify
@@ -68,9 +122,10 @@ export const ProfesorPage = () => {
                 <thead>
                   <tr>
                     <th>Placa</th>
-                    <th>Nombre</th>
-                    <th>Apellido 1</th>
-                    <th>Apellido 2</th>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
                     <th>Fecha de solicitud</th>
                     <th>Hora de Solicitud</th>
                     <th>Correo del solicitante</th>
@@ -78,15 +133,16 @@ export const ProfesorPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {actSolNecesitanApro.map((sols, idx) => (
+                  {actSol.map((sols, idx) => (
                     <tr key={idx}>
                       <td>{sols.placa}</td>
-                      <td>{sols.nombre}</td>
-                      <td>{sols.apellido1}</td>
-                      <td>{sols.apellido2}</td>
-                      <td>{sols.fecha}</td>
-                      <td>{sols.hora}</td>
-                      <td className="expand"> {sols.correo}</td>
+                      <td>{sols.pNombre}</td>
+                      <td>{sols.sNombre}</td>
+                      <td>{sols.pApellido}</td>
+                      <td>{sols.sApellido}</td>
+                      <td>{sols.fechaSolicitud}</td>
+                      <td>{sols.horaSolicitud}</td>
+                      <td className="expand"> {sols.correoSolicitud}</td>
                       <td className="fit">
                         <Button onClick={() => aprobar(idx)}>
                           Confirmar Entrega
@@ -116,11 +172,15 @@ export const ProfesorPage = () => {
                 <tbody>
                   {lab.map((labs, idx) => (
                     <tr key={idx}>
-                      <td>{labs.Laboratorio}</td>
-                      <td>{labs.Capacidad}</td>
-                      <td>{labs.Computadoras}</td>
+                      <td>{labs.nombre}</td>
+                      <td>{labs.capacidad}</td>
+                      <td>{labs.computadoras}</td>
 
-                      <td className="expand">{labs.Facilidades}</td>
+                      <td className="expand">
+                        {labs.descripcion.split(".").map((line, index) => (
+                          <p key={index}>{line.trim()}</p>
+                        ))}
+                      </td>
                       <td className="fit">
                         <span className="actions">
                           <Button onClick={() => handleLendLab(idx)}>
