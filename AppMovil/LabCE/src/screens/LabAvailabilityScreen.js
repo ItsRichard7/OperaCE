@@ -1,49 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import moment from 'moment'; //npm install moment
-import { db } from '../DB/updateDB.js'; 
+import moment from 'moment'; // npm install moment
+import { db } from '../DB/updateDB.js';
 
-export default function LabAvailabilityScreen({ route, navigation }) {
+const LabAvailabilityScreen = ({ route, navigation }) => {
   const labName = route.params.labName;
-  const [currentWeek, setCurrentWeek] = useState(0); // Index of the current week
-  const [availabilityData, setAvailabilityData] = useState([]); // Availability data for the lab
-
- // Get the current date
-const currentDate = moment().startOf('isoWeek'); // Start the week on Monday
-
-// Assuming currentWeek is a number representing the week of the year
-const startDateOfWeek = currentDate.clone().startOf('week');
-
-// Generate the dates for the current week
-const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+  const [currentWeek, setCurrentWeek] = useState(0);
+  const [availabilityData, setAvailabilityData] = useState([]);
+  const [datesOfWeek, setDatesOfWeek] = useState([]); // new state to store dates of the week
+  const [startDateOfWeek, setStartDateOfWeek] = useState(moment().startOf('isoWeek'));
+  const [endDateOfWeek, setEndDateOfWeek] = useState(moment().endOf('isoWeek'));
 
 
-  // Assuming currentWeek is a number representing the week of the year
-  const endDateOfWeek = currentDate.clone().endOf('week');
-
-  // Hours of operation
+  const currentDate = moment().startOf('isoWeek');
+  //const startDateOfWeek = currentDate.clone().startOf('week');
+  //const endDateOfWeek = currentDate.clone().endOf('week');
+  //const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
   const hours = [
-    '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', 
-    '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', 
-    '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', 
+    '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM',
+    '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM',
+    '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM',
     '9:00 PM', '10:00 PM', '11:00 PM', '12:00 PM'
   ];
-
   const dias = [
     'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
   ];
 
   useEffect(() => {
     fetchReservations(labName);
-  }, []);
-  
+  }, [currentWeek]); 
+
   const initialAvailability = Array(7).fill(null).map(() => Array(hours.length).fill(true));
 
-  
 function updateAvailabilityData(reservations, availability = initialAvailability) {
-  console.log("current date:", currentDate);
-  console.log("startDateOfWeek:", startDateOfWeek);
-  console.log("endDateOfWeek:", endDateOfWeek);
   // Assuming availability is a 2D array representing days and slots
   if (Array.isArray(reservations) && reservations.length > 0) {
     reservations.forEach(reservation => {
@@ -81,39 +70,37 @@ function updateAvailabilityData(reservations, availability = initialAvailability
   return availability;
 }
 
-  // Modify the fetchReservations function to pass the initial availability
-  const fetchReservations = (labName) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre = ?`,
-        [labName],
-        (tx, results) => {
-          const rows = results.rows.raw();
-          setAvailabilityData(updateAvailabilityData(rows));
-        },
-        (tx, error) => {
-          console.error('Failed to fetch reservations:', error);
-        }
-      );
-    });
-  };
-  
-  // Function to handle navigation to view availability for the next week
-  const onNextWeek = () => {
-    if (currentWeek < 2) { // Allow navigation up to 3 weeks ahead
-      setCurrentWeek(currentWeek + 1);
-    } else {
-      Alert.alert('Error', 'No data available for the next week.');
-    }
-  };
+const fetchReservations = (labName) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre =?`,
+      [labName],
+      (tx, results) => {
+        const rows = results.rows.raw();
+        setStartDateOfWeek(moment().add(currentWeek, 'weeks').startOf('isoWeek'));
+        setEndDateOfWeek(moment().add(currentWeek, 'weeks').endOf('isoWeek'));
+        const newDatesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+        setDatesOfWeek(newDatesOfWeek);
+        setAvailabilityData(updateAvailabilityData(rows));
+      },
+      (tx, error) => {
+        console.error('Failed to fetch reservations:', error);
+      }
+    );
+  });
+};
 
-  // Function to handle navigation to view availability for the past week
-  const onPastWeek = () => {
-    if (currentWeek > 0) { // Allow navigation up to 3 weeks ahead
-      setCurrentWeek(currentWeek - 1);
-    } else {
-      Alert.alert('Error', 'No data available for the past week.');
-    }
+  // Function to navigate to the next or past week
+  const changeWeek = (increment) => {
+    setCurrentWeek(currentWeek => {
+      const newWeek = currentWeek + increment;
+      if (newWeek < 0 || newWeek > 2) {
+        Alert.alert('Error', `No data available for the ${increment > 0? 'next' : 'past'} week.`);
+        return currentWeek;
+      }
+      fetchReservations(labName); // refetch data for the new week
+      return newWeek;
+    });
   };
 
   // Function to handle reserving a time slot
@@ -134,16 +121,12 @@ const reserveSlot = (dayIndex, hourIndex) => {
 };
 
   const transformedAvailabilityData = availabilityData.map((slots, index) => ({
-    week: currentWeek, // Assuming all data is for week 0, this should be dynamic based on your application logic
-    day: dias[index], 
-    slots: slots.map(slot => ({ available: slot })) // Transforming boolean values into objects
+    week: currentWeek,
+    day: dias[index],
+    slots: slots.map(slot => ({ available: slot }))
   }));
 
-  // Now, filter the transformed data for the current week
   const currentWeekData = transformedAvailabilityData.filter(day => day.week === currentWeek);
-
-  //console.log('Transformed availability data:', JSON.stringify(transformedAvailabilityData, null, 2));
-//console.log('Current week data:', JSON.stringify(currentWeekData, null, 2));
 
   return (
     <View style={styles.container}>
@@ -155,40 +138,43 @@ const reserveSlot = (dayIndex, hourIndex) => {
         </Text>
       </View>
       <ScrollView horizontal={true}>
-        <View style={styles.weekContainer}>
-          {/* Hour headers */}
-          <View style={styles.hourColumn}>
-            {hours.map((hour, hourIndex) => (
-              <Text key={hourIndex} style={styles.hourHeader}>{hour}</Text>
+        <ScrollView>
+          <View style={styles.weekContainer}>
+            {/* Hour headers */}
+            <View style={styles.hourColumn}>
+              {hours.map((hour, hourIndex) => (
+                <Text key={hourIndex} style={styles.hourHeader}>{hour}</Text>
+              ))}
+            </View>
+            {/* Availability data for the current week */}
+            {currentWeekData.map((day, dayIndex) => (
+              <View key={dayIndex} style={styles.dayColumn}>
+                <Text style={styles.dayHeaderText}>
+                  {day.day} {datesOfWeek[dayIndex].locale('es').format('D')} {/* Day and date */}
+                </Text>
+                {day.slots.map((slot, slotIndex) => (
+                  <TouchableOpacity 
+                    key={slotIndex} 
+                    style={[styles.timeSlot, slot.available ? styles.available : styles.unavailable]} 
+                    onPress={() => reserveSlot(dayIndex, slotIndex)}
+                  >
+                    <Text style={styles.slotText}>{slot.available ? 'Disponible' : 'Reservado'}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             ))}
           </View>
-          {/* Availability data for the current week */}
-          {currentWeekData.map((day, dayIndex) => (
-            <View key={dayIndex} style={styles.dayColumn}>
-              <Text style={styles.dayHeaderText}>
-              {day.day} {datesOfWeek[dayIndex].locale('es').format('D')} {/* Day and date */}
-            </Text>
-            {day.slots.map((slot, slotIndex) => (
-            <TouchableOpacity 
-              key={slotIndex} 
-              style={[styles.timeSlot, slot.available ? styles.available : styles.unavailable]} 
-              onPress={() => reserveSlot(dayIndex, slotIndex)}
-            >
-              <Text style={styles.slotText}>{slot.available ? 'Disponible' : 'Reservado'}</Text>
-            </TouchableOpacity>
-          ))}
-            </View>
-          ))}
-        </View>
+        </ScrollView>
       </ScrollView>
-      <TouchableOpacity style={styles.button} onPress={onNextWeek}>
+      <TouchableOpacity style={styles.button} onPress={() => changeWeek(1)}>
         <Text style={styles.buttonText}>Siguiente semana</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onPastWeek}>
+      <TouchableOpacity style={styles.button} onPress={() => changeWeek(-1)}>
         <Text style={styles.buttonText}>Semana anterior</Text>
       </TouchableOpacity>
     </View>
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -279,3 +265,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default LabAvailabilityScreen;

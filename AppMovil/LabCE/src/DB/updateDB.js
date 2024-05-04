@@ -294,7 +294,9 @@ const updateDatabase = async () => {
     await updateSoli_Lab();
     await updateSoli_Act();
 
-    checkUpdates();
+    await sendDatabaseTablesToServer();
+
+    //checkUpdates();
 
 
     //cleanTable('Soli_Lab');
@@ -339,76 +341,58 @@ const cleanTable = (tableName) => {
 }
 
 const sendDatabaseTablesToServer = async () => {
-  const tables = ['Usuario', 'Activo', 'Laboratorio', 'Lab_Facilidad', 'Soli_Lab', 'Soli_Act'];
-  const endpoints = ['sendUsuario', 'sendActivo', 'sendLaboratorio', 'sendLab_Facilidad', 'sendSoli_Lab', 'sendSoli_Act'];
+  const tables = ['Usuario', 'Soli_Lab', 'Soli_Act'];
+  const endpoints = ['ActualizarUsuarios', 'actualizarSoliLabs', 'actualizarSoliActivos'];
 
   for (let i = 0; i < tables.length; i++) {
     const table = tables[i];
     const endpoint = endpoints[i];
     let data = {};
 
-    await db.transaction(tx => {
-      tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
-        const rows = results.rows.raw();
-        data = rows;
+    await new Promise((resolve, reject) => {
+      db.transaction(tx => {
+        tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
+          let rows = results.rows.raw();
+          if (table === 'Usuario') {
+            rows = rows.map(row => {
+              const { user_ced: cedula, ...rest } = row;
+              return { cedula, ...rest };
+            });
+          } else if (table === 'Soli_Lab' || table === 'Soli_Act') {
+              rows = rows.map(row => {
+          const { user_ced, ...rest } = row;
+          return { cedula: user_ced, ...rest };
+  });
+          }
+          data = rows;
+          resolve();
+        }, (transaction, error) => {
+          reject(error);
+        });
       });
     });
 
-    const jsonData = JSON.stringify(data);
+    const jsonData = JSON.stringify(data, null, 2);
+    console.log('Sending data:', jsonData); // Log the data you're sending
 
-    fetch(`http://10.0.2.2:5074/api/${endpoint}`, { // Assuming the server is running on the same machine
+    fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: jsonData
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => console.log('Success:', data))
     .catch((error) => console.error('Error:', error));
   }
-};
+}
 
-    
-
-/*
-    const syncDatabase = async () => {
-    try {
-        // Define the tables and their corresponding API endpoints
-        const tables = ['Usuario', 'Soli_Lab', 'Soli_Act'];
-        const endpoints = ['usuarios', 'soli_lab', 'soli_act'];
-
-        // Fetch data from each table and send it to the main database
-        for (let i = 0; i < tables.length; i++) {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    `SELECT * FROM ${tables[i]}`,
-                    [],
-                    async (tx, results) => {
-                        const rows = results.rows.raw();
-
-                        const response = await fetch(`http://localhost:5074/api/${endpoints[i]}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(rows),
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`Failed to sync ${tables[i]}: ${response.statusText}`);
-                        }
-                    },
-                    (tx, error) => {
-                        console.error(`Failed to fetch data from ${tables[i]}:`, error);
-                    }
-                );
-            });
-        }
-    } catch (error) {
-        console.error('Failed to sync database:', error);
-    }
-};
-*/
+  
 
     }
