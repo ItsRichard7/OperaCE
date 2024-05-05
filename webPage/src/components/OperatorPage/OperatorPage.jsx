@@ -232,13 +232,15 @@ export const OperatorPage = () => {
   const closeModalActivoProf = () => setShowModalActivoProf(false);
 
   const handleLogin = async (correo, contrasena) => {
+    const hashedPassword = md5(contrasena);
+
     try {
       const response = await fetch("http://localhost:5074/api/InicioSesion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ correo, contrasena }),
+        body: JSON.stringify({ correo, Contrasena: hashedPassword }),
       });
 
       const data = await response.json();
@@ -269,7 +271,7 @@ export const OperatorPage = () => {
             localStorage.setItem("authenticated", JSON.stringify(true));
 
             if (usuarioEncontrado.rolId === 2) {
-              return data;
+              return true;
             } else {
               throw new Error("rol erroneo");
             }
@@ -398,7 +400,6 @@ export const OperatorPage = () => {
       "http://localhost:5074/api/insertarSolicitudActivo",
       jsonData
     );
-    console.log("JSON generado para el estudiante:", jsonData);
     closeModalActivoEst();
     window.location.reload();
   };
@@ -423,26 +424,91 @@ export const OperatorPage = () => {
     return formattedFechaCompra;
   }
 
+  const handleLoginOP = async (correo, contrasena) => {
+    const hashedPassword = md5(contrasena);
+
+    try {
+      const response = await fetch("http://localhost:5074/api/InicioSesion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo, Contrasena: hashedPassword }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data === true) {
+          const usuarioResponse = await fetch(
+            "http://localhost:5074/api/obtenerUsuario",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const usuariosData = await usuarioResponse.json();
+          const usuarioEncontrado = usuariosData.find(
+            (usuario) => usuario.correo === correo
+          );
+
+          if (usuarioEncontrado) {
+            if (usuarioEncontrado.activo === false) {
+              setError("Cuenta no activada");
+              return;
+            }
+
+            localStorage.setItem("authenticated", JSON.stringify(true));
+
+            if (usuarioEncontrado.rolId === 3) {
+              return true;
+            } else {
+              throw new Error("rol erroneo");
+            }
+          } else {
+            throw new Error("Usuario no encontrado");
+          }
+        } else {
+          throw new Error("Contraseña incorrecta");
+        }
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      throw new Error("Error al iniciar sesión");
+    }
+  };
+
   const handleConfirmDevolvioBien = async () => {
     const horaEntrega = new Date().toLocaleTimeString();
     const horaFormateada = formatearHora(horaEntrega);
     const fechaEntrega = formatearFecha(new Date());
-    const jsonData = {
-      activoPlaca: activosPrestados[activoIdx].placa,
-      horaDevolucion: horaFormateada,
-      fechaDevolucion: fechaEntrega,
-      averia: "no hay averia",
-    };
-    localStorage.setItem("infoDevolvioBien", JSON.stringify(jsonData));
-    console.log("Información de devolución sin averías guardada:", jsonData);
-
     try {
-      const response = await axios.post(
-        "http://localhost:5074/api/DevolverActivo",
-        jsonData
-      );
-      window.location.reload();
-      setShowDevolvioBienModal(false);
+      const loginResult = await handleLoginOP(usuario.correo, password);
+      if (loginResult === true) {
+        const jsonData = {
+          activoPlaca: activosPrestados[activoIdx].placa,
+          horaDevolucion: horaFormateada,
+          fechaDevolucion: fechaEntrega,
+          averia: "no hay averia",
+        };
+        localStorage.setItem("infoDevolvioBien", JSON.stringify(jsonData));
+
+        try {
+          const response = await axios.post(
+            "http://localhost:5074/api/DevolverActivo",
+            jsonData
+          );
+          window.location.reload();
+          setShowDevolvioBienModal(false);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -477,7 +543,6 @@ export const OperatorPage = () => {
       console.log("Error:", error);
     }
     localStorage.setItem("infoDevolvioMal", JSON.stringify(jsonData));
-    console.log("Información de devolución con avería guardada:", jsonData);
 
     setShowDevolvioMalModal(false);
     setDetalleAveria("");
@@ -489,15 +554,6 @@ export const OperatorPage = () => {
   };
 
   const Noaprobar = async (idx) => {
-    console.log(
-      "placa del activo al que hay que cambiarle el entregado: " +
-        actSolAprobados[idx].correoSolicitante +
-        " / " +
-        actSolAprobados[idx].fechaSolicitud +
-        " / " +
-        actSolAprobados[idx].horaSolicitud
-    );
-
     try {
       const response = await axios.delete(
         "http://localhost:5074/api/RechazarPrestamo",
@@ -510,7 +566,6 @@ export const OperatorPage = () => {
         }
       );
       window.location.reload();
-      console.log(response.data);
       // Actualizar el estado o realizar alguna acción adicional si es necesario
     } catch (error) {
       console.error("Error al rechazar préstamo:", error);
@@ -518,15 +573,6 @@ export const OperatorPage = () => {
   };
 
   const confirmarEntrega = async (idx) => {
-    console.log(
-      "placa del activo al que hay que cambiarle el entregado: " +
-        actSolAprobados[idx].correoSolicitante +
-        " / " +
-        actSolAprobados[idx].fechaSolicitud +
-        " / " +
-        actSolAprobados[idx].horaSolicitud
-    );
-
     try {
       const response = await axios.post(
         "http://localhost:5074/api/MarcarEntregado",
@@ -537,7 +583,6 @@ export const OperatorPage = () => {
         }
       );
       window.location.reload();
-      console.log(response.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -590,7 +635,7 @@ export const OperatorPage = () => {
 
   return (
     <Container className="py-4">
-      <h1>Bienvenido Operador {usuario.carnet}</h1>
+      <h1>Bienvenido Operador {usuario.primerNombre}</h1>
 
       <Row className="justify-content-center">
         <Tabs

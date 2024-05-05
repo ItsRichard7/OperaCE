@@ -41,8 +41,6 @@ const EditModalProf = ({ show, handleClose, profesorData }) => {
         editedProfesor
       );
 
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-
       handleClose(); // Cerrar el modal después de guardar exitosamente
     } catch (error) {
       const errorMessage = error.response.data.errors.message; // Accede directamente al mensaje de error

@@ -7,10 +7,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./LabsPage.css"; // Importa tu archivo CSS para los estilos personalizados
 
-
 function procesarSolicitudes(solicitudes) {
   return solicitudes.map((solicitud) => {
-    const { fechaSoli, horaSoli, cantHoras, labNombre, pNombre, pApellido} = solicitud;
+    const { fechaSoli, horaSoli, cantHoras, labNombre, pNombre, pApellido } =
+      solicitud;
     const fecha = fechaSoli.split("T")[0];
     const fechaHoraInicio = new Date(`${fecha}T${horaSoli}`);
     const fechaHoraFin = new Date(
@@ -36,7 +36,6 @@ function Calendar() {
         if (response.ok) {
           const actSolData = await response.json();
           setActSol(actSolData);
-          console.log(actSolData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -52,7 +51,6 @@ function Calendar() {
   const { usuario, laboratorio } = state || {};
 
   const [solicitudesFiltradas, setActSol] = useState([]);
-
 
   const eventos = procesarSolicitudes(solicitudesFiltradas);
 

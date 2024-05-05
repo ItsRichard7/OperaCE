@@ -27,7 +27,6 @@ export const ProfesorPage = () => {
         if (response.ok) {
           const labData = await response.json();
           setLab(labData);
-          console.log(labData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -44,7 +43,6 @@ export const ProfesorPage = () => {
         if (response.ok) {
           const actSolData = await response.json();
           setActSol(actSolData);
-          console.log(actSolData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -69,8 +67,6 @@ export const ProfesorPage = () => {
         }
       );
       window.location.reload();
-      console.log(response.data);
-      console.log(actSol[idx]);
       // Actualizar el estado o realizar alguna acción adicional si es necesario
     } catch (error) {
       console.error("Error al aprobar préstamo:", error);
@@ -90,7 +86,6 @@ export const ProfesorPage = () => {
         }
       );
       window.location.reload();
-      console.log(response.data);
       // Actualizar el estado o realizar alguna acción adicional si es necesario
     } catch (error) {
       console.error("Error al rechazar préstamo:", error);

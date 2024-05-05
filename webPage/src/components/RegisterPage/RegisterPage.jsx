@@ -32,8 +32,9 @@ export const RegisterPage = () => {
 
     const hashedPassword = md5(contrasena);
 
-    const formattedFechaNacimiento = new Date(fechaNacimiento + "T00:00:00.000Z");
-
+    const formattedFechaNacimiento = new Date(
+      fechaNacimiento + "T00:00:00.000Z"
+    );
 
     const newUser = {
       correo,
@@ -49,16 +50,12 @@ export const RegisterPage = () => {
       activo: false, // Valor fijo para activo
     };
 
-    console.log(newUser);
-
     try {
       // Realiza el llamado a la API para insertar el nuevo usuario
       const response = await axios.post(
         "http://localhost:5074/api/Usuario",
         newUser
       );
-
-      console.log("Respuesta de la API:", response.data);
 
       Navigate("/"); // Redirige al usuario después del registro
     } catch (error) {

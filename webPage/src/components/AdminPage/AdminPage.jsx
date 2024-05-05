@@ -47,7 +47,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const labData = await response.json();
           setLab(labData);
-          console.log(labData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -64,7 +63,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const activoData = await response.json();
           setActivo(activoData);
-          console.log(activoData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -81,7 +79,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const usuariosData = await response.json();
           setUsuarios(usuariosData);
-          console.log(usuariosData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -98,7 +95,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const operadorDataHorario = await response.json();
           setOperadoresHorarios(operadorDataHorario);
-          console.log(operadorDataHorario);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -134,8 +130,6 @@ export const AdminPage = () => {
   const handleOpenEditLabsModal = (idx) => {
     setLabDataToEdit(lab[idx]);
     setShowEditLabsModal(true);
-    console.log(lab[idx]);
-    console.log(labDataToEdit);
   };
 
   const handleCloseEditLabsModal = () => {
@@ -211,8 +205,7 @@ export const AdminPage = () => {
       const response = await axios.delete(
         `http://localhost:5074/api/eliminarProfesor/${profCed}`
       );
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-      //window.location.reload(); // Recargar la página después de eliminar exitosamente el profesor
+      window.location.reload(); // Recargar la página después de eliminar exitosamente el profesor
     } catch (error) {
       console.error(error.response.data); // Manejar errores y mostrar mensaje de error en la consola
     }
@@ -226,7 +219,6 @@ export const AdminPage = () => {
       const response = await axios.post(
         `http://localhost:5074/api/AprobarOp/${cedula}`
       );
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
       window.location.reload(); // Otra acción después de aprobar el operador
     } catch (error) {
       console.error("Error al aprobar operador:", error);
@@ -240,7 +232,6 @@ export const AdminPage = () => {
       const response = await axios.delete(
         `http://localhost:5074/api/RechazarOperador/${cedula}`
       );
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
       window.location.reload(); // Otra acción después de rechazar el operador
     } catch (error) {
       console.error("Error al rechazar operador:", error);

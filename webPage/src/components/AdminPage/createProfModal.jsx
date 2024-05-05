@@ -95,9 +95,6 @@ const ProfesorModal = ({ show, handleClose }) => {
           activo: true, // Opcional: establecer el usuario como activo por defecto
           rolId: 2, // Opcional: asignar el ID del rol de profesor
         };
-
-        console.log(newUser); // Verificar que los datos del usuario sean correctos (opcional
-
         sendEmail(profesorData);
 
         const response = await axios.post(

@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|c:\\users\\maest\\documents\\tec\\github\\bd\\operace\\api\\controllers\\movil\\obtenerusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F94E7A0-B815-439C-AC2A-4E8E656C1A5D}|API.csproj|solutionrelative:controllers\\movil\\obtenerusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -47,19 +51,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T04:24:47.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "obtenerUsuario.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\obtenerUsuario.cs",
               "RelativeDocumentMoniker": "Controllers\\Movil\\obtenerUsuario.cs",
               "ToolTip": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\obtenerUsuario.cs",
               "RelativeToolTip": "Controllers\\Movil\\obtenerUsuario.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAcwC0AAAAiAAAA",
+              "ViewState": "AQIAABkAAAAAAAAAAAAcwCEAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-04T21:00:53.291Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "insertarUsuario.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Login\\insertarUsuario.cs",
               "RelativeDocumentMoniker": "Controllers\\Login\\insertarUsuario.cs",
@@ -67,12 +84,11 @@
               "RelativeToolTip": "Controllers\\Login\\insertarUsuario.cs",
               "ViewState": "AQIAAAsAAAAAAAAAAAAQwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T20:59:30.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T20:59:30.236Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "actualizarSoliActivos.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\actualizarSoliActivos.cs",
               "RelativeDocumentMoniker": "Controllers\\Movil\\actualizarSoliActivos.cs",
@@ -80,12 +96,11 @@
               "RelativeToolTip": "Controllers\\Movil\\actualizarSoliActivos.cs",
               "ViewState": "AQIAADsAAAAAAAAAAAAuwEUAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T17:06:30.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T17:06:30.837Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "actualizarSoliLab.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\actualizarSoliLab.cs",
               "RelativeDocumentMoniker": "Controllers\\Movil\\actualizarSoliLab.cs",
@@ -97,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "actualizarUsuario.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\actualizarUsuario.cs",
               "RelativeDocumentMoniker": "Controllers\\Movil\\actualizarUsuario.cs",
@@ -109,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "UsuarioModel.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Recursos\\UsuarioModel.cs",
               "RelativeDocumentMoniker": "Recursos\\UsuarioModel.cs",
@@ -117,12 +132,11 @@
               "RelativeToolTip": "Recursos\\UsuarioModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T16:24:40.048Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T16:24:40.048Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "devolverActivo.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Movil\\devolverActivo.cs",
               "RelativeDocumentMoniker": "Controllers\\Movil\\devolverActivo.cs",
@@ -134,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "obtenerActivosNoEntregados.cs",
               "DocumentMoniker": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\OperaCE\\API\\Controllers\\Operador\\obtenerActivosNoEntregados.cs",
               "RelativeDocumentMoniker": "Controllers\\Operador\\obtenerActivosNoEntregados.cs",

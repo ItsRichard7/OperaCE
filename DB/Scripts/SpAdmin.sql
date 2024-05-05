@@ -169,3 +169,7 @@ EXEC borrar_profesor 4567890123;
 EXEC mostrar_operadores;
 EXEC obt_reg_horas_op 2022457896;
 */
+
+Use OperaCE
+SELECT * FROM Usuario
+SELECT * FROM Reg_Horas

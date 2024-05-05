@@ -277,3 +277,4 @@ EXEC obt_tabla_soli_act;
 
 SELECT * FROM Soli_Act
 select * from activo
+SELECT * FROM Usuario

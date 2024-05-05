@@ -9,6 +9,7 @@ import { FaInfoCircle, FaEye } from "react-icons/fa";
 import { LuEyeOff, LuEye } from "react-icons/lu";
 
 import usuariosData from "../Assets/usuarios.json";
+import md5 from "md5";
 
 export const LoginForm = () => {
   const [correo, setCorreo] = useState("");
@@ -20,13 +21,15 @@ export const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const hashedPassword = md5(contrasena);
+
     try {
       const response = await fetch("http://localhost:5074/api/InicioSesion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ correo, contrasena }),
+        body: JSON.stringify({ correo, Contrasena: hashedPassword }),
       });
 
       const data = await response.json();

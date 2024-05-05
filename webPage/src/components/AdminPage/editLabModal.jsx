@@ -12,15 +12,15 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
 
   const [error, setError] = useState(null);
 
-    // Use useEffect to update state when LabData changes
-    useEffect(() => {
-      setEditedLabData({
-        nombre: LabData.nombre ?? "",
-        capacidad: LabData.capacidad ?? "",
-        computadoras: LabData.computadoras ?? "",
-        descripcion: LabData.descripcion ?? "",
-      });
-    }, [LabData]);
+  // Use useEffect to update state when LabData changes
+  useEffect(() => {
+    setEditedLabData({
+      nombre: LabData.nombre ?? "",
+      capacidad: LabData.capacidad ?? "",
+      computadoras: LabData.computadoras ?? "",
+      descripcion: LabData.descripcion ?? "",
+    });
+  }, [LabData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,9 +39,6 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
         },
         body: JSON.stringify(editedLabData), // Enviar los datos editados del nombre
       });
-
-      console.log(editedLabData)
-  
       if (response.ok) {
         handleClose();
       } else {
@@ -54,7 +51,6 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
       setError("Error al intentar guardar los cambios.");
     }
   };
-  
 
   return (
     <Modal show={show} onHide={handleClose}>
