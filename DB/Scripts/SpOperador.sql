@@ -82,3 +82,4 @@ Use OperaCE
 SELECT * FROM Usuario
 SELECT * FROM Soli_Act
 SELECT * FROM Activo
+

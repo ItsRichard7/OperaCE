@@ -19,43 +19,51 @@ export const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const response = await fetch('http://localhost:5074/api/InicioSesion', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5074/api/InicioSesion", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ correo, contrasena })
+        body: JSON.stringify({ correo, contrasena }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         if (data === true) {
-          const usuarioResponse = await fetch('http://localhost:5074/api/obtenerUsuario', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
+          const usuarioResponse = await fetch(
+            "http://localhost:5074/api/obtenerUsuario",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-          });
-  
+          );
+
           const usuariosData = await usuarioResponse.json();
-          const usuarioEncontrado = usuariosData.find((usuario) => usuario.correo === correo);
-  
+          const usuarioEncontrado = usuariosData.find(
+            (usuario) => usuario.correo === correo
+          );
+
           if (usuarioEncontrado) {
             if (usuarioEncontrado.activo === false) {
               setError("Cuenta no activada");
               return;
             }
-  
+
             localStorage.setItem("authenticated", JSON.stringify(true));
-  
+
             if (usuarioEncontrado.rolId === 1) {
               Navigate("/admin", { state: { usuario: usuarioEncontrado } });
             } else if (usuarioEncontrado.rolId === 2) {
               Navigate("/pro", { state: { usuario: usuarioEncontrado } });
-            } else if (usuarioEncontrado.rolId === 3 && usuarioEncontrado.activo === true) {
+            } else if (
+              usuarioEncontrado.rolId === 3 &&
+              usuarioEncontrado.activo === true
+            ) {
               Navigate("/op", { state: { usuario: usuarioEncontrado } });
             }
           } else {
@@ -72,7 +80,6 @@ export const LoginForm = () => {
       setError("Error al iniciar sesión");
     }
   };
-  
 
   return (
     <div className="wrapper">
@@ -115,7 +122,11 @@ export const LoginForm = () => {
           </div>
           {error && <p className="error-message">{error}</p>}{" "}
           <div className="forget">
-            <a href="#">Recuperar Contraseña</a>
+            {" "}
+            <span title="Recuperar contraseña para operadores y profesores. También se puede hablar ocn un adminisrador">
+              {" "}
+              <Link to="/password">Recuperar Contraseña</Link>{" "}
+            </span>{" "}
           </div>
           <button type="submit">Iniciar Sesión</button>
           <div className="register">

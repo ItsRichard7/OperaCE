@@ -3,6 +3,8 @@ import { Modal, Button, Form, Alert } from "react-bootstrap";
 import md5 from "md5";
 import axios from "axios";
 
+import emailjs from "@emailjs/browser";
+
 // modal para guardar profesor //
 const ProfesorModal = ({ show, handleClose }) => {
   const [profesorData, setProfesorData] = useState({
@@ -40,16 +42,51 @@ const ProfesorModal = ({ show, handleClose }) => {
     return true;
   };
 
+  const sendEmail = (profesorData) => {
+    emailjs.init({
+      publicKey: "VWZmvAnq8_A-rtAVB",
+      // Do not allow headless browsers
+      blockHeadless: true,
+      blockList: {
+        // Block the suspended emails
+        list: ["foo@emailjs.com", "bar@emailjs.com"],
+        // The variable contains the email address
+        watchVariable: "userEmail",
+      },
+      limitRate: {
+        // Set the limit rate for the application
+        id: "app",
+        // Allow 1 request per 10s
+        throttle: 10000,
+      },
+    });
+
+    var templateParams = {
+      to_name: profesorData.pnombre,
+      to_password: profesorData.contrasena,
+      to_email: profesorData.correo,
+    };
+
+    emailjs.send("service_72s6juh", "template_s0c6nqw", templateParams).then(
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+      },
+      (error) => {
+        console.log("FAILED...", error);
+      }
+    );
+  };
+
   const handleGuardar = async () => {
     if (validateFields()) {
       try {
         const hashedPassword = md5(profesorData.contrasena);
-  
+
         const newUser = {
           cedula: profesorData.cedula,
           correo: profesorData.correo,
           contrasena: hashedPassword,
-          carnet: null, 
+          carnet: null,
           primerNombre: profesorData.pnombre,
           segundoNombre: profesorData.snombre || null, // Manejar explícitamente el valor nulo
           primerApellido: profesorData.apellido1,
@@ -58,14 +95,16 @@ const ProfesorModal = ({ show, handleClose }) => {
           activo: true, // Opcional: establecer el usuario como activo por defecto
           rolId: 2, // Opcional: asignar el ID del rol de profesor
         };
-  
+
+        console.log(newUser); // Verificar que los datos del usuario sean correctos (opcional
+
+        sendEmail(profesorData);
+
         const response = await axios.post(
           "http://localhost:5074/api/Usuario",
           newUser
         );
-  
-        console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-  
+
         // Cerrar el modal o realizar alguna otra acción después de guardar exitosamente
         handleClose();
       } catch (error) {

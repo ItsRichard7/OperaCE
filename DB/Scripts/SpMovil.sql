@@ -247,11 +247,7 @@ BEGIN
         INSERT (correo_soli, fecha_soli, hora_soli, p_nombre, s_nombre, p_apellido, s_apellido, aprobado, entregado, fecha_dev, hora_dev, devuelto, averia, act_placa, user_ced)
         VALUES (source.correo_soli, source.fecha_soli, source.hora_soli, source.p_nombre, source.s_nombre, source.p_apellido, source.s_apellido, source.aprobado, source.entregado, source.fecha_dev, source.hora_dev, source.devuelto, source.averia, source.act_placa, source.user_ced);
 
-		-- Actualizar la tabla Activo
-    UPDATE Activo
-    SET prestado = 1
-    FROM Activo
-    INNER JOIN #TempSoliAct ON Activo.placa = #TempSoliAct.act_placa;
+
 
     -- Eliminar tabla temporal
     DROP TABLE #TempSoliAct;

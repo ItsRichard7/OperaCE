@@ -13,6 +13,8 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import md5 from "md5";
 import axios from "axios";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 //iconos
 import { IoBagCheck } from "react-icons/io5";
@@ -486,6 +488,35 @@ export const OperatorPage = () => {
     setShowDevolvioMalModal(true);
   };
 
+  const Noaprobar = async (idx) => {
+    console.log(
+      "placa del activo al que hay que cambiarle el entregado: " +
+        actSolAprobados[idx].correoSolicitante +
+        " / " +
+        actSolAprobados[idx].fechaSolicitud +
+        " / " +
+        actSolAprobados[idx].horaSolicitud
+    );
+
+    try {
+      const response = await axios.delete(
+        "http://localhost:5074/api/RechazarPrestamo",
+        {
+          data: {
+            correoSoli: actSolAprobados[idx].correoSolicitante,
+            fechaSoli: actSolAprobados[idx].fechaSolicitud,
+            horaSoli: actSolAprobados[idx].horaSolicitud,
+          },
+        }
+      );
+      window.location.reload();
+      console.log(response.data);
+      // Actualizar el estado o realizar alguna acción adicional si es necesario
+    } catch (error) {
+      console.error("Error al rechazar préstamo:", error);
+    }
+  };
+
   const confirmarEntrega = async (idx) => {
     console.log(
       "placa del activo al que hay que cambiarle el entregado: " +
@@ -511,6 +542,51 @@ export const OperatorPage = () => {
       console.error("Error:", error);
     }
   };
+
+  // Función para imprimir todas las horas de trabajo
+  function handlePrintHorasTrabajadas(historialHoras, cedula, horasTotales) {
+    // Redondear las horas totales a dos decimales
+    const horasTotalesRedondeadas = horasTotales.toFixed(1);
+
+    // Crear instancia de jsPDF
+    const doc = new jsPDF();
+
+    doc.text(
+      "Historial de Horas del Operador: " +
+        cedula +
+        " / " +
+        "Horas totales: " +
+        horasTotalesRedondeadas,
+      10,
+      10
+    );
+
+    // Agregar espacio para la tabla
+    doc.text("", 10, 40); // Puedes ajustar la altura según sea necesario
+
+    // Crear tabla para el historial de horas
+    const tabla = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // Llenar la tabla con los datos del historial de horas
+    historialHoras.forEach((registro) => {
+      const tr = document.createElement("tr");
+      Object.values(registro).forEach((valor) => {
+        const td = document.createElement("td");
+        td.textContent = valor.toString();
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+
+    tabla.appendChild(tbody);
+
+    // Convertir tabla a HTML
+    doc.autoTable({ html: tabla });
+
+    // Descargar el PDF
+    doc.save("historial_horas_trabajadas_" + usuario.cedula + ".pdf");
+  }
 
   return (
     <Container className="py-4">
@@ -660,6 +736,9 @@ export const OperatorPage = () => {
                         <Button onClick={() => confirmarEntrega(idx)}>
                           Confirmar Entrega
                         </Button>
+                        <Button onClick={() => Noaprobar(idx)}>
+                          No recogió el activo
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -732,6 +811,18 @@ export const OperatorPage = () => {
                       </td>
                     </tr>
                   ))}
+                  <button
+                    onClick={() =>
+                      handlePrintHorasTrabajadas(
+                        historialHoras,
+                        usuario.cedula,
+                        horasTotales
+                      )
+                    }
+                    className="geeksBtn"
+                  >
+                    Descargar Horas
+                  </button>{" "}
                 </tbody>
               </table>
             </div>
