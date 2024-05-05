@@ -299,7 +299,7 @@ const updateDatabase = async () => {
     //checkUpdates();
 
 
-    //cleanTable('Soli_Lab');
+    cleanTable('Soli_Lab');
   } catch (error) {
     console.error(error);
   }
@@ -373,7 +373,7 @@ const sendDatabaseTablesToServer = async () => {
     });
 
     const jsonData = JSON.stringify(data, null, 2);
-    console.log('Sending data:', jsonData); // Log the data you're sending
+    //console.log('Sending data:', jsonData); // Log the data you're sending
 
     fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
       method: 'POST',

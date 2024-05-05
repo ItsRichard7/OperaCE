@@ -7,15 +7,15 @@ const LabAvailabilityScreen = ({ route, navigation }) => {
   const labName = route.params.labName;
   const [currentWeek, setCurrentWeek] = useState(0);
   const [availabilityData, setAvailabilityData] = useState([]);
-  const [datesOfWeek, setDatesOfWeek] = useState([]); // new state to store dates of the week
+  const [datesOfWeek, setDatesOfWeek] = useState(0);;
   const [startDateOfWeek, setStartDateOfWeek] = useState(moment().startOf('isoWeek'));
-  const [endDateOfWeek, setEndDateOfWeek] = useState(moment().endOf('isoWeek'));
+  const [endDateOfWeek] = useState(moment().endOf('isoWeek'));
 
 
-  const currentDate = moment().startOf('isoWeek');
-  //const startDateOfWeek = currentDate.clone().startOf('week');
-  //const endDateOfWeek = currentDate.clone().endOf('week');
-  //const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+  //setDatesOfWeek([...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days')));
+  const getDatesOfWeek = () => [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+
+
   const hours = [
     '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM',
     '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM',
@@ -27,7 +27,16 @@ const LabAvailabilityScreen = ({ route, navigation }) => {
   ];
 
   useEffect(() => {
+    setDatesOfWeek(getDatesOfWeek());
+  }, [startDateOfWeek]);
+
+  useEffect(() => {
+    setDatesOfWeek(getDatesOfWeek());
+  }, [startDateOfWeek]);
+
+  useEffect(() => {
     fetchReservations(labName);
+    //setDatesOfWeek([...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days')));
   }, [currentWeek]); 
 
   const initialAvailability = Array(7).fill(null).map(() => Array(hours.length).fill(true));
@@ -71,16 +80,16 @@ function updateAvailabilityData(reservations, availability = initialAvailability
 }
 
 const fetchReservations = (labName) => {
+  const startDateOfWeek = moment().add(currentWeek, 'weeks').startOf('isoWeek');
+  const endDateOfWeek = moment().add(currentWeek, 'weeks').endOf('isoWeek');
+  //const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+
   db.transaction((tx) => {
     tx.executeSql(
-      `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre =?`,
-      [labName],
+      `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre =? AND fecha BETWEEN? AND?`,
+      [labName, startDateOfWeek.format('YYYY-MM-DD'), endDateOfWeek.format('YYYY-MM-DD')],
       (tx, results) => {
         const rows = results.rows.raw();
-        setStartDateOfWeek(moment().add(currentWeek, 'weeks').startOf('isoWeek'));
-        setEndDateOfWeek(moment().add(currentWeek, 'weeks').endOf('isoWeek'));
-        const newDatesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
-        setDatesOfWeek(newDatesOfWeek);
         setAvailabilityData(updateAvailabilityData(rows));
       },
       (tx, error) => {
@@ -91,34 +100,30 @@ const fetchReservations = (labName) => {
 };
 
   // Function to navigate to the next or past week
-  const changeWeek = (increment) => {
-    setCurrentWeek(currentWeek => {
-      const newWeek = currentWeek + increment;
-      if (newWeek < 0 || newWeek > 2) {
-        Alert.alert('Error', `No data available for the ${increment > 0? 'next' : 'past'} week.`);
-        return currentWeek;
-      }
-      fetchReservations(labName); // refetch data for the new week
-      return newWeek;
-    });
-  };
-
-  // Function to handle reserving a time slot
-const reserveSlot = (dayIndex, hourIndex) => {
-  const dayData = transformedAvailabilityData.find(day => day.week === currentWeek && dayIndex === transformedAvailabilityData.indexOf(day));
-  if (!dayData.slots[hourIndex]) {
-    Alert.alert('Error', 'Este espacio no está disponible para reservar.');
-    return;
-  }
-  // Navigate to the ReservationScreen with the selected date and hour
-  const selectedDate = datesOfWeek[dayIndex].format('D [de] MMMM, YYYY');
-  const selectedHour = hours[hourIndex];
-  navigation.navigate('ReservationScreen', {
-    selectedLab: labName,
-    selectedDate: selectedDate,
-    selectedHour: selectedHour,
+ const changeWeek = (increment) => {
+  setCurrentWeek(currentWeek => {
+    const newWeek = currentWeek + increment;
+    if (newWeek < 0 || newWeek > 2) {
+      Alert.alert('Error', `No data available for the ${increment > 0? 'next' : 'past'} week.`);
+      return currentWeek;
+    }
+    setStartDateOfWeek(moment().add(newWeek, 'weeks').startOf('isoWeek')); // update startDateOfWeek
+    return newWeek;
   });
 };
+
+  // Function to handle reserving a time slot
+  const reserveSlot = (dayIndex, hourIndex) => {
+    const selectedDate = moment(startDateOfWeek).add(dayIndex - 1, 'days').format('D [de] MMMM, YYYY');
+    const selectedHour = hours[hourIndex];
+    navigation.navigate('ReservationScreen', {
+      selectedLab: labName,
+      selectedDate: selectedDate,
+      selectedHour: selectedHour,
+    });
+  };
+  
+  
 
   const transformedAvailabilityData = availabilityData.map((slots, index) => ({
     week: currentWeek,
