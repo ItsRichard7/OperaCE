@@ -25,7 +25,24 @@ BEGIN
 END
 GO
 
--- Eliminar facilidades de un laboratorio en específico (Vista Admin - Labs)
+-- Agregar un nuevo laboratorio (Vista Admin - Labs)
+CREATE PROCEDURE insertar_lab (@nombre VARCHAR(6), @computadoras NUMERIC(2), @capacidad NUMERIC(2))
+AS
+BEGIN
+	INSERT INTO Laboratorio(nombre, computadoras, capacidad)
+	VALUES(@nombre, @computadoras, @capacidad);
+END
+GO
+
+-- Eliminar un laboratorio ya existente (Vista Admin - Labs)
+CREATE PROCEDURE eliminar_lab (@nombre VARCHAR(6))
+AS
+BEGIN
+	DELETE FROM Laboratorio WHERE nombre = @nombre;
+END
+GO
+
+-- Eliminar facilidades de un laboratorio en especï¿½fico (Vista Admin - Labs)
 CREATE PROCEDURE eliminar_facilidades (@lab_nombre VARCHAR(6))
 AS
 BEGIN
@@ -41,7 +58,7 @@ BEGIN
 END
 GO
 
--- Obtener Lista de Operadores que no han sido aprobados (Aprobación de Operadores)
+-- Obtener Lista de Operadores que no han sido aprobados (Aprobaciï¿½n de Operadores)
 CREATE PROCEDURE obt_operadores_no_aprob
 AS
 BEGIN
@@ -49,7 +66,7 @@ BEGIN
 END
 GO
 
--- Aprobar un operador (Marcarlo como activo) (Aprobación de Operadores) 
+-- Aprobar un operador (Marcarlo como activo) (Aprobaciï¿½n de Operadores) 
 CREATE PROCEDURE aprobar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -57,7 +74,7 @@ BEGIN
 END
 GO
 
--- Rechazar un operador (Elimina de Registros) (Aprobación de Operadores)
+-- Rechazar un operador (Elimina de Registros) (Aprobaciï¿½n de Operadores)
 CREATE PROCEDURE rechazar_operador (@cedula NVARCHAR(50))
 AS
 BEGIN
@@ -79,6 +96,23 @@ CREATE PROCEDURE editar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca 
 AS
 BEGIN
 	UPDATE Activo SET placa = @placa, tipo = @tipo, marca = @marca, f_compra = @f_compra, aprob_ced = @aprob_ced WHERE placa = @placa;
+END
+GO
+
+-- Agregar un nuevo activo (Vista de Activos)
+CREATE PROCEDURE insertar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE, @aprob_ced NUMERIC(10))
+AS
+BEGIN
+	INSERT INTO Activo(placa, tipo, marca, f_compra, aprob_ced)
+	VALUES(@placa, @tipo, @marca, @f_compra, @aprob_ced);
+END
+GO
+
+-- Eliminar un activo ya existente (Vista de Activos)
+CREATE PROCEDURE eliminar_activo (@placa NVARCHAR(20))
+AS
+BEGIN
+	DELETE FROM Activo WHERE placa = @placa;
 END
 GO
 
@@ -125,7 +159,7 @@ BEGIN
 END
 GO
 
--- Obtener los registros de horas de un operador específico (Registros de Operadores)
+-- Obtener los registros de horas de un operador especï¿½fico (Registros de Operadores)
 CREATE PROCEDURE obt_reg_horas_op (@carnet NUMERIC(12))
 AS
 BEGIN
@@ -160,11 +194,11 @@ EXEC rechazar_operador 224560873;
 EXEC obt_operadores_no_aprob;
 EXEC editar_laboratorio 'F2-06', 2, 3;
 EXEC eliminar_facilidades 'F2-06';
-EXEC insertar_facilidad 'F2-06', 'Se puede coger... depresión';
+EXEC insertar_facilidad 'F2-06', 'Se puede coger... depresiï¿½n';
 EXEC obt_activos;
 EXEC editar_activo 'PRJ002', 'Proyector', 'Samsung', '2023-07-20';
 EXEC obt_profesores;
-EXEC editar_profesor 4567890123, 'profe2@gmail.com', 'Ana', NULL, 'Martínez', 'López', '1995-03-25';
+EXEC editar_profesor 4567890123, 'profe2@gmail.com', 'Ana', NULL, 'Martï¿½nez', 'Lï¿½pez', '1995-03-25';
 EXEC borrar_profesor 4567890123;
 EXEC mostrar_operadores;
 EXEC obt_reg_horas_op 2022457896;
