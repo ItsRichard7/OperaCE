@@ -10,7 +10,7 @@ namespace API.Controllers.Movil
     [Route("api/[controller]")]
     public class actualizarSoliLabsController : ControllerBase
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpPost]
         public IActionResult ActualizarSoliLab([FromBody] List<SoliLab> soliLabs)

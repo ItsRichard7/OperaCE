@@ -59,15 +59,12 @@ function updateAvailabilityData(reservations, availability = initialAvailability
     return hourNumber === startHour;
   });
 
-  console.log(`Start hour: ${startHour}, Start index: ${startIndex}`);
-
   if (startIndex !== -1) {
     // Mark the slots as unavailable
     for (let i = startIndex; i < startIndex + duration && i < hours.length; i++) {
       // Assuming availability[dayIndex] is an array of slots for the day
       const dayIndex = startDate.day();
       availability[dayIndex][i] = false; // false indicates unavailable
-      console.log(`Marked slot at day ${dayIndex}, hour ${i} as unavailable`);
     }
   }
 });
@@ -159,12 +156,18 @@ const fetchReservations = (labName) => {
                 </Text>
                 {day.slots.map((slot, slotIndex) => (
                   <TouchableOpacity 
-                    key={slotIndex} 
-                    style={[styles.timeSlot, slot.available ? styles.available : styles.unavailable]} 
-                    onPress={() => reserveSlot(dayIndex, slotIndex)}
-                  >
-                    <Text style={styles.slotText}>{slot.available ? 'Disponible' : 'Reservado'}</Text>
-                  </TouchableOpacity>
+                  key={slotIndex} 
+                  style={[styles.timeSlot, slot.available ? styles.available : styles.unavailable]} 
+                  onPress={() => {
+                    if (slot.available) {
+                      reserveSlot(dayIndex, slotIndex);
+                    } else {
+                      Alert.alert('Espacio reservado', 'Este espacio no se encuentra disponible.');
+                    }
+                  }}
+                >
+                  <Text style={styles.slotText}>{slot.available ? 'Disponible' : 'Reservado'}</Text>
+                </TouchableOpacity>
                 ))}
               </View>
             ))}

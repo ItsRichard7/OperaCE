@@ -299,7 +299,8 @@ const updateDatabase = async () => {
     //checkUpdates();
 
 
-    cleanTable('Soli_Lab');
+    //cleanTable('Soli_Lab');
+    
   } catch (error) {
     console.error(error);
   }
@@ -373,23 +374,25 @@ const sendDatabaseTablesToServer = async () => {
     });
 
     const jsonData = JSON.stringify(data, null, 2);
-    //console.log('Sending data:', jsonData); // Log the data you're sending
-
     fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonData
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => console.log('Success:', data))
-    .catch((error) => console.error('Error:', error));
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: jsonData
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.text();  // Change this line
+})
+.then(text => {
+  console.log('Response text:', text);  // Log the response text
+  const data = JSON.parse(text);  // Parse the text as JSON
+  console.log('Success:', data);
+})
+.catch((error) => console.error('Error:', error));
   }
 }
 

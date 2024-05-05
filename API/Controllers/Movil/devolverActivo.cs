@@ -9,7 +9,7 @@ namespace API.Controllers.Operador
     [ApiController]
     public class devolActivo : Controller
     {
-        private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
+        private readonly string connectionString = "Server=ALE_XPS;Database=OperaCE;Integrated Security=True;";
 
         [HttpPost("devolverActivo")]
         public IActionResult DevolverActivo([FromBody] JObject input)
