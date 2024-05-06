@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminPage.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
 import axios from "axios";
 import md5 from "md5";
 import emailjs from "@emailjs/browser";
@@ -476,6 +476,9 @@ export const AdminPage = () => {
 
   return (
     <Container className="mt-4 py-4 ">
+      <Button variant="danger" className="logout-button">
+        <NavLink to="/">Cerrar Sesión</NavLink>
+      </Button>
       <h1>Bienvenido Administrador {usuario.primerNombre}</h1>
       <Row className="justify-content-center">
         <Tabs

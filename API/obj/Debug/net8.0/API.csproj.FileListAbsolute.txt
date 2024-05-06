@@ -38,3 +38,8 @@ C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\obj\Debug\net8.0\API.pdb
 C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\obj\Debug\net8.0\ref\API.dll
 C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\APIPublicada\web.config
+C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\APIPublicada\API.deps.json
+C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\APIPublicada\API.runtimeconfig.json
+C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\APIPublicada\appsettings.Development.json
+C:\Users\maest\Documents\TEC\github\BD\OperaCE\API\bin\Debug\net8.0\APIPublicada\appsettings.json

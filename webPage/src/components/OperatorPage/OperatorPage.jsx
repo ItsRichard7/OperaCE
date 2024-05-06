@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./OperatorPage.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import {
   Container,
   Row,
@@ -635,6 +635,9 @@ export const OperatorPage = () => {
 
   return (
     <Container className="py-4">
+      <Button variant="danger" className="logout-button">
+        <NavLink to="/">Cerrar Sesión</NavLink>
+      </Button>
       <h1>Bienvenido Operador {usuario.primerNombre}</h1>
 
       <Row className="justify-content-center">

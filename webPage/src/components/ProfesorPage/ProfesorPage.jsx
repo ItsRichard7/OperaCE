@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./ProfesorPage.css";
-import { useLocation, useHistory, Link, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useHistory,
+  Link,
+  useNavigate,
+  NavLink,
+} from "react-router-dom";
 import { Container, Row, Tabs, Tab, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -103,6 +109,9 @@ export const ProfesorPage = () => {
 
   return (
     <Container className="py-4">
+      <Button variant="danger" className="logout-button">
+        <NavLink to="/">Cerrar Sesión</NavLink>
+      </Button>
       <h1>Bienvenido Profesor {usuario.primerNombre}</h1>
       <Row className="justify-content-center">
         <Tabs

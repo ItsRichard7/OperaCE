@@ -157,6 +157,15 @@
   width: 300px;
 }
 
+.logout-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  color: white !important; /* Cambiar el color del texto a blanco */
+  text-decoration: none !important; /* Eliminar el subrayado del texto */
+}
+
 @media print {
   .no-print {
     display: none !important; /* Oculta el contenido con la clase 'no-print' */
