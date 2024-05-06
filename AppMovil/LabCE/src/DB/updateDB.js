@@ -143,7 +143,7 @@ export default function updateDB() {
             const values = columns.map(column => item[column]);
             tx.executeSql(sqlStatement, values, (tx, results) => {
               if (results.rowsAffected > 0) {
-                console.log(`Insertion or replacement successful for table: ${table}`);
+                //console.log(`Insertion or replacement successful for table: ${table}`);
               } else {
                 console.log(`Insertion or replacement failed for table: ${table}`);
               }
@@ -341,61 +341,112 @@ const cleanTable = (tableName) => {
     });
 }
 
+function reorderUsuarios(row) {
+  return {
+    cedula: row.cedula,
+    correo: row.correo,
+    contrasena: row.contrasena,
+    carnet: row.carnet === null ? 12 : row.carnet,  // Set 'carnet' to 12 if it's null
+    p_nombre: row.p_nombre,
+    s_nombre: row.s_nombre === null ? 'N/A' : row.s_nombre,  // Set 's_nombre' to 'N/A' if it's null
+    p_apellido: row.p_apellido,
+    s_apellido: row.s_apellido,
+    f_nacim: row.f_nacim,
+    activo: row.activo === 1 ? true : false, // Convert 1 to true, 0 to false
+    rol_id: row.rol_id
+  };
+}
+
+function reorderSoliLab(row) {
+  return {
+    correo_soli: row.correo_soli,
+    fecha: row.fecha,
+    hora: row.hora,
+    carnet: row.carnet === null ? 0 : row.carnet,  // Set 'carnet' to 0 if it's null
+    p_nombre: row.p_nombre,
+    s_nombre: row.s_nombre,
+    p_apellido: row.p_apellido,
+    s_apellido: row.s_apellido,
+    cant_horas: row.cant_horas,
+    lab_nombre: row.lab_nombre,
+    user_ced: row.user_ced,
+  };
+}
+
+function reorderSoliAct(row) {
+  return {
+    correo_soli: row.correo_soli,
+    fecha_soli: row.fecha_soli,
+    hora_soli: row.hora_soli,
+    p_nombre: row.p_nombre,
+    s_nombre: row.s_nombre,
+    p_apellido: row.p_apellido,
+    s_apellido: row.s_apellido,
+    aprobado: row.aprobado,
+    entregado: row.entregado,
+    fecha_dev: row.fecha_dev,
+    hora_dev: row.hora_dev,
+    devuelto: row.devuelto,
+    averia: row.averia,
+    act_placa: row.act_placa,
+    user_ced: row.user_ced
+  };
+}
+
 const sendDatabaseTablesToServer = async () => {
   const tables = ['Usuario', 'Soli_Lab', 'Soli_Act'];
+  //const tables = ['Soli_Act'];
+
   const endpoints = ['ActualizarUsuarios', 'actualizarSoliLabs', 'actualizarSoliActivos'];
 
-  for (let i = 0; i < tables.length; i++) {
-    const table = tables[i];
-    const endpoint = endpoints[i];
-    let data = {};
+for (let i = 0; i < tables.length; i++) {
+  console.log(`Sending data for ${tables[i]} to server...`);
+const table = tables[i];
+const endpoint = endpoints[i];
+let data = {};
 
-    await new Promise((resolve, reject) => {
-      db.transaction(tx => {
-        tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
-          let rows = results.rows.raw();
-          if (table === 'Usuario') {
-            rows = rows.map(row => {
-              const { user_ced: cedula, ...rest } = row;
-              return { cedula, ...rest };
-            });
-          } else if (table === 'Soli_Lab' || table === 'Soli_Act') {
-              rows = rows.map(row => {
-          const { user_ced, ...rest } = row;
-          return { cedula: user_ced, ...rest };
-  });
-          }
-          data = rows;
-          resolve();
-        }, (transaction, error) => {
-          reject(error);
-        });
+  await new Promise((resolve, reject) => {  // Add 'await' here
+    db.transaction(tx => {
+      tx.executeSql(`SELECT * FROM ${table}`, [], (tx, results) => {
+        console.log(`Query for ${table} executed successfully.`);
+        let rows = results.rows.raw();  
+        if (table === 'Usuario') {
+          rows = rows.map(row => reorderUsuarios(row));
+        } else if (table === 'Soli_Lab') {
+          rows = rows.map(row => reorderSoliLab(row));
+        }else if (table === 'Soli_Act') {
+          rows = rows.map(row => reorderSoliAct(row));
+        }
+        data = rows;
+        resolve();
+      }, (transaction, error) => {
+        console.log(`Error executing query for ${table}:`, error);
+
+        reject(error);
       });
     });
-
-    const jsonData = JSON.stringify(data, null, 2);
-    fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
+  });
+  
+  const jsonData = JSON.stringify(data, null, 2);
+  //console.log(`Data for ${table}:`, jsonData);
+  // Make a POST request to the server
+const response = await fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
   body: jsonData
 })
-.then(response => {
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  return response.text();  // Change this line
-})
+.then(response => response.text())  // Get the response as text
 .then(text => {
-  console.log('Response text:', text);  // Log the response text
-  const data = JSON.parse(text);  // Parse the text as JSON
-  console.log('Success:', data);
+  console.log('Server response:', text);
+  return text;  // Return the text response
 })
-.catch((error) => console.error('Error:', error));
-  }
+.catch(error => {
+  console.error('Fetch error:', error);
+  throw error;  // Rethrow the error
+});
+
 }
-
-  
-
-    }
+}
+}

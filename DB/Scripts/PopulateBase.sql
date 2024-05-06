@@ -97,6 +97,7 @@ VALUES ('Posee pizarras en ambas paredes','F2-10');
 INSERT INTO Lab_Facilidad(descripcion, lab_nombre)
 VALUES ('Posee una pantalla de televisión','F2-10');
 
+
 -- Insert usuarios a la base
 INSERT INTO Usuario (cedula, correo, contrasena, carnet, p_nombre, s_nombre, p_apellido, s_apellido, f_nacim, activo, rol_id)
 VALUES (1234567890, 'admin1@gmail.com', 'admin123', NULL, 'Juan', 'Carlos', 'Pérez', 'Gómez', '1990-05-15', 1, 1);

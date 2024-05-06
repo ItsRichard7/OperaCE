@@ -68,9 +68,9 @@ export default function LoginScreen() {
     source={require('../Images/circuits.png')}
       style={styles.background}
       resizeMode="cover">
-        <Text style={styles.title}>Inicio de Sesión</Text>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.formContainer}>
+        <Text style={styles.title}>Inicio de Sesión</Text>
           <TextInput
             style={styles.input}
             placeholder="Correo electrónico"
@@ -90,7 +90,7 @@ export default function LoginScreen() {
             <Button
               title="Iniciar Sesión"
               onPress={handleLogin}
-              color="#841584"
+              //color="#841584"
             />
           </View>
 
@@ -117,9 +117,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginTop: 225,
+    //marginTop: 25,
+    marginBottom: 20,
     color: '#fff',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: 'rgba(0, 0, 0, 1)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
   },

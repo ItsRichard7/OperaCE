@@ -59,6 +59,23 @@ const ReservationScreen = ({ route, navigation }) => {
     });
   };
 
+let formattedDate = selectedDate.replace(' de ', ' ').replace(',', '');
+
+let parts = formattedDate.split(' ');
+let months = {January: '01', February: '02', March: '03', April: '04', May: '05', June: '06', July: '07', August: '08', September: '09', October: '10', November: '11', December: '12'};
+let formattedDateJS = `${parts[2]}-${months[parts[1]]}-${parts[0].padStart(2, '0')}`;
+
+let displayDate = new Date(formattedDateJS);
+displayDate.setDate(displayDate.getDate() + 2);
+
+let formatter = new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+let nextDay = formatter.format(displayDate);
+
+
+
+
+
+
   return (
     <ImageBackground
       source={require('../Images/circuits.png')}
@@ -68,7 +85,7 @@ const ReservationScreen = ({ route, navigation }) => {
         <Text style={styles.title}>Confirma Tu Reservación</Text>
         <View style={styles.infoContainer}>
           <Text style={styles.info}>Laboratorio: {selectedLab}</Text>
-          <Text style={styles.info}>Fecha: {selectedDate}</Text>
+          <Text style={styles.info}>Fecha: {nextDay}</Text>
           <Text style={styles.info}>Hora: {selectedHour}</Text>
         </View>
         <Text style={styles.label}>Cantidad de horas:</Text>
