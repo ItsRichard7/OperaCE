@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-
+import axios from "axios";
 const ActivoModal = ({ show, handleClose }) => {
   const [activoData, setActivoData] = useState({
     placa: "",
@@ -22,12 +22,7 @@ const ActivoModal = ({ show, handleClose }) => {
   };
 
   const validateFields = () => {
-    if (
-      !activoData.placa ||
-      !activoData.tipo ||
-      !activoData.marca ||
-      !activoData.aprobadoPor
-    ) {
+    if (!activoData.placa || !activoData.tipo || !activoData.marca) {
       setError("Por favor, complete todos los campos obligatorios.");
       return false;
     }
@@ -35,16 +30,30 @@ const ActivoModal = ({ show, handleClose }) => {
     return true;
   };
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
     if (validateFields()) {
       const nuevoActivo = {
         placa: activoData.placa,
         tipo: activoData.tipo,
         marca: activoData.marca,
-        fechaCompra: activoData.fechaCompra,
-        aprobadoPor: activoData.aprobadoPor,
+        f_compra: activoData.fechaCompra + "T00:00:00.000Z",
+        aprob_ced:
+          activoData.aprobadoPor === ""
+            ? null
+            : parseInt(activoData.aprobadoPor),
       };
       console.log("Nuevo activo:", nuevoActivo);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5074/api/agregarActivo",
+          nuevoActivo
+        );
+        window.location.reload();
+      } catch (error) {
+        setError(error.response.data); // Manejar errores y mostrar mensaje de error en el componente
+      }
+
       handleClose();
     }
   };

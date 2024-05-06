@@ -12,7 +12,7 @@ namespace API.Controllers.Admin
     {
         private readonly string connectionString = "Server=DYLAN;Database=OperaCE;Integrated Security=True;";
 
-        [HttpDelete("{nombre}")]
+        [HttpDelete("{placa}")]
         public IActionResult elimiActivo(string placa)
         {
             try

@@ -28,6 +28,7 @@ namespace API.Controllers.Admin
                         command.Parameters.AddWithValue("@tipo", activo.Tipo);
                         command.Parameters.AddWithValue("@marca", activo.Marca);
                         command.Parameters.AddWithValue("@f_compra", activo.FCompra);
+                        command.Parameters.AddWithValue("@aprob_ced", (object)activo.AprobCed ?? DBNull.Value);
 
                         connection.Open();
 

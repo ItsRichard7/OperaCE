@@ -24,21 +24,25 @@ const EditActModal = ({ show, handleClose, ActivoData }) => {
   };
 
   const handleGuardar = async () => {
-    try {
-      const editedActivo = {
-        placa: editedActivoData.placa,
-        tipo: editedActivoData.tipo,
-        fCompra: editedActivoData.fCompra,
-        marca: editedActivoData.marca,
-        aprobCed:
-          editedActivoData.aprobCed === "" ? null : editedActivoData.aprobCed,
-      };
+    const editedActivo = {
+      placa: editedActivoData.placa,
+      tipo: editedActivoData.tipo,
+      fCompra: editedActivoData.fCompra + ".000Z",
+      marca: editedActivoData.marca,
+      aprobCed:
+        editedActivoData.aprobCed === ""
+          ? null
+          : parseInt(editedActivoData.aprobCed),
+    };
 
+    console.log(editedActivo);
+
+    try {
       const response = await axios.put(
         "http://localhost:5074/api/EditarActivo",
         editedActivo
       );
-      handleClose(); // Cerrar el modal después de guardar exitosamente
+      window.location.reload();
     } catch (error) {
       setError(error.response.data); // Manejar errores y mostrar mensaje de error en el componente
     }

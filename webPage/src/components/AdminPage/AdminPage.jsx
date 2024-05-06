@@ -38,6 +38,7 @@ import ActivoModal from "./createActivoModal";
 export const AdminPage = () => {
   const location = useLocation();
   const { usuario } = location.state || {};
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Función para obtener los datos de laboratorios desde la API
@@ -250,18 +251,47 @@ export const AdminPage = () => {
   const handleOpenActivoModal = () => setShowActivoModal(true);
   const handleCloseActivoModal = () => setShowActivoModal(false);
 
-  const handleEraseLab = (idx) => {
-    const labid = lab[idx].cedula;
+  const handleEraseLab = async (idx) => {
+    const labid = lab[idx].nombre;
 
-    console.log("Laboratorio a borrar " + labid);
-    //window.location.reload();
+    const elimResponse1 = await fetch(
+      `http://localhost:5074/api/elimFacilidad/${labid}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!elimResponse1.ok) {
+      const errorData = await elimResponse.json();
+      setError(errorData.message);
+      return;
+    }
+
+    const elimResponse = await fetch(
+      `http://localhost:5074/api/eliminarLaboratorio/${labid}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!elimResponse.ok) {
+      const errorData = await elimResponse.json();
+      setError(errorData.message);
+      return;
+    }
+    window.location.reload();
   };
 
-  const handleEraseActivo = (idx) => {
-    const Placa = activo[idx].cedula;
+  const handleEraseActivo = async (idx) => {
+    const Placa = activo[idx].placa;
 
-    console.log("Activo a borrar: " + Placa);
-    //window.location.reload();
+    const elimResponse = await fetch(
+      `http://localhost:5074/api/eliminarActivo/${Placa}`,
+      {
+        method: "DELETE",
+      }
+    );
+    window.location.reload();
   };
 
   // Función para generar una contraseña aleatoria

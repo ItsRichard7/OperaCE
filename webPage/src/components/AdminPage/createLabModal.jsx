@@ -6,8 +6,7 @@ const LabModal = ({ show, handleClose }) => {
     laboratorio: "",
     capacidad: "",
     computadoras: "",
-    activos: "",
-    facilidades: "",
+    facilidades: [""],
   });
   const [error, setError] = useState(null);
 
@@ -19,13 +18,81 @@ const LabModal = ({ show, handleClose }) => {
     }));
   };
 
+  const handleAddFacilidad = () => {
+    setLabData((prevData) => ({
+      ...prevData,
+      facilidades: [...prevData.facilidades, ""],
+    }));
+  };
+
+  const handleFacilidadChange = (e, index) => {
+    const { value } = e.target;
+    setLabData((prevData) => ({
+      ...prevData,
+      facilidades: prevData.facilidades.map((facilidad, i) =>
+        i === index ? value : facilidad
+      ),
+    }));
+  };
+
+  const handleGuardar = async () => {
+    if (validateFields()) {
+      const nuevoLaboratorio = {
+        lab_nombre: labData.laboratorio,
+        capacidad: parseInt(labData.capacidad),
+        computadoras: parseInt(labData.computadoras),
+      };
+      console.log("Nuevo laboratorio:", nuevoLaboratorio);
+
+      try {
+        const response = await fetch(
+          "http://localhost:5074/api/agregarLaboratorio",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(nuevoLaboratorio),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          setError(errorData.message);
+          return;
+        }
+
+        for (let i = 0; i < labData.facilidades.length; i++) {
+          const facilidad = labData.facilidades[i];
+          const response2 = await fetch(
+            "http://localhost:5074/api/agregarFacilidad",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                lab_nombre: labData.laboratorio,
+                Descripcion: facilidad,
+              }),
+            }
+          );
+
+          if (!response2.ok) {
+            const errorData = await response2.json();
+            setError(errorData.message);
+            return;
+          }
+        }
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const validateFields = () => {
     if (
       !labData.laboratorio ||
       !labData.capacidad ||
       !labData.computadoras ||
-      !labData.activos ||
-      !labData.facilidades
+      labData.facilidades.some((facilidad) => facilidad === "")
     ) {
       setError("Por favor, complete todos los campos obligatorios.");
       return false;
@@ -33,19 +100,7 @@ const LabModal = ({ show, handleClose }) => {
     setError(null);
     return true;
   };
-  const handleGuardar = () => {
-    if (validateFields()) {
-      const nuevoLaboratorio = {
-        laboratorio: labData.laboratorio,
-        capacidad: labData.capacidad,
-        computadoras: labData.computadoras,
-        activos: labData.activos,
-        facilidades: labData.facilidades,
-      };
-      console.log("Nuevo laboratorio:", nuevoLaboratorio);
-      handleClose();
-    }
-  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -83,26 +138,22 @@ const LabModal = ({ show, handleClose }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="activos">
-            <Form.Label>Activos</Form.Label>
-            <Form.Control
-              type="text"
-              name="activos"
-              required
-              value={labData.activos}
-              onChange={handleChange}
-            />
-          </Form.Group>
           <Form.Group controlId="facilidades">
             <Form.Label>Facilidades</Form.Label>
-            <Form.Control
-              type="text"
-              name="facilidades"
-              required
-              value={labData.facilidades}
-              onChange={handleChange}
-            />
+            {labData.facilidades.map((facilidad, index) => (
+              <Form.Control
+                key={index}
+                type="text"
+                name={`facilidad-${index}`}
+                required
+                value={facilidad}
+                onChange={(e) => handleFacilidadChange(e, index)}
+              />
+            ))}
           </Form.Group>
+          <Button variant="primary" onClick={handleAddFacilidad}>
+            Insertar otra facilidad
+          </Button>
         </Form>
         {error && <Alert variant="danger">{error}</Alert>}
       </Modal.Body>

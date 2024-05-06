@@ -29,7 +29,8 @@ namespace API.Controllers.Admin
                         command.Parameters.AddWithValue("@tipo", activo.tipo);
                         command.Parameters.AddWithValue("@marca", activo.marca);
                         command.Parameters.AddWithValue("@f_compra", activo.f_compra);
-                        command.Parameters.AddWithValue("@aprob_ced", activo.aprob_ced);
+                        command.Parameters.AddWithValue("@aprob_ced", (object)activo.aprob_ced ?? DBNull.Value);
+
                         connection.Open();
 
                         int rowsAffected = command.ExecuteNonQuery();
@@ -56,7 +57,7 @@ namespace API.Controllers.Admin
             public string tipo { get; set; }
             public string marca { get; set; }
             public DateTime f_compra { get; set; }
-            public decimal aprob_ced { get; set; }
+            public decimal? aprob_ced { get; set; }
         }
     }
 }

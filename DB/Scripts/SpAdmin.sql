@@ -135,6 +135,40 @@ BEGIN
 END
 GO
 
+-- Agregar un nuevo laboratorio (Vista Admin - Labs)
+CREATE PROCEDURE insertar_lab (@nombre VARCHAR(6), @computadoras NUMERIC(2), @capacidad NUMERIC(2))
+AS
+BEGIN
+    INSERT INTO Laboratorio(nombre, computadoras, capacidad)
+    VALUES(@nombre, @computadoras, @capacidad);
+END
+GO
+
+-- Eliminar un laboratorio ya existente (Vista Admin - Labs)
+CREATE PROCEDURE eliminar_lab (@nombre VARCHAR(6))
+AS
+BEGIN
+    DELETE FROM Laboratorio WHERE nombre = @nombre;
+END
+GO
+
+-- Agregar un nuevo activo (Vista de Activos)
+CREATE PROCEDURE insertar_activo (@placa NVARCHAR(20), @tipo NVARCHAR(50), @marca NVARCHAR(50), @f_compra DATE, @aprob_ced NUMERIC(10))
+AS
+BEGIN
+    INSERT INTO Activo(placa, tipo, marca, f_compra, prestado, aprob_ced)
+    VALUES(@placa, @tipo, @marca, @f_compra, 0, @aprob_ced);
+END
+GO
+
+-- Eliminar un activo ya existente (Vista de Activos)
+CREATE PROCEDURE eliminar_activo (@placa NVARCHAR(20))
+AS
+BEGIN
+    DELETE FROM Activo WHERE placa = @placa;
+END
+GO
+
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_laboratorios;
 DROP PROCEDURE obt_operadores_no_aprob;
@@ -168,8 +202,10 @@ EXEC editar_profesor 4567890123, 'profe2@gmail.com', 'Ana', NULL, 'Martínez', 'L
 EXEC borrar_profesor 4567890123;
 EXEC mostrar_operadores;
 EXEC obt_reg_horas_op 2022457896;
+EXEC eliminar_lab 'F2-06'
 */
 
 Use OperaCE
-SELECT * FROM Usuario
-SELECT * FROM Reg_Horas
+SELECT * FROM Activo
+SELECT * FROM Lab_Facilidad
+EXEC obt_laboratorios

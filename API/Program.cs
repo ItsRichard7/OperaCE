@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-//ALlowAnyOrigin
+//AllowAnyOrigin() 
+
 //WithOrigins("http://localhost:3000")
 
 var app = builder.Build();

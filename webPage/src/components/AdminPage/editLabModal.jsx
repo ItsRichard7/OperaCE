@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
+import axios from "axios";
 
 const EditLabModal = ({ show, handleClose, LabData }) => {
+  const [error, setError] = useState(null);
+
   const [editedLabData, setEditedLabData] = useState({
-    nombre: LabData.nombre ?? "", // Acceso a la propiedad "nombre"
-    capacidad: LabData.capacidad ?? "", // Acceso a la propiedad "capacidad"
-    computadoras: LabData.computadoras ?? "", // Acceso a la propiedad "computadoras"
-    activos: LabData.activos ?? "", // No hay propiedad "activos" en el JSON proporcionado, asegúrate de qué propiedad quieres editar aquí
-    descripcion: LabData.descripcion ?? "", // Acceso a la propiedad "descripcion"
+    nombre: LabData.nombre ?? "",
+    capacidad: LabData.capacidad ?? "",
+    computadoras: LabData.computadoras ?? "",
+    descripcion: LabData.descripcion ?? "",
   });
 
-  const [error, setError] = useState(null);
+  const [facilidades, setFacilidades] = useState([]);
 
   // Use useEffect to update state when LabData changes
   useEffect(() => {
@@ -20,36 +22,93 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
       computadoras: LabData.computadoras ?? "",
       descripcion: LabData.descripcion ?? "",
     });
+    setFacilidades(
+      LabData.descripcion
+        ? LabData.descripcion.split(".").map((facilidad) => facilidad.trim())
+        : []
+    );
   }, [LabData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedLabData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleChangeFacilidad = (e, index) => {
+    const { value } = e.target;
+    let newFacilidades;
+    setFacilidades((prevFacilidades) => {
+      newFacilidades = [...prevFacilidades];
+      newFacilidades[index] = value;
+      return newFacilidades;
+    });
+
+    // Verificar si newFacilidades está definido antes de llamar a join
+    if (newFacilidades !== undefined) {
+      setEditedLabData((prevData) => ({
+        ...prevData,
+        descripcion: newFacilidades.join("."),
+      }));
+    }
+  };
+
+  const handleAgregarFacilidad = () => {
+    setFacilidades((prevFacilidades) => [...prevFacilidades, ""]);
   };
 
   const handleGuardar = async () => {
+    const LabDataEditada = {
+      nombre: LabData.nombre.trim(),
+      capacidad: parseInt(editedLabData.capacidad),
+      computadoras: parseInt(editedLabData.computadoras),
+      descripcion: LabData.descripcion ?? "",
+    };
+
     try {
       const response = await fetch("http://localhost:5074/api/editarLab", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedLabData), // Enviar los datos editados del nombre
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(LabDataEditada), // No envuelvas LabDataEditada en otro objeto
       });
-      if (response.ok) {
-        handleClose();
-      } else {
-        // Si hay un error en la solicitud, mostrar el mensaje de error
+      if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.message);
+        return;
+      }
+
+      const elimResponse = await fetch(
+        `http://localhost:5074/api/elimFacilidad/${LabDataEditada.nombre}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!elimResponse.ok) {
+        const errorData = await elimResponse.json();
+        setError(errorData.message);
+        return;
+      }
+
+      for (const facilidad of facilidades) {
+        const response2 = await fetch(
+          "http://localhost:5074/api/agregarFacilidad",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lab_nombre: LabDataEditada.nombre,
+              Descripcion: facilidad,
+            }),
+          }
+        );
+
+        if (!response2.ok) {
+          const errorData = await response2.json();
+          setError(errorData.message);
+          return;
+        }
+
+        window.location.reload();
       }
     } catch (error) {
-      // Si hay un error en la conexión o en el proceso de la solicitud, mostrar un mensaje genérico
-      setError("Error al intentar guardar los cambios.");
+      console.error("Error al editar laboratorio:", error);
     }
+    //handleClose();
   };
 
   return (
@@ -65,7 +124,12 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
               type="number"
               name="capacidad"
               value={editedLabData.capacidad}
-              onChange={handleChange}
+              onChange={(e) =>
+                setEditedLabData({
+                  ...editedLabData,
+                  capacidad: e.target.value,
+                })
+              }
             />
           </Form.Group>
           <Form.Group controlId="computadoras">
@@ -74,20 +138,30 @@ const EditLabModal = ({ show, handleClose, LabData }) => {
               type="number"
               name="computadoras"
               value={editedLabData.computadoras}
-              onChange={handleChange}
+              onChange={(e) =>
+                setEditedLabData({
+                  ...editedLabData,
+                  computadoras: e.target.value,
+                })
+              }
             />
           </Form.Group>
           <Form.Group controlId="descripcion">
             <Form.Label>Facilidades</Form.Label>
-            <Form.Control
-              type="text"
-              name="descripcion"
-              value={editedLabData.descripcion}
-              onChange={handleChange}
-            />
+            {facilidades.map((facilidad, index) => (
+              <Form.Control
+                key={index}
+                type="text"
+                name={`descripcion-${index}`}
+                value={facilidad}
+                onChange={(e) => handleChangeFacilidad(e, index)}
+              />
+            ))}
+            <Button variant="primary" onClick={handleAgregarFacilidad}>
+              Agregar Facilidad
+            </Button>
           </Form.Group>
         </Form>
-        {error && <Alert variant="danger">{error}</Alert>}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
