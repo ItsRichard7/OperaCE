@@ -33,19 +33,20 @@ namespace API.Controllers.Admin
                                 SoliAct soliAct = new SoliAct
                                 {
                                     CorreoSoli = reader.GetString(0),
-                                    Aprobado = reader.GetBoolean(1),
-                                    FechaEnt = reader.GetDateTime(2),
-                                    HoraEnt = reader.GetTimeSpan(3),
-                                    PNombre = reader.GetString(4),
-                                    SNombre = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                    PApellido = reader.GetString(6),
-                                    SApellido = reader.IsDBNull(7) ? null : reader.GetString(7),
-                                    FechaDev = reader.IsDBNull(8) ? null : (DateTime?)reader.GetDateTime(8),
-                                    HoraDev = reader.IsDBNull(9) ? null : (TimeSpan?)reader.GetTimeSpan(9),
-                                    Devuelto = reader.GetBoolean(10),
-                                    Averia = reader.GetString(11),
-                                    ActPlaca = reader.GetString(12),
-                                    UserCed = reader.GetDecimal(13)
+                                    FechaSoli = reader.GetDateTime(1),
+                                    HoraSoli = reader.GetTimeSpan(2),
+                                    PNombre = reader.GetString(3),
+                                    SNombre = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                    PApellido = reader.GetString(5),
+                                    SApellido = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                    Aprobado = reader.GetBoolean(7),
+                                    Entregado = reader.GetBoolean(8),
+                                    FechaDev = reader.IsDBNull(9) ? null : (DateTime?)reader.GetDateTime(9),
+                                    HoraDev = reader.IsDBNull(10) ? null : (TimeSpan?)reader.GetTimeSpan(10),
+                                    Devuelto = reader.GetBoolean(11),
+                                    Averia = reader.IsDBNull(12) ? null : reader.GetString(12),
+                                    ActPlaca = reader.GetString(13),
+                                    UserCed = reader.GetDecimal(14)
                                 };
 
                                 soliActs.Add(soliAct);

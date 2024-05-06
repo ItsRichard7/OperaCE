@@ -35,7 +35,7 @@ namespace API.Controllers.Admin
                                 {
                                     CorreoSoli = reader.GetString(0),
                                     Fecha = reader.GetDateTime(1).Date,
-                                    Hora = reader.GetDateTime(2).TimeOfDay,
+                                    Hora = reader.GetTimeSpan(2),
                                     Carnet = reader.IsDBNull(3) ? null : (decimal?)reader.GetDecimal(3),
                                     PrimerNombre = reader.GetString(4),
                                     SegundoNombre = reader.IsDBNull(5) ? null : reader.GetString(5),

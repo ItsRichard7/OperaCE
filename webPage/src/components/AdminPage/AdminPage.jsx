@@ -32,6 +32,8 @@ import ProfesorModal from "./createProfModal";
 import EditModalProf from "./editProdModal";
 import EditLabModal from "./editLabModal";
 import EditActModal from "./editActModel";
+import LabModal from "./createLabModal";
+import ActivoModal from "./createActivoModal";
 
 export const AdminPage = () => {
   const location = useLocation();
@@ -237,6 +239,29 @@ export const AdminPage = () => {
       console.error("Error al rechazar operador:", error);
       // Manejar errores
     }
+  };
+
+  /////////////// funciones para gestiones extras //////////////////
+  const [showLabModal, setShowLabModal] = useState(false);
+  const handleOpenLabModal = () => setShowLabModal(true);
+  const handleCloseLabModal = () => setShowLabModal(false);
+
+  const [showActivoModal, setShowActivoModal] = useState(false);
+  const handleOpenActivoModal = () => setShowActivoModal(true);
+  const handleCloseActivoModal = () => setShowActivoModal(false);
+
+  const handleEraseLab = (idx) => {
+    const labid = lab[idx].cedula;
+
+    console.log("Laboratorio a borrar " + labid);
+    //window.location.reload();
+  };
+
+  const handleEraseActivo = (idx) => {
+    const Placa = activo[idx].cedula;
+
+    console.log("Activo a borrar: " + Placa);
+    //window.location.reload();
   };
 
   // Función para generar una contraseña aleatoria
@@ -447,7 +472,6 @@ export const AdminPage = () => {
                       <td>{labs.nombre}</td>
                       <td>{labs.capacidad}</td>
                       <td>{labs.computadoras}</td>
-
                       <td className="expand">
                         {labs.descripcion.split(".").map((line, index) => (
                           <p key={index}>{line.trim()}</p>
@@ -455,6 +479,10 @@ export const AdminPage = () => {
                       </td>
                       <td className="fit">
                         <span className="actions">
+                          <BsFillTrash3Fill
+                            className="delete-btn"
+                            onClick={() => handleEraseLab(idx)}
+                          />
                           <BsFillPencilFill
                             className="edit-btn"
                             onClick={() => handleOpenEditLabsModal(idx)}
@@ -465,6 +493,12 @@ export const AdminPage = () => {
                   ))}
                 </tbody>
               </table>
+              <div
+                className="d-flex justify-content-center mt-3"
+                style={{ marginTop: "10px" }}
+              >
+                <Button onClick={() => handleOpenLabModal()}>Agregar</Button>
+              </div>
             </div>
           </Tab>
           <Tab eventKey="tab-2" title="Gestión de Activos">
@@ -492,6 +526,10 @@ export const AdminPage = () => {
                       <td>{renderAprobador(activos.aprobCed)}</td>
                       <td className="fit">
                         <span className="actions">
+                          <BsFillTrash3Fill
+                            className="delete-btn"
+                            onClick={() => handleEraseActivo(idx)}
+                          />
                           <BsFillPencilFill
                             className="edit-btn"
                             onClick={() => handleOpenEditActivosModal(idx)}
@@ -502,6 +540,12 @@ export const AdminPage = () => {
                   ))}
                 </tbody>
               </table>
+              <div
+                className="d-flex justify-content-center mt-3"
+                style={{ marginTop: "10px" }}
+              >
+                <Button onClick={() => handleOpenActivoModal()}>Agregar</Button>
+              </div>
             </div>
           </Tab>
           <Tab eventKey="tab-3" title="Gestión de profesores">
@@ -742,6 +786,12 @@ export const AdminPage = () => {
       <ProfesorModal
         show={showProfesorModal}
         handleClose={handleCloseProfesorModal}
+      />
+
+      <LabModal show={showLabModal} handleClose={handleCloseLabModal} />
+      <ActivoModal
+        show={showActivoModal}
+        handleClose={handleCloseActivoModal}
       />
     </Container>
   );
