@@ -10,11 +10,14 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("http://localhost:3000")
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
 });
+
+//ALlowAnyOrigin
+//WithOrigins("http://localhost:3000")
 
 var app = builder.Build();
 

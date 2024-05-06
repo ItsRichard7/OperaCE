@@ -38,9 +38,6 @@ const EditActModal = ({ show, handleClose, ActivoData }) => {
         "http://localhost:5074/api/EditarActivo",
         editedActivo
       );
-
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-
       handleClose(); // Cerrar el modal después de guardar exitosamente
     } catch (error) {
       setError(error.response.data); // Manejar errores y mostrar mensaje de error en el componente

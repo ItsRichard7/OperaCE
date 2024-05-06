@@ -65,9 +65,6 @@ export const LabsEst = () => {
       cantHoras: parseInt(cantidadHoras),
     };
 
-    console.log(reserva);
-    console.log(laboratorio);
-
     try {
       /* const conflict = await checkReservationConflict(
         reserva.labNombre,
@@ -140,7 +137,6 @@ export const LabsEst = () => {
       throw error;
     }
   };
-
 
   const handleVerHorarios = () => {
     Navigate("/calendar", {

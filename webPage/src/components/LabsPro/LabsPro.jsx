@@ -43,9 +43,6 @@ export const LabsPro = () => {
       userCed: usuario.cedula,
     };
 
-    console.log(reserva);
-    console.log(laboratorio);
-
     try {
       /* const conflict = await checkReservationConflict(
         reserva.labNombre,

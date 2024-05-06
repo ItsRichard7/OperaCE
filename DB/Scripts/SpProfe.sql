@@ -30,6 +30,12 @@ CREATE PROCEDURE rechazar_prestamo_activo (@correo_soli NVARCHAR(50), @fecha_sol
 AS
 BEGIN
 	DELETE FROM Soli_Act WHERE correo_soli = @correo_soli AND fecha_soli = @fecha_soli AND hora_soli = @hora_soli;
+
+	-- Actualizar el estado del activo a no prestado en la tabla Activo
+    UPDATE Activo
+    SET prestado = 0
+    WHERE placa = (SELECT act_placa FROM Soli_Act WHERE correo_soli = @correo_soli AND fecha_soli = @fecha_soli AND hora_soli = @hora_soli);
+
 END
 GO
 
@@ -80,7 +86,7 @@ GO
 /* Eliminar todos los store procedure
 DROP PROCEDURE obt_activos_no_aprobados;
 DROP PROCEDURE aprobar_prestamo_activo;
-DROP PROCEDURE obt_act_no_devueltos;
+DROP PROCEDURE rechazar_prestamo_activo;
 */
 
 /* Pruebas para los store procedures
@@ -91,4 +97,3 @@ EXEC obt_activos_no_aprobados 3456789012;
 Use OperaCE
 SELECT * FROM Activo
 SELECT * FROM Soli_Act
-EXEC obt_act_no_devueltos

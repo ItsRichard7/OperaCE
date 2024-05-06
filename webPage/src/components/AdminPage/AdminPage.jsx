@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./AdminPage.css";
 import { useLocation } from "react-router-dom";
-import axios from 'axios';
-import md5 from 'md5';
+import axios from "axios";
+import md5 from "md5";
+import emailjs from "@emailjs/browser";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   Container,
   Row,
@@ -29,6 +32,8 @@ import ProfesorModal from "./createProfModal";
 import EditModalProf from "./editProdModal";
 import EditLabModal from "./editLabModal";
 import EditActModal from "./editActModel";
+import LabModal from "./createLabModal";
+import ActivoModal from "./createActivoModal";
 
 export const AdminPage = () => {
   const location = useLocation();
@@ -44,7 +49,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const labData = await response.json();
           setLab(labData);
-          console.log(labData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -61,7 +65,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const activoData = await response.json();
           setActivo(activoData);
-          console.log(activoData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -78,7 +81,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const usuariosData = await response.json();
           setUsuarios(usuariosData);
-          console.log(usuariosData);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -95,7 +97,6 @@ export const AdminPage = () => {
         if (response.ok) {
           const operadorDataHorario = await response.json();
           setOperadoresHorarios(operadorDataHorario);
-          console.log(operadorDataHorario);
         } else {
           throw new Error("Error al obtener datos de laboratorios");
         }
@@ -131,8 +132,6 @@ export const AdminPage = () => {
   const handleOpenEditLabsModal = (idx) => {
     setLabDataToEdit(lab[idx]);
     setShowEditLabsModal(true);
-    console.log(lab[idx]);
-    console.log(labDataToEdit);
   };
 
   const handleCloseEditLabsModal = () => {
@@ -169,7 +168,10 @@ export const AdminPage = () => {
 
   // crear //
   const handleOpenProfesorModal = () => setShowProfesorModal(true);
-  const handleCloseProfesorModal = () => {setShowProfesorModal(false); window.location.reload();}
+  const handleCloseProfesorModal = () => {
+    setShowProfesorModal(false);
+    window.location.reload();
+  };
 
   //editar
 
@@ -200,108 +202,239 @@ export const AdminPage = () => {
   // borrar
   const handleEraseProf = async (idx) => {
     const profCed = profesores[idx].cedula;
-  
+
     try {
-      const response = await axios.delete(`http://localhost:5074/api/eliminarProfesor/${profCed}`);
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-      //window.location.reload(); // Recargar la página después de eliminar exitosamente el profesor
+      const response = await axios.delete(
+        `http://localhost:5074/api/eliminarProfesor/${profCed}`
+      );
+      window.location.reload(); // Recargar la página después de eliminar exitosamente el profesor
     } catch (error) {
       console.error(error.response.data); // Manejar errores y mostrar mensaje de error en la consola
     }
     window.location.reload();
   };
-  
 
   /////////////// funciones para gestión de operadores //////////////////
-
-  const aprobarOperador = async (cedula) => {
+  const aprobarOperador = async (idx) => {
     try {
-      const response = await axios.post(`http://localhost:5074/api/AprobarOp/${cedula}`);
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+      const cedula = operadores[idx].cedula; // Suponiendo que operadores es tu array de operadores
+      const response = await axios.post(
+        `http://localhost:5074/api/AprobarOp/${cedula}`
+      );
       window.location.reload(); // Otra acción después de aprobar el operador
     } catch (error) {
       console.error("Error al aprobar operador:", error);
       // Manejar errores
     }
   };
-  
+
   const reprobarOperador = async (idx) => {
     try {
       const cedula = operadores[idx].cedula; // Suponiendo que operadores es tu array de operadores
-      const response = await axios.delete(`http://localhost:5074/api/RechazarOperador/${cedula}`);
-      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+      const response = await axios.delete(
+        `http://localhost:5074/api/RechazarOperador/${cedula}`
+      );
       window.location.reload(); // Otra acción después de rechazar el operador
     } catch (error) {
       console.error("Error al rechazar operador:", error);
       // Manejar errores
     }
   };
-  
-// Función para generar una contraseña aleatoria
-const generateRandomPassword = () => {
-  const length = 12;
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]|:;<>,.?/";
-  let password = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
-  }
-  return password;
-};
 
-const handleResetPassword = async () => {
-  try {
-    const email = document.getElementById("emailInput").value;
+  /////////////// funciones para gestiones extras //////////////////
+  const [showLabModal, setShowLabModal] = useState(false);
+  const handleOpenLabModal = () => setShowLabModal(true);
+  const handleCloseLabModal = () => setShowLabModal(false);
 
-    // Generar una contraseña aleatoria
-    const newPassword = generateRandomPassword();
+  const [showActivoModal, setShowActivoModal] = useState(false);
+  const handleOpenActivoModal = () => setShowActivoModal(true);
+  const handleCloseActivoModal = () => setShowActivoModal(false);
 
-    // Guardar la contraseña momentáneamente (para enviar por correo a futuro)
-    // Aquí puedes hacer lo que necesites con la contraseña, como enviarla por correo
+  const handleEraseLab = (idx) => {
+    const labid = lab[idx].cedula;
 
-    // Convertir la contraseña a su hash MD5
-    const hashedPassword = md5(newPassword);
-
-    // Enviar la contraseña con su hash MD5 por la API
-    const response = await axios.put("http://localhost:5074/api/actualizarContrasena", { correo: email, contrasena: hashedPassword });
-    console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
-    // Otra acción después de resetear la contraseña
-  } catch (error) {
-    console.error("Error al resetear la contraseña:", error);
-    // Manejar errores
-  }
-};
-  
-
-  // imprimir
-
-  const handlePrintTable = () => {
-    window.print();
+    console.log("Laboratorio a borrar " + labid);
+    //window.location.reload();
   };
 
-const [cedula, setCedula] = useState("");
-const [historialHoras, setHistorialHoras] = useState([]);
-const [horasTotales, setHorasTotales] = useState(0);
+  const handleEraseActivo = (idx) => {
+    const Placa = activo[idx].cedula;
 
-const fecthHistorialHoras = async () => {
-  try {
-    const carnet = document.getElementById("carnetInput").value;
-    const response = await axios.get(`http://localhost:5074/api/registroHorasOP/${carnet}`);
-    if (response.status === 200) {
-      const historialHora = response.data;
-      setHistorialHoras(historialHora);
-      const horasTotalesCalculadas = historialHora.reduce(
-        (totalHoras, registro) => totalHoras + registro.horasReg,
-        0
-      );
-      setHorasTotales(horasTotalesCalculadas);
-    } else {
-      throw new Error("Error al obtener datos de laboratorios");
+    console.log("Activo a borrar: " + Placa);
+    //window.location.reload();
+  };
+
+  // Función para generar una contraseña aleatoria
+  const generateRandomPassword = () => {
+    const length = 12;
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]|:;<>,.?/";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
     }
-  } catch (error) {
-    console.error(error);
+    return password;
+  };
+
+  const sendEmail = (password, email) => {
+    emailjs.init({
+      publicKey: "VWZmvAnq8_A-rtAVB",
+      // Do not allow headless browsers
+      blockHeadless: true,
+      blockList: {
+        // Block the suspended emails
+        list: ["foo@emailjs.com", "bar@emailjs.com"],
+        // The variable contains the email address
+        watchVariable: "userEmail",
+      },
+      limitRate: {
+        // Set the limit rate for the application
+        id: "app",
+        // Allow 1 request per 10s
+        throttle: 10000,
+      },
+    });
+
+    var templateParams = {
+      to_name: "estimado(a)",
+      to_password: password,
+      to_email: email,
+    };
+
+    emailjs.send("service_72s6juh", "template_492yn1d", templateParams).then(
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+      },
+      (error) => {
+        console.log("FAILED...", error);
+      }
+    );
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      const email = document.getElementById("emailInput").value;
+
+      // Generar una contraseña aleatoria
+      const newPassword = generateRandomPassword();
+
+      sendEmail(newPassword, email);
+
+      // Convertir la contraseña a su hash MD5
+      const hashedPassword = md5(newPassword);
+
+      // Enviar la contraseña con su hash MD5 por la API
+      const response = await axios.put(
+        "http://localhost:5074/api/actualizarContrasena",
+        { correo: email, contrasena: hashedPassword }
+      );
+      console.log(response.data); // Puedes hacer algo con la respuesta si lo necesitas
+      // Otra acción después de resetear la contraseña
+    } catch (error) {
+      console.error("Error al resetear la contraseña:", error);
+      // Manejar errores
+    }
+  };
+
+  // Función para imprimir todas las horas del operador
+  function handlePrintHoras(historialHoras, cedula, horasTotales) {
+    // Crear instancia de jsPDF
+    const doc = new jsPDF();
+    const horasTotalesRedondeadas = horasTotales.toFixed(1);
+
+    // Título del PDF
+    doc.text(
+      "Historial de Horas del Operador: " +
+        cedula +
+        " / " +
+        "Horas totales: " +
+        horasTotalesRedondeadas,
+      10,
+      10
+    );
+
+    // Crear tabla para el historial de horas
+    const tabla = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // Llenar la tabla con los datos del historial de horas
+    historialHoras.forEach((registro) => {
+      const tr = document.createElement("tr");
+      Object.values(registro).forEach((valor) => {
+        const td = document.createElement("td");
+        td.textContent = valor.toString();
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+
+    tabla.appendChild(tbody);
+
+    // Convertir tabla a HTML
+    doc.autoTable({ html: tabla });
+
+    // Descargar el PDF
+    doc.save("historial_horas_" + cedula + ".pdf");
   }
-};
+
+  // Función para convertir la tabla a PDF
+  function handlePrintTable() {
+    // Crear instancia de jsPDF
+    const doc = new jsPDF();
+
+    // Título del PDF
+    doc.text("Operadores Horarios", 10, 10);
+
+    // Convertir tabla a HTML
+    const tabla = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // Llenar la tabla con los datos
+    operadoresHorarios.forEach((op) => {
+      const tr = document.createElement("tr");
+      Object.values(op).forEach((valor) => {
+        const td = document.createElement("td");
+        td.textContent = valor.toString();
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+
+    tabla.appendChild(tbody);
+
+    // Convertir tabla a HTML
+    doc.autoTable({ html: tabla });
+
+    // Descargar el PDF
+    doc.save("operadores_horarios.pdf");
+  }
+
+  const [cedula, setCedula] = useState("");
+  const [historialHoras, setHistorialHoras] = useState([]);
+  const [horasTotales, setHorasTotales] = useState(0);
+
+  const fecthHistorialHoras = async () => {
+    try {
+      const carnet = document.getElementById("carnetInput").value;
+      const response = await axios.get(
+        `http://localhost:5074/api/registroHorasOP/${carnet}`
+      );
+      if (response.status === 200) {
+        const historialHora = response.data;
+        setHistorialHoras(historialHora);
+        const horasTotalesCalculadas = historialHora.reduce(
+          (totalHoras, registro) => totalHoras + registro.horasReg,
+          0
+        );
+        setHorasTotales(horasTotalesCalculadas);
+      } else {
+        throw new Error("Error al obtener datos de laboratorios");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // Función para formatear la fecha y mostrar solo la fecha sin la hora
   function renderFechaCompra(fechaCompra) {
@@ -339,7 +472,6 @@ const fecthHistorialHoras = async () => {
                       <td>{labs.nombre}</td>
                       <td>{labs.capacidad}</td>
                       <td>{labs.computadoras}</td>
-
                       <td className="expand">
                         {labs.descripcion.split(".").map((line, index) => (
                           <p key={index}>{line.trim()}</p>
@@ -347,6 +479,10 @@ const fecthHistorialHoras = async () => {
                       </td>
                       <td className="fit">
                         <span className="actions">
+                          <BsFillTrash3Fill
+                            className="delete-btn"
+                            onClick={() => handleEraseLab(idx)}
+                          />
                           <BsFillPencilFill
                             className="edit-btn"
                             onClick={() => handleOpenEditLabsModal(idx)}
@@ -357,6 +493,12 @@ const fecthHistorialHoras = async () => {
                   ))}
                 </tbody>
               </table>
+              <div
+                className="d-flex justify-content-center mt-3"
+                style={{ marginTop: "10px" }}
+              >
+                <Button onClick={() => handleOpenLabModal()}>Agregar</Button>
+              </div>
             </div>
           </Tab>
           <Tab eventKey="tab-2" title="Gestión de Activos">
@@ -384,6 +526,10 @@ const fecthHistorialHoras = async () => {
                       <td>{renderAprobador(activos.aprobCed)}</td>
                       <td className="fit">
                         <span className="actions">
+                          <BsFillTrash3Fill
+                            className="delete-btn"
+                            onClick={() => handleEraseActivo(idx)}
+                          />
                           <BsFillPencilFill
                             className="edit-btn"
                             onClick={() => handleOpenEditActivosModal(idx)}
@@ -394,6 +540,12 @@ const fecthHistorialHoras = async () => {
                   ))}
                 </tbody>
               </table>
+              <div
+                className="d-flex justify-content-center mt-3"
+                style={{ marginTop: "10px" }}
+              >
+                <Button onClick={() => handleOpenActivoModal()}>Agregar</Button>
+              </div>
             </div>
           </Tab>
           <Tab eventKey="tab-3" title="Gestión de profesores">
@@ -414,7 +566,9 @@ const fecthHistorialHoras = async () => {
                   {profesores.map((profesor, idx) => (
                     <tr key={idx}>
                       <td>{profesor.cedula}</td>
-                      <td>{`${profesor.primerNombre} ${profesor.segundoNombre ? profesor.segundoNombre : ''}`}</td>
+                      <td>{`${profesor.primerNombre} ${
+                        profesor.segundoNombre ? profesor.segundoNombre : ""
+                      }`}</td>
                       <td>{`${profesor.primerApellido} ${profesor.segundoApellido}`}</td>
                       <td>{calculateAge(profesor.fechaNacimiento)}</td>
                       <td>{renderFechaCompra(profesor.fechaNacimiento)}</td>
@@ -466,7 +620,9 @@ const fecthHistorialHoras = async () => {
                       <tr key={idx}>
                         <td>{op.cedula}</td>
                         <td>{op.carnet}</td>
-                        <td>{`${op.primerNombre} ${op.segundoNombre ? op.segundoNombre : ''}`}</td>
+                        <td>{`${op.primerNombre} ${
+                          op.segundoNombre ? op.segundoNombre : ""
+                        }`}</td>
                         <td>{`${op.primerApellido} ${op.segundoApellido}`}</td>
                         <td>{calculateAge(op.fechaNacimiento)}</td>
                         <td>{renderFechaCompra(op.fechaNacimiento)}</td>
@@ -544,7 +700,7 @@ const fecthHistorialHoras = async () => {
                 <input
                   type="text"
                   id="carnetInput"
-                  placeholder="Ingrese la cedula"
+                  placeholder="Ingrese el carnet"
                   className="geeksInput"
                   value={cedula}
                   onChange={(e) => setCedula(e.target.value)}
@@ -587,6 +743,14 @@ const fecthHistorialHoras = async () => {
                           </td>
                         </tr>
                       ))}
+                      <button
+                        onClick={() =>
+                          handlePrintHoras(historialHoras, cedula, horasTotales)
+                        }
+                        className="geeksBtn"
+                      >
+                        Imprimir Historial de Horas
+                      </button>
                     </tbody>
                   </table>
                 </div>
@@ -622,6 +786,12 @@ const fecthHistorialHoras = async () => {
       <ProfesorModal
         show={showProfesorModal}
         handleClose={handleCloseProfesorModal}
+      />
+
+      <LabModal show={showLabModal} handleClose={handleCloseLabModal} />
+      <ActivoModal
+        show={showActivoModal}
+        handleClose={handleCloseActivoModal}
       />
     </Container>
   );
