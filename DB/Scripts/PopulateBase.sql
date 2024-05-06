@@ -150,7 +150,7 @@ INSERT INTO Activo (placa, tipo, marca, f_compra, prestado, aprob_ced)
 VALUES ('CTR003', 'Control remoto', 'LG', '2023-06-05', 0, null);
 
 USE OperaCE
-DELETE FROM Activo
+
 
 /* Inserts de Prueba
 INSERT INTO Reg_Horas(fecha, hora_entr, hora_sal, horas_reg, user_ced)

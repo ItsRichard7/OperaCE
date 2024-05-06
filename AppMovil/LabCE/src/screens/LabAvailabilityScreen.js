@@ -77,14 +77,13 @@ function updateAvailabilityData(reservations, availability = initialAvailability
 }
 
 const fetchReservations = (labName) => {
-  const startDateOfWeek = moment().add(currentWeek, 'weeks').startOf('isoWeek');
-  const endDateOfWeek = moment().add(currentWeek, 'weeks').endOf('isoWeek');
-  //const datesOfWeek = [...Array(7)].map((_, i) => startDateOfWeek.clone().add(i, 'days'));
+  const startDateOfWeek = moment().add(currentWeek, 'weeks').startOf('isoWeek').format('YYYY-MM-DDT00:00:00');
+  const endDateOfWeek = moment().add(currentWeek, 'weeks').endOf('isoWeek').format('YYYY-MM-DDT00:00:00');
 
   db.transaction((tx) => {
     tx.executeSql(
       `SELECT fecha, hora, cant_horas FROM Soli_Lab WHERE lab_nombre =? AND fecha BETWEEN? AND?`,
-      [labName, startDateOfWeek.format('YYYY-MM-DD'), endDateOfWeek.format('YYYY-MM-DD')],
+      [labName, startDateOfWeek, endDateOfWeek],
       (tx, results) => {
         const rows = results.rows.raw();
         setAvailabilityData(updateAvailabilityData(rows));

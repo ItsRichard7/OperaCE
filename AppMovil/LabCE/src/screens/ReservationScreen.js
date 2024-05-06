@@ -37,7 +37,7 @@ const ReservationScreen = ({ route, navigation }) => {
   };
 
   const confirmReservation = () => {
-    const formattedDate = moment(selectedDate, 'D [de] MMMM, YYYY').format('YYYY-MM-DD');
+    const formattedDate = moment(selectedDate, 'D [de] MMMM, YYYY').format('YYYY-MM-DDT00:00:00');
     const formattedHour = moment(selectedHour, 'h:mm A').format('HH:mm:ss');
 
     db.transaction((tx) => {

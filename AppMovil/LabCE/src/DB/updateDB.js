@@ -61,7 +61,7 @@ export default function updateDB() {
             marca NVARCHAR(50) NOT NULL,
             f_compra DATE,
             prestado BIT NOT NULL,
-            aprob_ced NUMERIC(10) NOT NULL,
+            aprob_ced NUMERIC(10),
             PRIMARY KEY(placa)
         );`
         );
@@ -105,29 +105,28 @@ export default function updateDB() {
 
         tx.executeSql(
         `CREATE TABLE IF NOT EXISTS Soli_Act(
-            correo_soli NVARCHAR(50) NOT NULL,
-            fecha_ent DATE NOT NULL,
-            hora_ent TIME NOT NULL,
-            p_nombre NVARCHAR(20) NOT NULL,
-            s_nombre NVARCHAR(20),
-            p_apellido NVARCHAR(20) NOT NULL,
-            s_apellido NVARCHAR(20),
-            fecha_dev DATE,
-            hora_dev TIME,
-            devuelto BIT NOT NULL,
-            averia NVARCHAR(200) NOT NULL,
-            act_placa NVARCHAR(20) NOT NULL,
-            user_ced NUMERIC(10) NOT NULL,
-            PRIMARY KEY(correo_soli, fecha_ent, hora_ent),
-            CONSTRAINT FK1_Soli_Act FOREIGN KEY (act_placa) REFERENCES Activo(placa),
-            CONSTRAINT FK2_Soli_Act FOREIGN KEY (user_ced) REFERENCES Usuario(cedula)
+          correo_soli NVARCHAR(50) NOT NULL,
+          fecha_soli DATE NOT NULL,
+          hora_soli TIME NOT NULL,
+          p_nombre NVARCHAR(50) NOT NULL,
+          s_nombre NVARCHAR(20),
+          p_apellido NVARCHAR(20) NOT NULL,
+          s_apellido NVARCHAR(20),
+          aprobado BIT NOT NULL,
+          entregado BIT NOT NULL,
+          fecha_dev DATE,
+          hora_dev TIME,
+          devuelto BIT NOT NULL,
+          averia NVARCHAR(200),
+          act_placa NVARCHAR(20) NOT NULL,
+          user_ced NUMERIC(10) NOT NULL,
+          PRIMARY KEY(correo_soli, fecha_soli, hora_soli),
+          CONSTRAINT FK1_Soli_Act FOREIGN KEY (act_placa) REFERENCES Activo(placa),
+          CONSTRAINT FK2_Soli_Act FOREIGN KEY (user_ced) REFERENCES Usuario(cedula)
         );`
         );
     }, null, null);
     };
-
-
-
 
     const updateSQLiteDatabase = async (table, columns, data) => {
         if (!data || data.length === 0) {
@@ -158,7 +157,6 @@ export default function updateDB() {
         });
       };
       
-
 
       const updateUsuario = async () => {
         const endpoint = 'obtenerUsuario';
@@ -230,59 +228,75 @@ export default function updateDB() {
     
         await updateSQLiteDatabase('Lab_Facilidad', columns, data);
     };
+
     
     const updateSoli_Lab = async () => {
         const endpoint = 'obtenerSoliLab/solicitudes-laboratorio';
-        const columns = ['correo_soli', 'fecha_ent', 'hora_ent', 'fecha_sal', 'hora_sal', 'lab_nombre', 'user_ced'];
+        const columns = ['correo_soli', 'fecha', 'hora', 'carnet', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'cant_horas', 'lab_nombre', 'user_ced'];
         let data = await fetchData(endpoint);
         
         // Map the data to the column names
         data = data.map(item => ({
-            correo_soli: item.correo_soli,
-            fecha_ent: item.fecha,
-            hora_ent: item.hora,
-            fecha_sal: item.fecha_sal,
-            hora_sal: item.hora_sal,
-            lab_nombre: item.lab_nombre,
-            user_ced: item.user_ced
+            correo_soli: item.correoSoli,
+            fecha: item.fecha,
+            hora: item.hora,
+            carnet: item.fecha_sal,
+            p_nombre: item.primerNombre,
+            s_nombre: item.segundoNombre,
+            p_apellido: item.primerApellido,
+            s_apellido: item.segundoApellido,
+            cant_horas: item.cantHoras,
+            lab_nombre: item.labNombre,
+            user_ced: item.userCed
         }));
     
         await updateSQLiteDatabase('Soli_Lab', columns, data);
     };
-    
+
     const updateSoli_Act = async () => {
         const endpoint = 'SoliAct';
-        const columns = ['correo_soli', 'fecha_ent', 'hora_ent', 'fecha_sal', 'hora_sal', 'act_placa', 'user_ced'];
+        const columns = ['correo_soli', 'fecha_soli', 'hora_soli', 'p_nombre', 's_nombre', 'p_apellido', 's_apellido', 'aprobado', 'entregado' ,  'fecha_dev', 'hora_dev', 'devuelto', 'averia', 'act_placa', 'user_ced'];
         let data = await fetchData(endpoint);
         
         // Map the data to the column names
         data = data.map(item => ({
-            correo_soli: item.correo_soli,
-            fecha_ent: item.fecha_soli,
-            hora_ent: item.hora_soli,
-            fecha_sal: item.fecha_dev,
-            hora_sal: item.hora_dev,
-            act_placa: item.act_placa,
-            user_ced: item.user_ced
+            correo_soli: item.correoSoli,
+            fecha_soli: item.fechaSoli,
+            hora_soli: item.horaSoli,
+            p_nombre: item.pNombre,
+            s_nombre: item.sNombre,
+            p_apellido: item.pApellido,
+            s_apellido: item.sApellido,
+            aprobado: item.aprobado,
+            entregado: item.entregado,
+            fecha_dev: item.fechaDev,
+            hora_dev: item.horaDev,
+            devuelto: item.devuelto,
+            averia: item.averia,
+            act_placa: item.actPlaca,
+            user_ced: item.userCed
         }));
     
         await updateSQLiteDatabase('Soli_Act', columns, data);
     };
     
 
-const fetchData = async (endpoint) => {
-  const response = await fetch(`http://10.0.2.2:5074/api/${endpoint}`)
-    .catch(error => {
-      console.error('Fetch error:', error);
-      throw error;  // Rethrow the error
-    });
-
-  if (response.ok) {
-    return await response.json();
-  } else {
-    throw new Error(`Error al obtener datos de ${endpoint}`);
-  }
-};
+    const fetchData = async (endpoint) => {
+      const response = await fetch(`http://10.0.2.2:5074/api/${endpoint}`)
+        .catch(error => {
+          console.error('Fetch error:', error);
+          throw error;  // Rethrow the error
+        });
+    
+      if (response.ok) {
+        const data = await response.json();
+        //const jsonData = JSON.stringify(data, null, 2);
+        //console.log(`Fetched data from ${endpoint}:`, jsonData);
+        return data;
+      } else {
+        throw new Error(`Error al obtener datos de ${endpoint}`);
+      }
+    };
 
 
 const updateDatabase = async () => {
@@ -323,7 +337,7 @@ const checkUpdates = async () => {
   //logTableData('Laboratorio');
   //logTableData('Lab_Facilidad');
   logTableData('Soli_Lab');
-  //logTableData('Soli_Act');
+  logTableData('Soli_Act');
 };
 
 const cleanTable = (tableName) => {
@@ -376,17 +390,17 @@ function reorderSoliLab(row) {
 function reorderSoliAct(row) {
   return {
     correo_soli: row.correo_soli,
+    aprobado: Boolean(row.aprobado),
     fecha_soli: row.fecha_soli,
     hora_soli: row.hora_soli,
     p_nombre: row.p_nombre,
-    s_nombre: row.s_nombre,
+    s_nombre: row.s_nombre || 'N/A',  // Replace 'default_sNombre' with an appropriate default
     p_apellido: row.p_apellido,
-    s_apellido: row.s_apellido,
-    aprobado: row.aprobado,
-    entregado: row.entregado,
+    s_apellido: row.s_apellido || 'N/A',  // Replace 'default_sApellido' with an appropriate default
     fecha_dev: row.fecha_dev,
     hora_dev: row.hora_dev,
-    devuelto: row.devuelto,
+    devuelto: Boolean(row.devuelto),
+    entregado: Boolean(row.entregado),
     averia: row.averia,
     act_placa: row.act_placa,
     user_ced: row.user_ced
@@ -397,6 +411,7 @@ const sendDatabaseTablesToServer = async () => {
   const tables = ['Usuario', 'Soli_Lab', 'Soli_Act'];
   //const tables = ['Soli_Act'];
 
+  //const endpoints = ['actualizarSoliActivos'];
   const endpoints = ['ActualizarUsuarios', 'actualizarSoliLabs', 'actualizarSoliActivos'];
 
 for (let i = 0; i < tables.length; i++) {
@@ -429,6 +444,7 @@ let data = {};
   
   const jsonData = JSON.stringify(data, null, 2);
   //console.log(`Data for ${table}:`, jsonData);
+
   // Make a POST request to the server
 const response = await fetch(`http://10.0.2.2:5074/api/${endpoint}`, {
   method: 'POST',

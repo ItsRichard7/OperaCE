@@ -100,7 +100,6 @@ export default function PasswordChangeScreen() {
             <Button
               title="Cambiar contraseña"
               onPress={handlePasswordChange}
-              color="#841584"
             />
           </View>
 
